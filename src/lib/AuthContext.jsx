@@ -36,12 +36,26 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(true);
       setAuthError(null);
 
-      const { data: { session } } = await supabase.auth.getSession();
+      // Add timeout to prevent infinite loading
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Auth timeout')), 5000)
+      );
+
+      const sessionPromise = supabase.auth.getSession();
+      const { data: { session } } = await Promise.race([sessionPromise, timeoutPromise]);
 
       if (session?.user) {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-        setIsAuthenticated(true);
+        try {
+          const currentUser = await Promise.race([
+            base44.auth.me(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('User fetch timeout')), 5000))
+          ]);
+          setUser(currentUser);
+          setIsAuthenticated(true);
+        } catch {
+          // If user fetch fails, still allow app to load
+          setIsAuthenticated(false);
+        }
       } else {
         setIsAuthenticated(false);
       }
@@ -49,10 +63,8 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(false);
     } catch (error) {
       console.error('Auth check failed:', error);
-      setAuthError({
-        type: 'unknown',
-        message: error.message || 'An unexpected error occurred',
-      });
+      // On any error, just set not authenticated and let app load
+      setIsAuthenticated(false);
       setIsLoadingAuth(false);
     }
   };

@@ -22,7 +22,7 @@ export default function Layout({ children }) {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  // Redirect to role-specific dashboard
+  // Redirect to role-specific dashboard (only once on initial load)
   useEffect(() => {
     if (user && location.pathname === '/') {
       const role = user.user_role || 'fan';
@@ -35,9 +35,9 @@ export default function Layout({ children }) {
         org_admin: 'OrgPresidentDashboard',
         fan: 'Home',
       };
-      navigate(createPageUrl(dashboardMap[role] || 'Home'));
+      navigate(createPageUrl(dashboardMap[role] || 'Home'), { replace: true });
     }
-  }, [user, location, navigate]);
+  }, [user]);
 
   return (
     <GameClockProvider>
