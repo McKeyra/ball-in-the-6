@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Trophy, TrendingUp, ChevronRight, Medal } from 'lucide-react';
+import { ArrowLeft, Trophy, Medal } from 'lucide-react';
 import StandingsTable from '../components/league/StandingsTable';
 import TeamRecordCard from '../components/league/TeamRecordCard';
 

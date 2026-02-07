@@ -1,4 +1,3 @@
-import React from "react";
 import { TrendingUp, Users, Calendar, Target } from "lucide-react";
 
 export default function TeamDashboard() {

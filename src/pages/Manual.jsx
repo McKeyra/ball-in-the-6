@@ -1,7 +1,5 @@
-import React from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Button } from "@/components/ui/button";
 import { PlayCircle, Users, Calendar, Trophy, Settings, ClipboardList, Handshake, Trash2 } from "lucide-react";
 
 export default function Manual() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -7,13 +7,7 @@ import {
   Crown,
   Star,
   Users,
-  Award,
   Trophy,
-  Heart,
-  BookOpen,
-  Upload,
-  User,
-  UserPlus,
   Landmark,
   Camera,
 } from 'lucide-react';

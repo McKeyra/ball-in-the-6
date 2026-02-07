@@ -1,8 +1,7 @@
-import React from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Trophy, Clock, TrendingUp } from "lucide-react";
+import { Trophy, Clock } from "lucide-react";
 
 export default function GameView() {
   const urlParams = new URLSearchParams(window.location.search);

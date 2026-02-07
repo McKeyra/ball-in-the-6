@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, ArrowRightLeft, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { X, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { base44 } from "@/api/base44Client";

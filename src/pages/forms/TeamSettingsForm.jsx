@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Shield, Palette, Share2, FileText, MessageSquare, Image } from "lucide-react";
+import { Shield, Share2, FileText } from "lucide-react";
 
 // Color Options for Color Picker Cards
 const COLOR_OPTIONS = [

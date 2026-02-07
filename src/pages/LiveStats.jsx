@@ -1,16 +1,15 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
-  BarChart3, PlayCircle, Activity, Trophy, Users, ChevronRight,
-  Clock, TrendingUp, Eye, ClipboardList, Tv
+  BarChart3, PlayCircle, Activity, Trophy, ChevronRight,
+  Clock, Eye, ClipboardList, Tv
 } from 'lucide-react';
 
 export default function LiveStats() {
   // Fetch active/recent games
-  const { data: games = [], isLoading } = useQuery({
+  const { data: games = [] } = useQuery({
     queryKey: ['live-games'],
     queryFn: () => base44.entities.Game.list('-game_date', 20),
   });

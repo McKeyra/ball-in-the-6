@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
@@ -6,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   Activity, Users, Trophy, Calendar, AlertTriangle, CheckCircle,
   TrendingUp, Database, Shield, RefreshCw, ChevronRight,
-  HeartPulse, BarChart3, FileText, Settings
+  HeartPulse, BarChart3, Settings
 } from 'lucide-react';
 
 export default function OGH() {

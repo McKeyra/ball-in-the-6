@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
 
 export default function TeamRecordCard({ team, record, onClick }) {

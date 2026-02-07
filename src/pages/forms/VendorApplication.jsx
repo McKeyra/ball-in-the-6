@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Store, Package, Settings, Shield, User, Mail, Phone, DollarSign, Clock } from "lucide-react";
+import { Store, Shield, Mail, Phone, DollarSign, Clock } from "lucide-react";
 
 // Vendor Application Form Configuration
 const VENDOR_SECTIONS = [

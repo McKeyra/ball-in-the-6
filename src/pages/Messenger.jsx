@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MessengerSidebar from '@/components/messenger/MessengerSidebar';
 import ChatWindow from '@/components/messenger/ChatWindow';
 import { base44 } from '@/api/base44Client';

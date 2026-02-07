@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { User, CalendarDays, Heart, CreditCard, FileCheck, Dumbbell, Star } from "lucide-react";
+import { Heart, Dumbbell, Star } from "lucide-react";
 
 // Program Signup Form Configuration
 const PROGRAM_SECTIONS = [

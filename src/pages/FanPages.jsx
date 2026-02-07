@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { 
   Users, Heart, Share2, Bell, Instagram, Twitter, 
-  Facebook, Youtube, Plus, ExternalLink, Megaphone 
+  Facebook, Youtube, Plus 
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";

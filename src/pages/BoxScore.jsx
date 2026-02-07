@@ -1,4 +1,3 @@
-import React from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,7 @@ import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Download, FileText, FileSpreadsheet } from "lucide-react";
+import { ArrowLeft, FileText, FileSpreadsheet } from "lucide-react";
 
 export default function BoxScore() {
   const navigate = useNavigate();

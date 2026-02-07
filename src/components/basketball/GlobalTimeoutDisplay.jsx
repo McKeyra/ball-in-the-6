@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTimeout } from './TimeoutContext';
 import { Clock, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

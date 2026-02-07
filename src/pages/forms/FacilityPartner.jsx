@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Building, Ruler, Clock, DollarSign, User, MapPin, Phone, Mail, Check } from "lucide-react";
+import { MapPin, Phone, Mail, Check } from "lucide-react";
 
 // Facility Partner Form Configuration
 const FACILITY_SECTIONS = [

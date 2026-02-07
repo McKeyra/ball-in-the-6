@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Package, Users, Palette, Truck, CreditCard, ShoppingCart } from 'lucide-react';
+import { Palette, CreditCard, ShoppingCart } from 'lucide-react';
 import FormBuilder from '@/components/forms/FormBuilder';
 
 // ============================================================================

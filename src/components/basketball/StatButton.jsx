@@ -1,4 +1,3 @@
-import React from 'react';
 import { Plus } from 'lucide-react';
 
 export default function StatButton({ label, value, onIncrement, color, variant, icon }) {

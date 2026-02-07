@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRight } from 'lucide-react';
 
 export default function StandingsTable({ teams, teamRecords, onTeamClick }) {

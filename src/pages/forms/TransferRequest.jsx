@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, User, Users, Calendar, CheckCircle, FileText } from 'lucide-react';
+import { ArrowRight, Users, Calendar } from 'lucide-react';
 import FormBuilder from '@/components/forms/FormBuilder';
 
 // ============================================================================

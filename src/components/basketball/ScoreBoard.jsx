@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Play, Pause, RotateCcw, Menu, AlertCircle, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGameClock } from "./GameClockContext";

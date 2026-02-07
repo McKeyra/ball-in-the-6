@@ -1,9 +1,8 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Star, TrendingUp, Award, MessageSquare, CalendarCheck } from "lucide-react";
 
 // Season Survey Form Configuration
 const SEASON_SECTIONS = [

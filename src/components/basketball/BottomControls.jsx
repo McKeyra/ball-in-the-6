@@ -1,6 +1,4 @@
-import React from 'react';
 import { Clock, Users, Settings, Undo2 } from 'lucide-react';
-import { Button } from "@/components/ui/button";
 
 export default function BottomControls({ onTimeout, onSubstitution, onSettings, onUndo, canUndo }) {
   const controls = [

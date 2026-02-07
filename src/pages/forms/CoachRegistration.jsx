@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { User, Briefcase, Award, Calendar, Users, CheckCircle } from "lucide-react";
+import { User, Award, CheckCircle } from "lucide-react";
 
 // Coach Registration Form Configuration
 const COACH_SECTIONS = [

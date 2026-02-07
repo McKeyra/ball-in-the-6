@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { ArrowRight, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import FormBuilder from '@/components/forms/FormBuilder';
 
 // ============================================================================

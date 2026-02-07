@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DragDropContext } from "@hello-pangea/dnd";
@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SponsorColumn from "../components/pipeline/SponsorColumn";
-import SponsorCard from "../components/pipeline/SponsorCard";
 import { formatCurrency } from "../components/scoring/teamHealthScoring";
 
 const STAGES = ["Discovery", "Proposal", "Negotiation", "Contract", "Closed_Won"];

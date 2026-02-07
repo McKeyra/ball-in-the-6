@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Trophy, Layers, BookOpen, Calendar, Award, Clock, Users, Target } from "lucide-react";
+import { Trophy, Layers, BookOpen, Calendar, Award } from "lucide-react";
 
 // League Settings Form Configuration
 const LEAGUE_SECTIONS = [

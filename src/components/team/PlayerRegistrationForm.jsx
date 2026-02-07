@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UserPlus, Mail, Phone, User } from "lucide-react";
+import { UserPlus, Mail, User } from "lucide-react";
 
 export default function PlayerRegistrationForm({ teamName, onSubmit, onCancel }) {
   const [formData, setFormData] = useState({

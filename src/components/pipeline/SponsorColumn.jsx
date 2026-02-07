@@ -1,4 +1,3 @@
-import React from 'react';
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import SponsorCard from "./SponsorCard";
 import { formatCurrency } from "../scoring/teamHealthScoring";

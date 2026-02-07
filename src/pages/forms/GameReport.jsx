@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Star, AlertTriangle, Users, ArrowRight } from 'lucide-react';
+import { Trophy, Star, AlertTriangle } from 'lucide-react';
 import FormBuilder from '@/components/forms/FormBuilder';
 
 // ============================================================================

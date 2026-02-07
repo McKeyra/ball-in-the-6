@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   ChevronDown, ChevronRight, X,
   PlayCircle, Users, Trophy, Calendar,
-  Heart, MessageSquare, Store,
-  Settings, LogOut, User
+  Settings, User
 } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 

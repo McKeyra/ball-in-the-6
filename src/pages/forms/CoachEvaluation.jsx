@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { User, Star, ThumbsUp, Lightbulb, MessageCircle, Shield } from "lucide-react";
+import { User, Shield } from "lucide-react";
 
 // Coach Evaluation Form Configuration
 const EVALUATION_SECTIONS = [

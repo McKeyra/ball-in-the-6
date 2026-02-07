@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, MoreVertical, Phone, Video, Calendar, BarChart2, Users, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -190,7 +190,7 @@ const FanConnections = () => (
 
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Sparkles, Globe, Zap, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Globe, Zap } from 'lucide-react';
 
 export default function ChatWindow({ user, category, currentUser }) {
   const [inputText, setInputText] = useState("");

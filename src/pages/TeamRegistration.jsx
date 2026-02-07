@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Users, Trophy, Calendar, DollarSign, FileText } from "lucide-react";
+import { Users } from "lucide-react";
 
 // Team Registration Form Configuration
 const TEAM_SECTIONS = [

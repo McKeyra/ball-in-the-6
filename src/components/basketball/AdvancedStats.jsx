@@ -1,4 +1,3 @@
-import React from 'react';
 import { TrendingUp, Target, Percent, Activity } from 'lucide-react';
 
 export default function AdvancedStats({ player }) {

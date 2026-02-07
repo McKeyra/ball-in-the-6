@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { User, Heart, Calendar, Briefcase, Shield, CheckCircle } from "lucide-react";
+import { Heart, Shield, CheckCircle } from "lucide-react";
 
 // Volunteer Registration Form Configuration
 const VOLUNTEER_SECTIONS = [

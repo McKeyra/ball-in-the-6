@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Building2, Award, Globe, Mail, Phone, Target, Megaphone, CheckSquare } from "lucide-react";
+import { Building2, Globe, Mail, Phone } from "lucide-react";
 
 // Sponsor Application Form Configuration
 const SPONSOR_SECTIONS = [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -12,7 +12,6 @@ import {
   Users,
   Award,
   Star,
-  User,
 } from 'lucide-react';
 import FormBuilder from '@/components/forms/FormBuilder';
 

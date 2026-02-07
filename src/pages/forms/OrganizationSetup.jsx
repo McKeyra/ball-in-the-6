@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Building2, Palette, Phone, Plug, Scale, Globe, Mail, MapPin } from "lucide-react";
+import { Building2, Phone, Plug, Scale, Globe, Mail, MapPin } from "lucide-react";
 
 // Color Options for Branding Color Picker
 const BRAND_COLOR_OPTIONS = [

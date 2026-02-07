@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { Dumbbell, Video, TrendingUp, PlayCircle, CheckCircle, Plus, Loader2, FileText, Users, BarChart3, Calendar, ArrowRight } from 'lucide-react';
+import { Dumbbell, Video, TrendingUp, PlayCircle, Plus, Loader2, Users, BarChart3, Calendar, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { createPageUrl } from '@/utils';
 

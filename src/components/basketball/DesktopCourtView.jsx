@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Users, RefreshCcw } from 'lucide-react';
+import { useState } from 'react';
+import { Users } from 'lucide-react';
 import BenchPanel from './BenchPanel';
 
 export default function DesktopCourtView({ 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { base44 } from "@/api/base44Client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -17,11 +17,9 @@ import {
   Filter
 } from "lucide-react";
 import MetricCard from "@/components/dashboard/MetricCard";
-import VitalityRing from "@/components/dashboard/VitalityRing";
 import {
   scoreTeamHealth,
   HEALTH_TIERS,
-  getTierColor,
   getScoreColor
 } from "@/components/scoring/teamHealthScoring";
 

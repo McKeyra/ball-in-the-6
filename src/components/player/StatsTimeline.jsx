@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, Calendar } from "lucide-react";
 import { format } from "date-fns";

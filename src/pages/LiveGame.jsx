@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Play, Pause, Plus, Minus, TrendingUp, Users,
-  Target, Trophy, Clock, ChevronRight, RotateCcw
+  Play, Pause, TrendingUp, Users,
+  Target, Trophy, Clock, RotateCcw
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {

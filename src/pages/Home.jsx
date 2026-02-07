@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
@@ -18,7 +18,7 @@ import {
   Zap, MessageSquare, Heart, Globe, Award, Store,
   ShieldCheck, Trash2, ChevronRight,
   Search, Grid3X3, Clock, Smartphone, Palette, Bell,
-  Handshake, HeartPulse, Kanban, DollarSign, ClipboardCheck,
+  Handshake, HeartPulse, Kanban, ClipboardCheck,
   UserCheck, Megaphone, HeartHandshake, Target, Building2, Truck,
   FileSpreadsheet, AlertTriangle, ArrowLeftRight, CalendarClock, Package, MapPin,
   ClipboardEdit, Star, MessageCircle, ThumbsUp, UserCog, Sliders, Building,

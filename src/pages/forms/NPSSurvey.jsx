@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useMutation } from "@tanstack/react-query";
 import FormBuilder from "@/components/forms/FormBuilder";
-import { Gauge, MessageSquare, Tags, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 
 // NPS Survey Form Configuration
 const NPS_SECTIONS = [

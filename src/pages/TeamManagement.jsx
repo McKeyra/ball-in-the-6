@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Edit, Users, Shield, Calendar, MapPin, Clock as ClockIcon } from "lucide-react";
+import { ArrowLeft, Users, Shield, Calendar, MapPin, Clock as ClockIcon } from "lucide-react";
 
 export default function TeamManagement() {
   const navigate = useNavigate();
