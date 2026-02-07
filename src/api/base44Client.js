@@ -6,7 +6,12 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-k
 // Check if Supabase is properly configured
 const isSupabaseConfigured = supabaseUrl !== 'https://placeholder.supabase.co';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Use ball_in_the_6 schema instead of public
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  db: {
+    schema: 'ball_in_the_6'
+  }
+});
 
 // Convert PascalCase entity name to snake_case table name
 function toTableName(entityName) {
