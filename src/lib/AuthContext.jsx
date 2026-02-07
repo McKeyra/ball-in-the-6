@@ -1,5 +1,8 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { base44, supabase } from '@/api/base44Client';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder.supabase.co';
 
 const AuthContext = createContext();
 
@@ -13,6 +16,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     checkAppState();
+
+    // Skip auth listener if Supabase isn't configured
+    if (!isSupabaseConfigured) return;
 
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -32,6 +38,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAppState = async () => {
+    // Skip auth check if Supabase isn't configured
+    if (!isSupabaseConfigured) {
+      setIsAuthenticated(false);
+      setIsLoadingAuth(false);
+      return;
+    }
+
     try {
       setIsLoadingAuth(true);
       setAuthError(null);
