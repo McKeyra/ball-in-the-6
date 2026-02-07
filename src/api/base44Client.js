@@ -139,10 +139,29 @@ const auth = {
       error,
     } = await supabase.auth.getUser();
     if (error || !user) return null;
+
+    // Fetch role from user_roles table
+    let userRole = 'fan';
+    try {
+      const { data: roleData } = await supabase
+        .from('user_roles')
+        .select('role, full_name, organization_id, team_id')
+        .eq('email', user.email)
+        .eq('is_active', true)
+        .single();
+
+      if (roleData) {
+        userRole = roleData.role;
+      }
+    } catch {
+      // If role lookup fails, default to fan
+    }
+
     return {
       email: user.email,
       full_name: user.user_metadata?.full_name || user.email,
-      role: user.user_metadata?.role || 'user',
+      role: userRole,
+      user_role: userRole, // For Layout.jsx compatibility
       ...user.user_metadata,
     };
   },

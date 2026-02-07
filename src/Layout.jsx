@@ -27,13 +27,21 @@ export default function Layout({ children }) {
     if (user && location.pathname === '/') {
       const role = user.user_role || 'fan';
       const dashboardMap = {
+        // Top-level roles
+        owner: 'OrgPresidentDashboard',
+        admin: 'OrgDashboard',
+        // Functional roles
         player: 'PlayerDashboard',
         parent: 'ParentDashboard',
         coach: 'CoachDashboard',
         team_admin: 'TeamManagerDashboard',
+        team_manager: 'TeamManagerDashboard',
         league_admin: 'LeagueCommissionerDashboard',
+        commissioner: 'LeagueCommissionerDashboard',
         org_admin: 'OrgPresidentDashboard',
+        // Default
         fan: 'Home',
+        user: 'Home',
       };
       navigate(createPageUrl(dashboardMap[role] || 'Home'), { replace: true });
     }
