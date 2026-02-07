@@ -56,18 +56,18 @@ export default function Register() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 md:p-6 lg:p-8 pb-24">
         <div className="w-full max-w-sm text-center">
-          <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-emerald-400" />
+          <div className="w-14 h-14 md:w-16 md:h-16 bg-emerald-500/20 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6">
+            <CheckCircle className="w-7 h-7 md:w-8 md:h-8 text-emerald-400" />
           </div>
-          <h1 className="text-2xl font-light text-white mb-2">Account created!</h1>
-          <p className="text-white/40 text-sm font-light mb-8">
+          <h1 className="text-xl md:text-2xl font-light text-white mb-2">Account created!</h1>
+          <p className="text-white/40 text-xs md:text-sm font-light mb-6 md:mb-8">
             Your account has been created successfully. You can now sign in.
           </p>
           <Link
             to="/login"
-            className="inline-block px-6 py-3 rounded-xl bg-[#c9a962] text-[#0f0f0f] font-medium text-sm
+            className="inline-block px-6 py-3 min-h-[48px] rounded-xl bg-[#c9a962] text-[#0f0f0f] font-medium text-sm
               hover:bg-[#b8943f] transition-colors"
           >
             Sign In
@@ -78,22 +78,22 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 md:p-6 lg:p-8 pb-24">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="w-14 h-14 bg-[#c9a962] rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Zap className="w-7 h-7 text-[#0f0f0f]" />
+        <div className="text-center mb-6 md:mb-10">
+          <div className="w-12 h-12 md:w-14 md:h-14 bg-[#c9a962] rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <Zap className="w-6 h-6 md:w-7 md:h-7 text-[#0f0f0f]" />
           </div>
-          <h1 className="text-2xl font-light tracking-tight text-white">
+          <h1 className="text-xl md:text-2xl font-light tracking-tight text-white">
             Ball in the <span className="text-[#c9a962] font-normal">6</span>
           </h1>
-          <p className="text-white/40 text-sm mt-2 font-light">Create your account</p>
+          <p className="text-white/40 text-xs md:text-sm mt-2 font-light">Create your account</p>
         </div>
 
         {/* Register Card */}
-        <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-8">
-          <form onSubmit={handleRegister} className="space-y-5">
+        <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-5 md:p-8">
+          <form onSubmit={handleRegister} className="space-y-4 md:space-y-5">
             {/* Full Name */}
             <div>
               <label className="text-xs text-white/40 uppercase tracking-[0.15em] mb-2 block font-light">
@@ -106,7 +106,7 @@ export default function Register() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
+                  className="w-full min-h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
                     pl-10 pr-4 text-white text-sm font-light placeholder:text-white/20
                     focus:outline-none focus:border-[#c9a962]/40 focus:ring-1 focus:ring-[#c9a962]/20
                     transition-all"
@@ -127,7 +127,7 @@ export default function Register() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
+                  className="w-full min-h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
                     pl-10 pr-4 text-white text-sm font-light placeholder:text-white/20
                     focus:outline-none focus:border-[#c9a962]/40 focus:ring-1 focus:ring-[#c9a962]/20
                     transition-all"
@@ -148,15 +148,15 @@ export default function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
                   required
-                  className="w-full h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
-                    pl-10 pr-11 text-white text-sm font-light placeholder:text-white/20
+                  className="w-full min-h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
+                    pl-10 pr-12 text-white text-sm font-light placeholder:text-white/20
                     focus:outline-none focus:border-[#c9a962]/40 focus:ring-1 focus:ring-[#c9a962]/20
                     transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -176,7 +176,7 @@ export default function Register() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm your password"
                   required
-                  className="w-full h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
+                  className="w-full min-h-[48px] rounded-xl bg-white/[0.06] border border-white/[0.06]
                     pl-10 pr-4 text-white text-sm font-light placeholder:text-white/20
                     focus:outline-none focus:border-[#c9a962]/40 focus:ring-1 focus:ring-[#c9a962]/20
                     transition-all"
@@ -186,7 +186,7 @@ export default function Register() {
 
             {/* Error */}
             {error && (
-              <div className="text-red-400 text-sm font-light bg-red-400/10 rounded-xl px-4 py-3 border border-red-400/20">
+              <div className="text-red-400 text-xs md:text-sm font-light bg-red-400/10 rounded-xl px-4 py-3 border border-red-400/20">
                 {error}
               </div>
             )}
@@ -195,7 +195,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-[48px] rounded-xl bg-[#c9a962] text-[#0f0f0f] font-medium text-sm
+              className="w-full min-h-[48px] rounded-xl bg-[#c9a962] text-[#0f0f0f] font-medium text-sm
                 hover:bg-[#b8943f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Creating account..." : "Create Account"}
@@ -203,9 +203,9 @@ export default function Register() {
           </form>
         </div>
 
-        <p className="text-center text-white/30 text-sm mt-6 font-light">
+        <p className="text-center text-white/30 text-xs md:text-sm mt-5 md:mt-6 font-light">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#c9a962] hover:text-[#b8943f] transition-colors">
+          <Link to="/login" className="text-[#c9a962] hover:text-[#b8943f] transition-colors py-2 inline-block">
             Sign in
           </Link>
         </p>

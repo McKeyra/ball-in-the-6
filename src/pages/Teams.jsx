@@ -55,23 +55,23 @@ export default function Teams() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Teams</h1>
-            <p className="text-white/40">Manage rosters, assign members & track records</p>
+            <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2">Teams</h1>
+            <p className="text-sm md:text-base text-white/40">Manage rosters, assign members & track records</p>
           </div>
-          <Button 
+          <Button
             onClick={() => setCreateOpen(true)}
-            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] min-w-[44px] px-4 md:px-6"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-5 h-5 mr-2" />
             Create Team
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {teams.map((team) => (
             <Card 
               key={team.id} 
@@ -110,15 +110,15 @@ export default function Teams() {
                   </span>
                 </div>
 
-                <Button 
+                <Button
                   variant="outline"
-                  className="w-full border-white/[0.06] hover:border-[#c9a962]/50"
+                  className="w-full border-white/[0.06] hover:border-[#c9a962]/50 min-h-[44px]"
                   onClick={() => {
                     setSelectedTeam(team);
                     setRosterOpen(true);
                   }}
                 >
-                  <Users className="w-4 h-4 mr-2" />
+                  <Users className="w-5 h-5 mr-2" />
                   Manage Roster
                 </Button>
               </CardContent>
@@ -200,9 +200,9 @@ export default function Teams() {
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => createMutation.mutate(formData)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px]"
                 disabled={!formData.name}
               >
                 Create Team

@@ -58,23 +58,23 @@ export default function Programs() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Programs</h1>
-            <p className="text-white/40">Manage training, teams, leagues & tournaments</p>
+            <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2">Programs</h1>
+            <p className="text-sm md:text-base text-white/40">Manage training, teams, leagues & tournaments</p>
           </div>
-          <Button 
+          <Button
             onClick={() => setCreateOpen(true)}
-            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] px-4"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-5 h-5 mr-2" />
             Create Program
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {programs.map((program) => {
             const typeConfig = programTypes[program.type] || programTypes.rep_team;
             const Icon = typeConfig.icon;
@@ -114,10 +114,9 @@ export default function Programs() {
                   </div>
 
                   <div className="pt-3 border-t border-white/[0.06] flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 border-white/[0.06] hover:border-[#c9a962]/50"
+                    <Button
+                      variant="outline"
+                      className="flex-1 border-white/[0.06] hover:border-[#c9a962]/50 min-h-[44px] text-sm"
                       onClick={() => {
                         setSelectedProgram(program);
                         setFormDialogOpen(true);

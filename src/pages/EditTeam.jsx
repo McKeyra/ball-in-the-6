@@ -216,13 +216,14 @@ export default function EditTeam() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-3 md:gap-4 mb-6">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate(createPageUrl("TeamManagement") + `?teamId=${teamId}`)}
+            className="min-h-[44px] min-w-[44px]"
             style={{
               boxShadow: '0 10px 26px rgba(0,0,0,.10)',
               background: '#1a1a1a'
@@ -230,19 +231,19 @@ export default function EditTeam() {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-3xl font-bold text-white/90">Edit Team</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white/90">Edit Team</h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {/* Team Information */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: '0 10px 26px rgba(0,0,0,.10)'
             }}
           >
-            <h2 className="text-xl font-semibold text-white/70 mb-4">Team Information</h2>
+            <h2 className="text-lg md:text-xl font-semibold text-white/70 mb-4">Team Information</h2>
             
             <div className="space-y-4">
               <div>
@@ -312,19 +313,19 @@ export default function EditTeam() {
           </div>
 
           {/* Roster */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: '0 10px 26px rgba(0,0,0,.10)'
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-white/70">Roster</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-white/70">Roster</h2>
               <Button
                 type="button"
                 onClick={addPlayer}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 min-h-[44px]"
                 style={{
                   background: '#10b981',
                   color: 'white'
@@ -337,21 +338,21 @@ export default function EditTeam() {
 
             <div className="space-y-4">
               {teamData.roster && teamData.roster.map((player) => (
-                <div 
+                <div
                   key={player._id}
-                  className="p-4 rounded-2xl"
+                  className="p-3 md:p-4 rounded-2xl"
                   style={{
                     background: '#1a1a1a',
                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
                   }}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-3">
                     <div>
                       <Input
                         placeholder="First Name"
                         value={player.first_name || ""}
                         onChange={(e) => updatePlayer(player._id, 'first_name', e.target.value)}
-                        className={`bg-white/[0.07] ${validationErrors[`player_${player._id}_first_name`] ? 'border-red-500' : ''}`}
+                        className={`bg-white/[0.07] min-h-[44px] ${validationErrors[`player_${player._id}_first_name`] ? 'border-red-500' : ''}`}
                       />
                       {validationErrors[`player_${player._id}_first_name`] && (
                         <div className="flex items-center gap-1 mt-1 text-xs text-red-600">
@@ -365,7 +366,7 @@ export default function EditTeam() {
                         placeholder="Last Name"
                         value={player.last_name || ""}
                         onChange={(e) => updatePlayer(player._id, 'last_name', e.target.value)}
-                        className={`bg-white/[0.07] ${validationErrors[`player_${player._id}_last_name`] ? 'border-red-500' : ''}`}
+                        className={`bg-white/[0.07] min-h-[44px] ${validationErrors[`player_${player._id}_last_name`] ? 'border-red-500' : ''}`}
                       />
                       {validationErrors[`player_${player._id}_last_name`] && (
                         <div className="flex items-center gap-1 mt-1 text-xs text-red-600">
@@ -382,7 +383,7 @@ export default function EditTeam() {
                         max="99"
                         value={player.number || ""}
                         onChange={(e) => updatePlayer(player._id, 'number', e.target.value)}
-                        className={`bg-white/[0.07] ${validationErrors[`player_${player._id}_number`] ? 'border-red-500' : ''}`}
+                        className={`bg-white/[0.07] min-h-[44px] ${validationErrors[`player_${player._id}_number`] ? 'border-red-500' : ''}`}
                       />
                       {validationErrors[`player_${player._id}_number`] && (
                         <div className="flex items-center gap-1 mt-1 text-xs text-red-600">
@@ -395,32 +396,34 @@ export default function EditTeam() {
                       value={player.position || "PG"}
                       onValueChange={(value) => updatePlayer(player._id, 'position', value)}
                     >
-                      <SelectTrigger className="bg-white/[0.07]">
+                      <SelectTrigger className="bg-white/[0.07] min-h-[44px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="PG">PG</SelectItem>
-                        <SelectItem value="SG">SG</SelectItem>
-                        <SelectItem value="SF">SF</SelectItem>
-                        <SelectItem value="PF">PF</SelectItem>
-                        <SelectItem value="C">C</SelectItem>
+                        <SelectItem value="PG" className="min-h-[44px]">PG</SelectItem>
+                        <SelectItem value="SG" className="min-h-[44px]">SG</SelectItem>
+                        <SelectItem value="SF" className="min-h-[44px]">SF</SelectItem>
+                        <SelectItem value="PF" className="min-h-[44px]">PF</SelectItem>
+                        <SelectItem value="C" className="min-h-[44px]">C</SelectItem>
                       </SelectContent>
                     </Select>
                     <Input
-                      placeholder="Height (optional)"
+                      placeholder="Height"
                       value={player.height || ""}
                       onChange={(e) => updatePlayer(player._id, 'height', e.target.value)}
-                      className="bg-white/[0.07]"
+                      className="bg-white/[0.07] min-h-[44px]"
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removePlayer(player._id)}
-                      className="text-red-500"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex justify-end items-start">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removePlayer(player._id)}
+                        className="text-red-500 min-h-[44px] min-w-[44px]"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -428,19 +431,19 @@ export default function EditTeam() {
           </div>
 
           {/* Staff */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: '0 10px 26px rgba(0,0,0,.10)'
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-white/70">Coaching Staff</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-white/70">Coaching Staff</h2>
               <Button
                 type="button"
                 onClick={addStaff}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 min-h-[44px]"
                 style={{
                   background: '#10b981',
                   color: 'white'
@@ -453,21 +456,21 @@ export default function EditTeam() {
 
             <div className="space-y-4">
               {teamData.staff && teamData.staff.map((member) => (
-                <div 
+                <div
                   key={member._id}
-                  className="p-4 rounded-2xl"
+                  className="p-3 md:p-4 rounded-2xl"
                   style={{
                     background: '#1a1a1a',
                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
                   }}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                     <div>
                       <Input
                         placeholder="Name"
                         value={member.name || ""}
                         onChange={(e) => updateStaff(member._id, 'name', e.target.value)}
-                        className={`bg-white/[0.07] ${validationErrors[`staff_${member._id}_name`] ? 'border-red-500' : ''}`}
+                        className={`bg-white/[0.07] min-h-[44px] ${validationErrors[`staff_${member._id}_name`] ? 'border-red-500' : ''}`}
                       />
                       {validationErrors[`staff_${member._id}_name`] && (
                         <div className="flex items-center gap-1 mt-1 text-xs text-red-600">
@@ -481,7 +484,7 @@ export default function EditTeam() {
                         placeholder="Title"
                         value={member.title || ""}
                         onChange={(e) => updateStaff(member._id, 'title', e.target.value)}
-                        className={`bg-white/[0.07] ${validationErrors[`staff_${member._id}_title`] ? 'border-red-500' : ''}`}
+                        className={`bg-white/[0.07] min-h-[44px] ${validationErrors[`staff_${member._id}_title`] ? 'border-red-500' : ''}`}
                       />
                       {validationErrors[`staff_${member._id}_title`] && (
                         <div className="flex items-center gap-1 mt-1 text-xs text-red-600">
@@ -490,15 +493,17 @@ export default function EditTeam() {
                         </div>
                       )}
                     </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeStaff(member._id)}
-                      className="text-red-500"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <div className="col-span-2 md:col-span-1 flex justify-end">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeStaff(member._id)}
+                        className="text-red-500 min-h-[44px] min-w-[44px]"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -506,19 +511,19 @@ export default function EditTeam() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate(createPageUrl("TeamManagement") + `?teamId=${teamId}`)}
-              className="flex-1"
+              className="flex-1 min-h-[44px]"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={updateTeamMutation.isPending}
-              className="flex-1"
+              className="flex-1 min-h-[44px]"
               style={{
                 background: '#10b981',
                 color: 'white'

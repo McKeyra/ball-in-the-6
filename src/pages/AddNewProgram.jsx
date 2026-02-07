@@ -197,9 +197,9 @@ export default function AddNewProgram() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4">
-      <div 
-        className="w-full max-w-3xl p-8 md:p-12 rounded-3xl relative"
+    <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 md:p-6 lg:p-8 pb-24">
+      <div
+        className="w-full max-w-3xl p-4 sm:p-6 md:p-8 lg:p-12 rounded-3xl relative"
         style={{
           background: '#0f0f0f',
           boxShadow: '0 10px 26px rgba(0,0,0,.10)'
@@ -208,9 +208,8 @@ export default function AddNewProgram() {
         {/* Back Button */}
         <Button
           variant="ghost"
-          size="icon"
           onClick={() => navigate(createPageUrl("LeagueManagement"))}
-          className="absolute top-4 left-4"
+          className="absolute top-4 left-4 min-w-[44px] min-h-[44px] p-2"
           style={{
             boxShadow: '0 10px 26px rgba(0,0,0,.10)',
             background: '#1a1a1a'
@@ -250,9 +249,9 @@ export default function AddNewProgram() {
         <div className="min-h-[400px]">
           {/* Step 1: Program Type Selection */}
           {step === 1 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Choose the type of program you'd like to create</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Choose the type of program you'd like to create</p>
 
               <div className="relative mb-6">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/30" />
@@ -268,17 +267,17 @@ export default function AddNewProgram() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 {['Team Program', 'League Program', 'Event Program', 'Training Program'].map((type) => (
                   <button
                     key={type}
                     onClick={() => setFormData({ ...formData, programType: type })}
-                    className={`p-6 rounded-2xl text-left transition-all ${
-                      formData.programType === type ? 'scale-105' : ''
+                    className={`p-4 md:p-6 rounded-2xl text-left transition-all min-h-[80px] ${
+                      formData.programType === type ? 'scale-[1.02]' : ''
                     }`}
                     style={{
-                      background: formData.programType === type 
-                        ? 'linear-gradient(135deg, #c9a962, #b8943f)' 
+                      background: formData.programType === type
+                        ? 'linear-gradient(135deg, #c9a962, #b8943f)'
                         : '#1a1a1a',
                       boxShadow: formData.programType === type
                         ? '6px 6px 12px rgba(0,0,0,0.2)'
@@ -286,8 +285,8 @@ export default function AddNewProgram() {
                       color: formData.programType === type ? 'white' : 'rgba(255,255,255,0.7)'
                     }}
                   >
-                    <div className="text-xl font-bold mb-2">{type}</div>
-                    <div className={`text-sm ${formData.programType === type ? 'text-white/70' : 'text-white/40'}`}>
+                    <div className="text-lg md:text-xl font-bold mb-1 md:mb-2">{type}</div>
+                    <div className={`text-xs md:text-sm ${formData.programType === type ? 'text-white/70' : 'text-white/40'}`}>
                       {type === 'Team Program' && 'Create and manage a team'}
                       {type === 'League Program' && 'Organize a competitive league'}
                       {type === 'Event Program' && 'Schedule games and tournaments'}
@@ -301,25 +300,25 @@ export default function AddNewProgram() {
 
           {/* Step 2: Specific Type Selection */}
           {step === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">
                 {formData.programType === 'Team Program' && 'What kind of team structure are you building?'}
                 {formData.programType === 'League Program' && 'What type of league will this be?'}
                 {formData.programType === 'Event Program' && 'What kind of event are you organizing?'}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 {getSpecificTypeOptions().map((type) => (
                   <button
                     key={type}
                     onClick={() => setFormData({ ...formData, specificType: type })}
-                    className={`p-6 rounded-2xl text-left transition-all ${
-                      formData.specificType === type ? 'scale-105' : ''
+                    className={`p-4 md:p-6 rounded-2xl text-left transition-all min-h-[56px] ${
+                      formData.specificType === type ? 'scale-[1.02]' : ''
                     }`}
                     style={{
-                      background: formData.specificType === type 
-                        ? 'linear-gradient(135deg, #c9a962, #b8943f)' 
+                      background: formData.specificType === type
+                        ? 'linear-gradient(135deg, #c9a962, #b8943f)'
                         : '#1a1a1a',
                       boxShadow: formData.specificType === type
                         ? '6px 6px 12px rgba(0,0,0,0.2)'
@@ -327,7 +326,7 @@ export default function AddNewProgram() {
                       color: formData.specificType === type ? 'white' : 'rgba(255,255,255,0.7)'
                     }}
                   >
-                    <div className="text-xl font-bold">{type}</div>
+                    <div className="text-lg md:text-xl font-bold">{type}</div>
                   </button>
                 ))}
               </div>
@@ -349,9 +348,9 @@ export default function AddNewProgram() {
 
           {/* Step 3: Program Details */}
           {step === 3 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Provide information about your {formData.programType}</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Provide information about your {formData.programType}</p>
 
               <div className="space-y-4">
                 <div>
@@ -601,9 +600,9 @@ export default function AddNewProgram() {
 
           {/* Step 4: Cost & Payment */}
           {step === 4 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Set up pricing and payment options</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Set up pricing and payment options</p>
 
               <div className="space-y-4">
                 <div>
@@ -684,9 +683,9 @@ export default function AddNewProgram() {
 
           {/* Step 5: Media & Marketing */}
           {step === 5 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Add promotional materials and images</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Add promotional materials and images</p>
 
               <div className="space-y-6">
                 <div>
@@ -762,9 +761,9 @@ export default function AddNewProgram() {
 
           {/* Step 6: Registration Form Builder */}
           {step === 6 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Create a custom registration form for players/parents</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Create a custom registration form for players/parents</p>
 
               <div className="flex items-center gap-2 mb-6">
                 <input
@@ -866,9 +865,9 @@ export default function AddNewProgram() {
 
           {/* Step 7: Review */}
           {step === 7 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
-              <p className="text-white/60 mb-6">Please review before creating your program</p>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">{getStepTitle()}</h2>
+              <p className="text-sm md:text-base text-white/60 mb-4 md:mb-6">Please review before creating your program</p>
 
               <div 
                 className="p-6 rounded-2xl space-y-4"
@@ -934,48 +933,48 @@ export default function AddNewProgram() {
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/[0.06]">
+        <div className="flex items-center justify-between mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/[0.06]">
           <Button
             onClick={handleBack}
             disabled={step === 1}
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 min-h-[44px] px-3 md:px-4"
             style={{
               background: '#1a1a1a',
-              boxShadow: step === 1 
-                ? 'none' 
+              boxShadow: step === 1
+                ? 'none'
                 : '0 10px 26px rgba(0,0,0,.10)',
               opacity: step === 1 ? 0.4 : 1
             }}
           >
             <ChevronLeft className="w-5 h-5" />
-            Back
+            <span className="hidden sm:inline">Back</span>
           </Button>
 
           {step < getTotalSteps() ? (
             <Button
               onClick={handleNext}
               disabled={!canProceed()}
-              className="flex items-center gap-2 px-8"
+              className="flex items-center gap-2 px-4 md:px-8 min-h-[44px]"
               style={{
-                background: canProceed() 
-                  ? 'linear-gradient(90deg, #c9a962, #b8943f)' 
+                background: canProceed()
+                  ? 'linear-gradient(90deg, #c9a962, #b8943f)'
                   : '#1a1a1a',
                 color: canProceed() ? 'white' : 'rgba(255,255,255,0.4)',
-                boxShadow: canProceed() 
-                  ? '4px 4px 12px rgba(0,0,0,0.2)' 
+                boxShadow: canProceed()
+                  ? '4px 4px 12px rgba(0,0,0,0.2)'
                   : 'none',
                 opacity: canProceed() ? 1 : 0.4
               }}
             >
-              Next
+              <span className="hidden sm:inline">Next</span>
               <ChevronRight className="w-5 h-5" />
             </Button>
           ) : (
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-8"
+              className="flex items-center gap-2 px-4 md:px-8 min-h-[44px]"
               style={{
                 background: 'linear-gradient(90deg, #10b981, #059669)',
                 color: 'white',
@@ -986,22 +985,22 @@ export default function AddNewProgram() {
               {isSubmitting ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
-                  Creating...
+                  <span className="hidden sm:inline">Creating...</span>
                 </>
               ) : (
                 <>
                   <Check className="w-5 h-5" />
-                  Create Program
+                  <span className="hidden sm:inline">Create Program</span>
                 </>
               )}
             </Button>
           )}
         </div>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-4 md:mt-6">
           <button
             onClick={() => navigate(createPageUrl("LeagueManagement"))}
-            className="text-sm text-white/40 hover:text-white/70 underline"
+            className="text-sm text-white/40 hover:text-white/70 underline min-h-[44px] px-4"
           >
             Skip wizard and go to dashboard
           </button>

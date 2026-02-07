@@ -102,22 +102,22 @@ export default function FanPages() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-                <Heart className="w-8 h-8 text-pink-600" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3">
+                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-pink-600" />
                 Team Fan Pages
               </h1>
-              <p className="text-white/50 mt-1">Follow your favorite teams and stay updated</p>
+              <p className="text-white/50 mt-1 text-sm md:text-base">Follow your favorite teams and stay updated</p>
             </div>
             {teamsWithoutFanPage.length > 0 && (
-              <Button 
+              <Button
                 onClick={() => setShowCreatePage(true)}
-                className="bg-gradient-to-r from-orange-500 to-pink-600"
+                className="bg-gradient-to-r from-[#c9a962] to-[#d4b978] text-[#0f0f0f] min-h-[44px] w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Fan Page
@@ -127,7 +127,7 @@ export default function FanPages() {
         </div>
 
         {/* Fan Pages Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {fanPages.map((fanPage, index) => {
             const team = teams.find(t => t.id === fanPage.team_id);
             const isFollowing = fanPage.followers?.includes(user?.email);
@@ -162,17 +162,16 @@ export default function FanPages() {
                     )}
                   </div>
 
-                  <CardContent className="pt-12 pb-6 px-6">
-                    <div className="flex items-start justify-between mb-4">
+                  <CardContent className="pt-10 sm:pt-12 pb-4 sm:pb-6 px-4 sm:px-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                       <div>
-                        <h3 className="text-xl font-bold text-white">{fanPage.team_name}</h3>
-                        <p className="text-sm text-white/40">{fanPage.followers?.length || 0} followers</p>
+                        <h3 className="text-lg sm:text-xl font-bold text-white">{fanPage.team_name}</h3>
+                        <p className="text-xs sm:text-sm text-white/40">{fanPage.followers?.length || 0} followers</p>
                       </div>
                       <Button
-                        size="sm"
                         variant={isFollowing ? "outline" : "default"}
                         onClick={() => followMutation.mutate({ pageId: fanPage.id, followers: fanPage.followers || [] })}
-                        className={isFollowing ? "" : "bg-gradient-to-r from-orange-500 to-pink-600"}
+                        className={`min-h-[44px] w-full sm:w-auto ${isFollowing ? "" : "bg-gradient-to-r from-[#c9a962] to-[#d4b978] text-[#0f0f0f]"}`}
                       >
                         {isFollowing ? (
                           <>
@@ -189,44 +188,44 @@ export default function FanPages() {
                     </div>
 
                     {fanPage.description && (
-                      <p className="text-white/50 text-sm mb-4 line-clamp-2">{fanPage.description}</p>
+                      <p className="text-white/50 text-xs sm:text-sm mb-4 line-clamp-2">{fanPage.description}</p>
                     )}
 
                     {/* Social Links */}
                     <div className="flex items-center gap-2 mb-4">
                       {fanPage.social_links?.instagram && (
-                        <a href={fanPage.social_links.instagram} target="_blank" rel="noopener noreferrer" className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg text-white hover:opacity-80">
-                          <Instagram className="w-4 h-4" />
+                        <a href={fanPage.social_links.instagram} target="_blank" rel="noopener noreferrer" className="p-2.5 sm:p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg text-white hover:opacity-80 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                          <Instagram className="w-5 h-5 sm:w-4 sm:h-4" />
                         </a>
                       )}
                       {fanPage.social_links?.twitter && (
-                        <a href={fanPage.social_links.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-blue-400 rounded-lg text-white hover:opacity-80">
-                          <Twitter className="w-4 h-4" />
+                        <a href={fanPage.social_links.twitter} target="_blank" rel="noopener noreferrer" className="p-2.5 sm:p-2 bg-blue-400 rounded-lg text-white hover:opacity-80 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                          <Twitter className="w-5 h-5 sm:w-4 sm:h-4" />
                         </a>
                       )}
                       {fanPage.social_links?.facebook && (
-                        <a href={fanPage.social_links.facebook} target="_blank" rel="noopener noreferrer" className="p-2 bg-blue-600 rounded-lg text-white hover:opacity-80">
-                          <Facebook className="w-4 h-4" />
+                        <a href={fanPage.social_links.facebook} target="_blank" rel="noopener noreferrer" className="p-2.5 sm:p-2 bg-blue-600 rounded-lg text-white hover:opacity-80 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                          <Facebook className="w-5 h-5 sm:w-4 sm:h-4" />
                         </a>
                       )}
                       {fanPage.social_links?.youtube && (
-                        <a href={fanPage.social_links.youtube} target="_blank" rel="noopener noreferrer" className="p-2 bg-red-600 rounded-lg text-white hover:opacity-80">
-                          <Youtube className="w-4 h-4" />
+                        <a href={fanPage.social_links.youtube} target="_blank" rel="noopener noreferrer" className="p-2.5 sm:p-2 bg-red-600 rounded-lg text-white hover:opacity-80 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                          <Youtube className="w-5 h-5 sm:w-4 sm:h-4" />
                         </a>
                       )}
                     </div>
 
                     {/* Share Buttons */}
-                    <div className="flex items-center gap-2 pt-4 border-t">
-                      <span className="text-sm text-white/40">Share:</span>
-                      <button onClick={() => handleShare(fanPage, 'twitter')} className="p-1.5 hover:bg-white/[0.05] rounded">
-                        <Twitter className="w-4 h-4 text-blue-400" />
+                    <div className="flex items-center gap-2 pt-4 border-t border-white/[0.06]">
+                      <span className="text-xs sm:text-sm text-white/40">Share:</span>
+                      <button onClick={() => handleShare(fanPage, 'twitter')} className="p-2.5 hover:bg-white/[0.05] rounded min-w-[44px] min-h-[44px] flex items-center justify-center">
+                        <Twitter className="w-5 h-5 text-blue-400" />
                       </button>
-                      <button onClick={() => handleShare(fanPage, 'facebook')} className="p-1.5 hover:bg-white/[0.05] rounded">
-                        <Facebook className="w-4 h-4 text-blue-600" />
+                      <button onClick={() => handleShare(fanPage, 'facebook')} className="p-2.5 hover:bg-white/[0.05] rounded min-w-[44px] min-h-[44px] flex items-center justify-center">
+                        <Facebook className="w-5 h-5 text-blue-600" />
                       </button>
-                      <button onClick={() => handleShare(fanPage, 'copy')} className="p-1.5 hover:bg-white/[0.05] rounded">
-                        <Share2 className="w-4 h-4 text-white/40" />
+                      <button onClick={() => handleShare(fanPage, 'copy')} className="p-2.5 hover:bg-white/[0.05] rounded min-w-[44px] min-h-[44px] flex items-center justify-center">
+                        <Share2 className="w-5 h-5 text-white/40" />
                       </button>
                     </div>
                   </CardContent>
@@ -237,13 +236,13 @@ export default function FanPages() {
         </div>
 
         {fanPages.length === 0 && (
-          <Card className="border-none shadow-lg">
-            <CardContent className="py-16 text-center">
-              <Heart className="w-16 h-16 mx-auto mb-4 text-white/20" />
-              <h3 className="text-xl font-semibold text-white mb-2">No fan pages yet</h3>
-              <p className="text-white/50 mb-4">Create a fan page for your team to connect with supporters!</p>
+          <Card className="border-none shadow-lg bg-white/[0.03]">
+            <CardContent className="py-12 md:py-16 text-center px-4">
+              <Heart className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-white/20" />
+              <h3 className="text-lg md:text-xl font-semibold text-white mb-2">No fan pages yet</h3>
+              <p className="text-white/50 mb-4 text-sm md:text-base">Create a fan page for your team to connect with supporters!</p>
               {teamsWithoutFanPage.length > 0 && (
-                <Button onClick={() => setShowCreatePage(true)} className="bg-gradient-to-r from-orange-500 to-pink-600">
+                <Button onClick={() => setShowCreatePage(true)} className="bg-gradient-to-r from-[#c9a962] to-[#d4b978] text-[#0f0f0f] min-h-[44px]">
                   Create Fan Page
                 </Button>
               )}

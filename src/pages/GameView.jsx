@@ -52,25 +52,25 @@ export default function GameView() {
   const awayStats = getTeamStats(awayPlayers);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Trophy className="w-10 h-10 text-purple-600" />
-            <h1 className="text-4xl font-bold text-white">Game Stats</h1>
+        <div className="text-center mb-6 md:mb-8">
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+            <Trophy className="w-8 h-8 md:w-10 md:h-10 text-purple-600" />
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Game Stats</h1>
           </div>
-          <p className="text-white/40">Read-only view</p>
+          <p className="text-sm md:text-base text-white/40">Read-only view</p>
         </div>
 
         {/* Scoreboard */}
-        <Card className="mb-8 overflow-hidden">
-          <div className="bg-white/[0.07] p-8">
-            <div className="flex items-center justify-center gap-12">
+        <Card className="mb-6 md:mb-8 overflow-hidden">
+          <div className="bg-white/[0.07] p-4 md:p-6 lg:p-8">
+            <div className="flex items-center justify-center gap-4 md:gap-8 lg:gap-12">
               <div className="text-center">
-                <p className="text-white/70 text-sm mb-2">{game.home_team_name}</p>
+                <p className="text-white/70 text-xs md:text-sm mb-1 md:mb-2 truncate max-w-[80px] md:max-w-none">{game.home_team_name}</p>
                 <p
-                  className="text-6xl font-black tabular-nums"
+                  className="text-4xl md:text-5xl lg:text-6xl font-black tabular-nums"
                   style={{ color: `hsl(${game.home_color_hue}, 70%, 60%)` }}
                 >
                   {game.home_score}
@@ -79,7 +79,7 @@ export default function GameView() {
 
               <div className="text-center">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl mb-2 border-2"
+                  className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl mb-1 md:mb-2 border-2"
                   style={{
                     backgroundColor: `hsl(${game.home_color_hue}, 60%, 45%)`,
                     borderColor: `hsl(${game.home_color_hue}, 60%, 60%)`,
@@ -87,16 +87,16 @@ export default function GameView() {
                 >
                   Q{game.period}
                 </div>
-                <div className="flex items-center gap-2 text-white/70">
-                  <Clock className="w-4 h-4" />
-                  <span className="font-mono font-semibold">{formatClock(game.clock_milliseconds)}</span>
+                <div className="flex items-center gap-1 md:gap-2 text-white/70">
+                  <Clock className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="font-mono font-semibold text-sm md:text-base">{formatClock(game.clock_milliseconds)}</span>
                 </div>
               </div>
 
               <div className="text-center">
-                <p className="text-white/70 text-sm mb-2">{game.away_team_name}</p>
+                <p className="text-white/70 text-xs md:text-sm mb-1 md:mb-2 truncate max-w-[80px] md:max-w-none">{game.away_team_name}</p>
                 <p
-                  className="text-6xl font-black tabular-nums"
+                  className="text-4xl md:text-5xl lg:text-6xl font-black tabular-nums"
                   style={{ color: `hsl(${game.away_color_hue}, 70%, 60%)` }}
                 >
                   {game.away_score}
@@ -107,58 +107,58 @@ export default function GameView() {
         </Card>
 
         {/* Team Stats Comparison */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <Card>
-            <CardHeader style={{ backgroundColor: `hsl(${game.home_color_hue}, 60%, 95%)` }}>
-              <CardTitle style={{ color: `hsl(${game.home_color_hue}, 70%, 40%)` }}>
+            <CardHeader className="p-4 md:p-6" style={{ backgroundColor: `hsl(${game.home_color_hue}, 60%, 95%)` }}>
+              <CardTitle className="text-base md:text-lg" style={{ color: `hsl(${game.home_color_hue}, 70%, 40%)` }}>
                 {game.home_team_name} Stats
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 md:pt-6 p-4 md:p-6">
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Total Rebounds</span>
-                  <span className="font-bold text-lg">{homeStats.rebounds}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Total Rebounds</span>
+                  <span className="font-bold text-base md:text-lg">{homeStats.rebounds}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Assists</span>
-                  <span className="font-bold text-lg">{homeStats.assists}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Assists</span>
+                  <span className="font-bold text-base md:text-lg">{homeStats.assists}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Steals</span>
-                  <span className="font-bold text-lg">{homeStats.steals}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Steals</span>
+                  <span className="font-bold text-base md:text-lg">{homeStats.steals}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Blocks</span>
-                  <span className="font-bold text-lg">{homeStats.blocks}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Blocks</span>
+                  <span className="font-bold text-base md:text-lg">{homeStats.blocks}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader style={{ backgroundColor: `hsl(${game.away_color_hue}, 60%, 95%)` }}>
-              <CardTitle style={{ color: `hsl(${game.away_color_hue}, 70%, 40%)` }}>
+            <CardHeader className="p-4 md:p-6" style={{ backgroundColor: `hsl(${game.away_color_hue}, 60%, 95%)` }}>
+              <CardTitle className="text-base md:text-lg" style={{ color: `hsl(${game.away_color_hue}, 70%, 40%)` }}>
                 {game.away_team_name} Stats
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 md:pt-6 p-4 md:p-6">
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Total Rebounds</span>
-                  <span className="font-bold text-lg">{awayStats.rebounds}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Total Rebounds</span>
+                  <span className="font-bold text-base md:text-lg">{awayStats.rebounds}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Assists</span>
-                  <span className="font-bold text-lg">{awayStats.assists}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Assists</span>
+                  <span className="font-bold text-base md:text-lg">{awayStats.assists}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Steals</span>
-                  <span className="font-bold text-lg">{awayStats.steals}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Steals</span>
+                  <span className="font-bold text-base md:text-lg">{awayStats.steals}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Blocks</span>
-                  <span className="font-bold text-lg">{awayStats.blocks}</span>
+                <div className="flex justify-between items-center min-h-[44px]">
+                  <span className="text-white/60 text-sm md:text-base">Blocks</span>
+                  <span className="font-bold text-base md:text-lg">{awayStats.blocks}</span>
                 </div>
               </div>
             </CardContent>
@@ -166,20 +166,20 @@ export default function GameView() {
         </div>
 
         {/* Player Stats Tables */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="flex items-center gap-2 text-base md:text-lg">
                 <div
-                  className="w-4 h-6 rounded"
+                  className="w-3 h-5 md:w-4 md:h-6 rounded"
                   style={{ backgroundColor: `hsl(${game.home_color_hue}, 70%, 50%)` }}
                 />
                 {game.home_team_name} Players
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+            <CardContent className="p-4 md:p-6 pt-0 md:pt-0">
+              <div className="overflow-x-auto -mx-4 md:mx-0">
+                <table className="w-full text-xs md:text-sm min-w-[280px]">
                   <thead className="border-b">
                     <tr className="text-left">
                       <th className="pb-2 font-semibold">#</th>
@@ -191,11 +191,11 @@ export default function GameView() {
                   </thead>
                   <tbody>
                     {homePlayers.map((player) => (
-                      <tr key={player.id} className="border-b last:border-0">
+                      <tr key={player.id} className="border-b last:border-0 min-h-[44px]">
                         <td className="py-3 font-bold" style={{ color: `hsl(${game.home_color_hue}, 70%, 50%)` }}>
                           {player.jersey_number}
                         </td>
-                        <td className="py-3">{player.name}</td>
+                        <td className="py-3 truncate max-w-[100px] md:max-w-none">{player.name}</td>
                         <td className="py-3 text-center font-semibold">{player.points}</td>
                         <td className="py-3 text-center">{(player.rebounds_offensive || 0) + (player.rebounds_defensive || 0)}</td>
                         <td className="py-3 text-center">{player.assists}</td>
@@ -208,18 +208,18 @@ export default function GameView() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="flex items-center gap-2 text-base md:text-lg">
                 <div
-                  className="w-4 h-6 rounded"
+                  className="w-3 h-5 md:w-4 md:h-6 rounded"
                   style={{ backgroundColor: `hsl(${game.away_color_hue}, 70%, 50%)` }}
                 />
                 {game.away_team_name} Players
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+            <CardContent className="p-4 md:p-6 pt-0 md:pt-0">
+              <div className="overflow-x-auto -mx-4 md:mx-0">
+                <table className="w-full text-xs md:text-sm min-w-[280px]">
                   <thead className="border-b">
                     <tr className="text-left">
                       <th className="pb-2 font-semibold">#</th>
@@ -231,11 +231,11 @@ export default function GameView() {
                   </thead>
                   <tbody>
                     {awayPlayers.map((player) => (
-                      <tr key={player.id} className="border-b last:border-0">
+                      <tr key={player.id} className="border-b last:border-0 min-h-[44px]">
                         <td className="py-3 font-bold" style={{ color: `hsl(${game.away_color_hue}, 70%, 50%)` }}>
                           {player.jersey_number}
                         </td>
-                        <td className="py-3">{player.name}</td>
+                        <td className="py-3 truncate max-w-[100px] md:max-w-none">{player.name}</td>
                         <td className="py-3 text-center font-semibold">{player.points}</td>
                         <td className="py-3 text-center">{(player.rebounds_offensive || 0) + (player.rebounds_defensive || 0)}</td>
                         <td className="py-3 text-center">{player.assists}</td>

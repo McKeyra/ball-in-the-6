@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import logo from '@/assets/logo.svg';
 
 export default function B6Header({ onMenuToggle, menuOpen }) {
   const navigate = useNavigate();
@@ -20,16 +21,12 @@ export default function B6Header({ onMenuToggle, menuOpen }) {
             onClick={() => navigate('/')}
             className="flex items-center gap-2 sm:gap-2.5 hover:opacity-80 transition-opacity active:scale-[0.98] min-h-[44px]"
           >
-            {/* Basketball Icon */}
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#c9a962] to-[#a8893f] rounded-lg sm:rounded-xl flex items-center justify-center shadow-[0_2px_8px_rgba(201,169,98,0.3)] flex-shrink-0">
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#0f0f0f]" viewBox="0 0 24 24" fill="currentColor">
-                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12 2C12 12 12 12 12 22" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M2 12C12 12 12 12 22 12" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M4.5 4.5C8 8 16 16 19.5 19.5" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M19.5 4.5C16 8 8 16 4.5 19.5" stroke="currentColor" strokeWidth="1.5"/>
-              </svg>
-            </div>
+            {/* Logo */}
+            <img
+              src={logo}
+              alt="Ball in the 6"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex-shrink-0 object-contain"
+            />
             <div className="flex flex-col">
               <span className="text-base sm:text-lg md:text-xl font-black tracking-tight text-white leading-tight">
                 Ball in the 6

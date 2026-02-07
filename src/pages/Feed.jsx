@@ -149,23 +149,22 @@ export default function Feed() {
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
       {/* Header Gradient */}
-      <div className="h-48 bg-gradient-to-br from-[#c9a962] via-purple-500 to-blue-500 relative overflow-hidden">
+      <div className="h-32 md:h-48 bg-gradient-to-br from-[#c9a962] via-purple-500 to-blue-500 relative overflow-hidden">
         <div className="absolute inset-0 bg-[#0f0f0f]/40" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white">Your Feed ⚡</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">Your Feed</h1>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 -mt-8 pb-20">
+      <div className="max-w-3xl mx-auto p-4 md:p-6 lg:p-8 -mt-8 pb-24">
         {/* Quick Filters */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
           {['all', 'posts', 'games', 'events', 'training'].map(f => (
             <Button
               key={f}
               variant={filter === f ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setFilter(f)}
-              className={filter === f ? 'bg-[#c9a962] text-[#0A0A0A]' : 'border-white/[0.06] text-white'}
+              className={`min-h-[44px] min-w-[44px] px-4 text-sm md:text-base flex-shrink-0 ${filter === f ? 'bg-[#c9a962] text-[#0A0A0A]' : 'border-white/[0.06] text-white'}`}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
             </Button>
@@ -175,8 +174,8 @@ export default function Feed() {
         {/* Feed Items */}
         <div className="space-y-4">
           {feedItems.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-white/40 mb-4">Your feed is empty. Start following players and teams!</p>
+            <div className="text-center py-12 md:py-20">
+              <p className="text-white/40 mb-4 text-sm md:text-base">Your feed is empty. Start following players and teams!</p>
             </div>
           ) : (
             feedItems.map(item => renderCard(item))

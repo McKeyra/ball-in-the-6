@@ -24,14 +24,14 @@ export default function TeamDashboard() {
   ];
 
   return (
-    <div 
-      className="min-h-screen p-6 relative overflow-hidden"
+    <div
+      className="min-h-screen p-4 md:p-6 lg:p-8 pb-24 relative overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, #0f0f0f 0%, #1e2749 100%)',
       }}
     >
       {/* Animated Background Elements */}
-      <div 
+      <div
         className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           background: 'radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(123, 44, 191, 0.1) 0%, transparent 50%)'
@@ -40,8 +40,8 @@ export default function TeamDashboard() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <h1 
-          className="text-5xl font-bold mb-8 bg-clip-text text-transparent"
+        <h1
+          className="text-xl md:text-2xl lg:text-3xl font-bold mb-6 md:mb-8 bg-clip-text text-transparent"
           style={{
             backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)',
             fontFamily: 'Inter, sans-serif'
@@ -51,38 +51,38 @@ export default function TeamDashboard() {
         </h1>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
             return (
               <div
                 key={idx}
-                className="p-6 rounded-2xl relative group transition-all duration-300 hover:scale-105"
+                className="p-4 md:p-6 rounded-xl md:rounded-2xl relative group transition-all duration-300 hover:scale-105"
                 style={{
                   background: '#1a1a1a',
                   boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(30, 39, 73, 0.6)',
                 }}
               >
-                <div 
-                  className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+                <div
+                  className="absolute top-0 left-0 right-0 h-1 rounded-t-xl md:rounded-t-2xl"
                   style={{
                     background: 'linear-gradient(90deg, #c9a962, #c9a962)'
                   }}
                 />
                 <div className="flex items-center justify-between mb-2">
-                  <span style={{ color: '#b4bcd0', fontSize: '14px' }}>{stat.label}</span>
-                  <Icon className="w-5 h-5" style={{ color: '#c9a962' }} />
+                  <span className="text-xs md:text-sm" style={{ color: '#b4bcd0' }}>{stat.label}</span>
+                  <Icon className="w-4 h-4 md:w-5 md:h-5" style={{ color: '#c9a962' }} />
                 </div>
-                <div 
-                  className="text-4xl font-bold bg-clip-text text-transparent"
+                <div
+                  className="text-2xl md:text-4xl font-bold bg-clip-text text-transparent"
                   style={{
                     backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)'
                   }}
                 >
                   {stat.value}
                 </div>
-                <div 
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                <div
+                  className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                   style={{
                     boxShadow: '0 0 20px rgba(0, 212, 255, 0.3)'
                   }}
@@ -93,34 +93,34 @@ export default function TeamDashboard() {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           {/* Recent Games */}
           <div
-            className="p-6 rounded-2xl relative"
+            className="p-4 md:p-6 rounded-xl md:rounded-2xl relative"
             style={{
               background: '#1a1a1a',
               boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(30, 39, 73, 0.6)',
             }}
           >
-            <div 
-              className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+            <div
+              className="absolute top-0 left-0 right-0 h-1 rounded-t-xl md:rounded-t-2xl"
               style={{
                 background: 'linear-gradient(90deg, #c9a962, #c9a962)'
               }}
             />
-            <h2 
-              className="text-2xl font-bold mb-6 bg-clip-text text-transparent"
+            <h2
+              className="text-lg md:text-2xl font-bold mb-4 md:mb-6 bg-clip-text text-transparent"
               style={{
                 backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)'
               }}
             >
               Recent Games
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {games.map((game, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-xl relative group transition-all duration-300 hover:scale-102"
+                  className="p-3 md:p-4 rounded-lg md:rounded-xl relative group transition-all duration-300 hover:scale-102 min-h-[44px]"
                   style={{
                     background: '#0f0f0f',
                     boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px rgba(21, 27, 61, 0.5)',
@@ -128,14 +128,14 @@ export default function TeamDashboard() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="flex items-center gap-3 mb-1">
+                      <div className="flex items-center gap-2 md:gap-3 mb-1">
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="w-2 h-2 md:w-3 md:h-3 rounded-full"
                           style={{
                             background: '#c9a962'
                           }}
                         />
-                        <span className="text-lg font-semibold" style={{ color: '#ffffff' }}>
+                        <span className="text-sm md:text-lg font-semibold" style={{ color: '#ffffff' }}>
                           vs {game.opponent}
                         </span>
                         <span
@@ -148,12 +148,12 @@ export default function TeamDashboard() {
                           {game.result}
                         </span>
                       </div>
-                      <div className="text-sm" style={{ color: '#b4bcd0' }}>
+                      <div className="text-xs md:text-sm" style={{ color: '#b4bcd0' }}>
                         {game.date}
                       </div>
                     </div>
-                    <div 
-                      className="text-2xl font-bold bg-clip-text text-transparent"
+                    <div
+                      className="text-lg md:text-2xl font-bold bg-clip-text text-transparent"
                       style={{
                         backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)'
                       }}
@@ -161,8 +161,8 @@ export default function TeamDashboard() {
                       {game.score}
                     </div>
                   </div>
-                  <div 
-                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                  <div
+                    className="absolute inset-0 rounded-lg md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                     style={{
                       boxShadow: '0 0 15px rgba(0, 212, 255, 0.2)'
                     }}
@@ -174,39 +174,39 @@ export default function TeamDashboard() {
 
           {/* Player Leaderboard */}
           <div
-            className="p-6 rounded-2xl relative"
+            className="p-4 md:p-6 rounded-xl md:rounded-2xl relative"
             style={{
               background: '#1a1a1a',
               boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(30, 39, 73, 0.6)',
             }}
           >
-            <div 
-              className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+            <div
+              className="absolute top-0 left-0 right-0 h-1 rounded-t-xl md:rounded-t-2xl"
               style={{
                 background: 'linear-gradient(90deg, #c9a962, #c9a962)'
               }}
             />
-            <h2 
-              className="text-2xl font-bold mb-6 bg-clip-text text-transparent"
+            <h2
+              className="text-lg md:text-2xl font-bold mb-4 md:mb-6 bg-clip-text text-transparent"
               style={{
                 backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)'
               }}
             >
               Top Scorers
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2 md:space-y-3">
               {players.map((player, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-xl flex items-center justify-between group transition-all duration-300 hover:scale-102"
+                  className="p-3 md:p-4 rounded-lg md:rounded-xl flex items-center justify-between group transition-all duration-300 hover:scale-102 min-h-[44px]"
                   style={{
                     background: '#0f0f0f',
                     boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px rgba(21, 27, 61, 0.5)',
                   }}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 md:gap-4">
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold"
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-base"
                       style={{
                         background: 'linear-gradient(135deg, #c9a962, #c9a962)',
                         color: '#ffffff'
@@ -215,7 +215,7 @@ export default function TeamDashboard() {
                       {idx + 1}
                     </div>
                     <div>
-                      <div className="font-semibold" style={{ color: '#ffffff' }}>
+                      <div className="text-sm md:text-base font-semibold" style={{ color: '#ffffff' }}>
                         {player.name}
                       </div>
                       <div className="text-xs" style={{ color: '#b4bcd0' }}>
@@ -223,16 +223,16 @@ export default function TeamDashboard() {
                       </div>
                     </div>
                   </div>
-                  <div 
-                    className="text-2xl font-bold bg-clip-text text-transparent"
+                  <div
+                    className="text-lg md:text-2xl font-bold bg-clip-text text-transparent"
                     style={{
                       backgroundImage: 'linear-gradient(90deg, #c9a962, #c9a962)'
                     }}
                   >
                     {player.points}
                   </div>
-                  <div 
-                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                  <div
+                    className="absolute inset-0 rounded-lg md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                     style={{
                       boxShadow: '0 0 15px rgba(0, 212, 255, 0.2)'
                     }}
@@ -245,7 +245,7 @@ export default function TeamDashboard() {
 
         {/* Floating Action Button */}
         <button
-          className="fixed bottom-8 right-8 w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl transition-all duration-300 hover:scale-110"
+          className="fixed bottom-28 md:bottom-8 right-4 md:right-8 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white font-bold text-xl md:text-2xl transition-all duration-300 hover:scale-110 min-w-[44px] min-h-[44px]"
           style={{
             background: 'linear-gradient(135deg, #c9a962, #c9a962)',
             boxShadow: '0 8px 24px rgba(0, 212, 255, 0.4), 0 0 40px rgba(123, 44, 191, 0.3)'

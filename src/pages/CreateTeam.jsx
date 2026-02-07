@@ -218,7 +218,7 @@ export default function CreateTeam() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <style>{`
         .inputbox {
           position: relative;
@@ -279,11 +279,12 @@ export default function CreateTeam() {
 
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate(createPageUrl("TeamList"))}
+            className="min-h-[44px] min-w-[44px]"
             style={{
               boxShadow: '0 10px 26px rgba(0,0,0,.10)',
               background: '#1a1a1a'
@@ -292,21 +293,21 @@ export default function CreateTeam() {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-white/90">Create Team</h1>
-            <p className="text-white/60">Set up a new basketball team</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-white/90">Create Team</h1>
+            <p className="text-sm md:text-base text-white/60">Set up a new basketball team</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {/* Team Information */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
             }}
           >
-            <h2 className="text-xl font-bold text-white/70 mb-4">Team Information</h2>
+            <h2 className="text-lg md:text-xl font-bold text-white/70 mb-4">Team Information</h2>
             
             <div className="space-y-4">
               <div className="inputbox">
@@ -379,19 +380,20 @@ export default function CreateTeam() {
           </div>
 
           {/* Roster */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white/70">Roster</h2>
+              <h2 className="text-lg md:text-xl font-bold text-white/70">Roster</h2>
               <Button
                 type="button"
                 onClick={handleAddPlayer}
                 size="sm"
+                className="min-h-[44px]"
                 style={{
                   background: '#c9a962',
                   color: 'white',
@@ -405,13 +407,13 @@ export default function CreateTeam() {
 
             <div className="space-y-4">
               {roster.map((player) => (
-                <div key={player._id} className="grid grid-cols-12 gap-2 items-start">
-                  <div className="col-span-3">
+                <div key={player._id} className="grid grid-cols-2 md:grid-cols-12 gap-2 items-start">
+                  <div className="col-span-1 md:col-span-3">
                     <div className="inputbox">
                       <input
                         value={player.first_name}
                         onChange={(e) => handlePlayerChange(player._id, 'first_name', e.target.value)}
-                        className={validationErrors[`player_${player._id}_first_name`] ? 'border-red-500' : ''}
+                        className={`min-h-[44px] ${validationErrors[`player_${player._id}_first_name`] ? 'border-red-500' : ''}`}
                       />
                       <span>First Name</span>
                       <i></i>
@@ -423,12 +425,12 @@ export default function CreateTeam() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-3">
+                  <div className="col-span-1 md:col-span-3">
                     <div className="inputbox">
                       <input
                         value={player.last_name}
                         onChange={(e) => handlePlayerChange(player._id, 'last_name', e.target.value)}
-                        className={validationErrors[`player_${player._id}_last_name`] ? 'border-red-500' : ''}
+                        className={`min-h-[44px] ${validationErrors[`player_${player._id}_last_name`] ? 'border-red-500' : ''}`}
                       />
                       <span>Last Name</span>
                       <i></i>
@@ -440,7 +442,7 @@ export default function CreateTeam() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-2">
+                  <div className="col-span-1 md:col-span-2">
                     <div className="inputbox">
                       <input
                         type="number"
@@ -448,7 +450,7 @@ export default function CreateTeam() {
                         max="99"
                         value={player.jersey_number}
                         onChange={(e) => handlePlayerChange(player._id, 'jersey_number', e.target.value)}
-                        className={validationErrors[`player_${player._id}_jersey_number`] ? 'border-red-500' : ''}
+                        className={`min-h-[44px] ${validationErrors[`player_${player._id}_jersey_number`] ? 'border-red-500' : ''}`}
                       />
                       <span>#</span>
                       <i></i>
@@ -460,39 +462,40 @@ export default function CreateTeam() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-2">
+                  <div className="col-span-1 md:col-span-2">
                     <label className="text-xs text-white/40 mb-1 block">Position</label>
                     <Select value={player.position} onValueChange={(val) => handlePlayerChange(player._id, 'position', val)}>
-                      <SelectTrigger className="bg-transparent">
+                      <SelectTrigger className="bg-transparent min-h-[44px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="PG">PG</SelectItem>
-                        <SelectItem value="SG">SG</SelectItem>
-                        <SelectItem value="SF">SF</SelectItem>
-                        <SelectItem value="PF">PF</SelectItem>
-                        <SelectItem value="C">C</SelectItem>
+                        <SelectItem value="PG" className="min-h-[44px]">PG</SelectItem>
+                        <SelectItem value="SG" className="min-h-[44px]">SG</SelectItem>
+                        <SelectItem value="SF" className="min-h-[44px]">SF</SelectItem>
+                        <SelectItem value="PF" className="min-h-[44px]">PF</SelectItem>
+                        <SelectItem value="C" className="min-h-[44px]">C</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="col-span-1">
+                  <div className="col-span-1 md:col-span-1">
                     <div className="inputbox">
                       <input
                         value={player.height}
                         onChange={(e) => handlePlayerChange(player._id, 'height', e.target.value)}
+                        className="min-h-[44px]"
                       />
                       <span>Ht</span>
                       <i></i>
                     </div>
                   </div>
-                  <div className="col-span-1 pt-5">
+                  <div className="col-span-1 md:col-span-1 pt-5 flex justify-end">
                     <Button
                       type="button"
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemovePlayer(player._id)}
                       disabled={roster.length === 1}
-                      className="h-10"
+                      className="h-10 min-h-[44px] min-w-[44px]"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -503,19 +506,20 @@ export default function CreateTeam() {
           </div>
 
           {/* Staff */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-3xl"
             style={{
               background: '#1a1a1a',
               boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white/70">Staff</h2>
+              <h2 className="text-lg md:text-xl font-bold text-white/70">Staff</h2>
               <Button
                 type="button"
                 onClick={handleAddStaff}
                 size="sm"
+                className="min-h-[44px]"
                 style={{
                   background: '#c9a962',
                   color: 'white',
@@ -529,13 +533,13 @@ export default function CreateTeam() {
 
             <div className="space-y-3">
               {staff.map((member) => (
-                <div key={member._id} className="grid grid-cols-12 gap-3 items-start">
-                  <div className="col-span-6">
+                <div key={member._id} className="grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-3 items-start">
+                  <div className="col-span-1 md:col-span-6">
                     <div className="inputbox">
                       <input
                         value={member.name}
                         onChange={(e) => handleStaffChange(member._id, 'name', e.target.value)}
-                        className={validationErrors[`staff_${member._id}_name`] ? 'border-red-500' : ''}
+                        className={`min-h-[44px] ${validationErrors[`staff_${member._id}_name`] ? 'border-red-500' : ''}`}
                       />
                       <span>Name</span>
                       <i></i>
@@ -547,12 +551,12 @@ export default function CreateTeam() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-5">
+                  <div className="col-span-1 md:col-span-5">
                     <div className="inputbox">
                       <input
                         value={member.title}
                         onChange={(e) => handleStaffChange(member._id, 'title', e.target.value)}
-                        className={validationErrors[`staff_${member._id}_title`] ? 'border-red-500' : ''}
+                        className={`min-h-[44px] ${validationErrors[`staff_${member._id}_title`] ? 'border-red-500' : ''}`}
                       />
                       <span>Title</span>
                       <i></i>
@@ -564,14 +568,14 @@ export default function CreateTeam() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-1 pt-5">
+                  <div className="col-span-2 md:col-span-1 pt-5 flex justify-end">
                     <Button
                       type="button"
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveStaff(member._id)}
                       disabled={staff.length === 1}
-                      className="h-10"
+                      className="h-10 min-h-[44px] min-w-[44px]"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -582,19 +586,19 @@ export default function CreateTeam() {
           </div>
 
           {/* Submit */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate(createPageUrl("TeamList"))}
-              className="flex-1"
+              className="flex-1 min-h-[44px]"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={createTeamMutation.isPending}
-              className="flex-1 h-12 font-semibold"
+              className="flex-1 h-12 min-h-[44px] font-semibold"
               style={{
                 background: '#c9a962',
                 color: 'white',

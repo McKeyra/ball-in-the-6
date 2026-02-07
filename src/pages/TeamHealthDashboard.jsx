@@ -306,18 +306,18 @@ export default function TeamHealthDashboard() {
   // Empty state
   if (teams.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] p-6">
+      <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-white/90 mb-2">Team Health Dashboard</h1>
-              <p className="text-white/60">Monitor and manage team wellness across your organization</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white/90 mb-1 md:mb-2">Team Health Dashboard</h1>
+              <p className="text-sm md:text-base text-white/60">Monitor and manage team wellness across your organization</p>
             </div>
             <Button
               onClick={handleRefresh}
               variant="outline"
-              className="bg-white/[0.05] border-white/[0.1] text-white hover:bg-white/[0.1]"
+              className="bg-white/[0.05] border-white/[0.1] text-white hover:bg-white/[0.1] min-h-[44px]"
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               Refresh
@@ -325,15 +325,15 @@ export default function TeamHealthDashboard() {
           </div>
 
           {/* Empty State */}
-          <div className="bg-white/[0.05] border border-white/[0.06] rounded-3xl p-16 text-center">
-            <Users className="w-24 h-24 mx-auto mb-6 text-white/20" />
-            <h3 className="text-2xl font-bold text-white/80 mb-3">No Teams Found</h3>
-            <p className="text-white/50 mb-8 max-w-md mx-auto">
+          <div className="bg-white/[0.05] border border-white/[0.06] rounded-3xl p-8 md:p-16 text-center">
+            <Users className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 text-white/20" />
+            <h3 className="text-xl md:text-2xl font-bold text-white/80 mb-2 md:mb-3">No Teams Found</h3>
+            <p className="text-sm md:text-base text-white/50 mb-6 md:mb-8 max-w-md mx-auto">
               There are no teams in the system yet. Create teams to start monitoring their health scores.
             </p>
             <Button
               onClick={() => navigate(createPageUrl("CreateTeam"))}
-              className="bg-[#c9a962] text-black hover:bg-[#d4b872] font-semibold px-6"
+              className="bg-[#c9a962] text-black hover:bg-[#d4b872] font-semibold px-6 min-h-[44px]"
             >
               Create Your First Team
             </Button>
@@ -344,18 +344,18 @@ export default function TeamHealthDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white/90 mb-2">Team Health Dashboard</h1>
-            <p className="text-white/60">Monitor and manage team wellness across your organization</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white/90 mb-1 md:mb-2">Team Health Dashboard</h1>
+            <p className="text-sm md:text-base text-white/60">Monitor and manage team wellness across your organization</p>
           </div>
           <Button
             onClick={handleRefresh}
             variant="outline"
-            className="bg-white/[0.05] border-white/[0.1] text-white hover:bg-white/[0.1]"
+            className="bg-white/[0.05] border-white/[0.1] text-white hover:bg-white/[0.1] min-h-[44px]"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
             Refresh
@@ -363,7 +363,7 @@ export default function TeamHealthDashboard() {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
           <MetricCard
             title="Total Teams"
             value={summary.total}
@@ -391,12 +391,12 @@ export default function TeamHealthDashboard() {
         </div>
 
         {/* Filter Bar */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           <div className="flex items-center gap-2 text-white/60">
             <Filter className="w-4 h-4" />
-            <span className="text-sm font-medium">Filter by Tier:</span>
+            <span className="text-xs md:text-sm font-medium">Filter by Tier:</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {[
               { value: 'all', label: 'All' },
               { value: HEALTH_TIERS.HEALTHY, label: 'Healthy' },
@@ -406,10 +406,10 @@ export default function TeamHealthDashboard() {
               <button
                 key={option.value}
                 onClick={() => setTierFilter(option.value)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all min-h-[44px] ${
                   tierFilter === option.value
                     ? 'bg-[#c9a962] text-black'
-                    : 'bg-white/[0.05] text-white/70 hover:bg-white/[0.1] border border-white/[0.06]'
+                    : 'bg-white/[0.05] text-white/70 hover:bg-white/[0.1] active:bg-white/[0.1] border border-white/[0.06]'
                 }`}
               >
                 {option.label}
@@ -420,11 +420,11 @@ export default function TeamHealthDashboard() {
 
         {/* Team Health Table */}
         <div className="bg-white/[0.05] border border-white/[0.06] rounded-2xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+            <table className="w-full min-w-[800px]">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left">
                     <SortableHeader
                       label="Team Name"
                       sortKey="team_name"
@@ -432,7 +432,7 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left hidden md:table-cell">
                     <SortableHeader
                       label="Division"
                       sortKey="division"
@@ -440,15 +440,15 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left">
                     <SortableHeader
-                      label="Overall Score"
+                      label="Score"
                       sortKey="overall_score"
                       currentSort={sortConfig}
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left hidden lg:table-cell">
                     <SortableHeader
                       label="Payment"
                       sortKey="payment_score"
@@ -456,7 +456,7 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left hidden lg:table-cell">
                     <SortableHeader
                       label="Engagement"
                       sortKey="engagement_score"
@@ -464,7 +464,7 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left hidden lg:table-cell">
                     <SortableHeader
                       label="Retention"
                       sortKey="retention_score"
@@ -472,7 +472,7 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left">
                     <SortableHeader
                       label="Tier"
                       sortKey="tier"
@@ -480,8 +480,8 @@ export default function TeamHealthDashboard() {
                       onSort={handleSort}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left">
-                    <span className="text-white/60 font-medium text-sm">Actions</span>
+                  <th className="px-3 md:px-6 py-3 md:py-4 text-left">
+                    <span className="text-white/60 font-medium text-xs md:text-sm">Actions</span>
                   </th>
                 </tr>
               </thead>
@@ -489,33 +489,33 @@ export default function TeamHealthDashboard() {
                 {sortedTeams.map((team, index) => (
                   <tr
                     key={team.id}
-                    className={`border-b border-white/[0.04] hover:bg-white/[0.03] transition-colors ${
+                    className={`border-b border-white/[0.04] hover:bg-white/[0.03] active:bg-white/[0.03] transition-colors ${
                       index % 2 === 0 ? 'bg-white/[0.02]' : ''
                     }`}
                   >
                     {/* Team Name with Mini Vitality Ring */}
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
+                    <td className="px-3 md:px-6 py-3 md:py-4">
+                      <div className="flex items-center gap-2 md:gap-3">
                         <MiniVitalityRing score={team.overall_score} />
-                        <div>
-                          <p className="font-semibold text-white">{team.team_name}</p>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-white text-sm md:text-base truncate">{team.team_name}</p>
                           {team.coach_name && (
-                            <p className="text-xs text-white/40">Coach: {team.coach_name}</p>
+                            <p className="text-[10px] md:text-xs text-white/40 truncate">Coach: {team.coach_name}</p>
                           )}
                         </div>
                       </div>
                     </td>
 
                     {/* Division */}
-                    <td className="px-6 py-4">
-                      <span className="text-white/70">{team.division || '-'}</span>
+                    <td className="px-3 md:px-6 py-3 md:py-4 hidden md:table-cell">
+                      <span className="text-white/70 text-sm">{team.division || '-'}</span>
                     </td>
 
                     {/* Overall Score */}
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-3 md:py-4">
                       <div className="flex items-center gap-2">
                         <div
-                          className="w-12 h-2 rounded-full bg-white/10 overflow-hidden"
+                          className="w-8 md:w-12 h-2 rounded-full bg-white/10 overflow-hidden"
                         >
                           <div
                             className="h-full rounded-full transition-all duration-500"
@@ -525,55 +525,55 @@ export default function TeamHealthDashboard() {
                             }}
                           />
                         </div>
-                        <span className="text-white font-semibold w-8">{team.overall_score}</span>
+                        <span className="text-white font-semibold text-sm w-6 md:w-8">{team.overall_score}</span>
                       </div>
                     </td>
 
                     {/* Payment Score */}
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-3 md:py-4 hidden lg:table-cell">
                       <ScoreIndicator score={team.payment_score} />
                     </td>
 
                     {/* Engagement Score */}
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-3 md:py-4 hidden lg:table-cell">
                       <ScoreIndicator score={team.engagement_score} showColor={false} />
                     </td>
 
                     {/* Retention Score */}
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-3 md:py-4 hidden lg:table-cell">
                       <ScoreIndicator score={team.retention_score} showColor={false} />
                     </td>
 
                     {/* Tier Badge */}
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-3 md:py-4">
                       <TierBadge tier={team.tier} />
                     </td>
 
                     {/* Actions */}
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
+                    <td className="px-3 md:px-6 py-3 md:py-4">
+                      <div className="flex items-center gap-1 md:gap-2">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => navigate(createPageUrl("TeamDetail") + `?id=${team.id}`)}
-                          className="text-white/60 hover:text-white hover:bg-white/[0.1]"
+                          className="text-white/60 hover:text-white hover:bg-white/[0.1] min-h-[44px] min-w-[44px] px-2 md:px-3"
                         >
-                          <Eye className="w-4 h-4 mr-1" />
-                          View
+                          <Eye className="w-4 h-4 md:mr-1" />
+                          <span className="hidden md:inline">View</span>
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleRunScoring(team)}
                           disabled={scoringTeamId === team.id}
-                          className="text-[#c9a962] hover:text-[#d4b872] hover:bg-[#c9a962]/10"
+                          className="text-[#c9a962] hover:text-[#d4b872] hover:bg-[#c9a962]/10 min-h-[44px] min-w-[44px] px-2 md:px-3"
                         >
                           {scoringTeamId === team.id ? (
-                            <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
+                            <RefreshCw className="w-4 h-4 md:mr-1 animate-spin" />
                           ) : (
-                            <Play className="w-4 h-4 mr-1" />
+                            <Play className="w-4 h-4 md:mr-1" />
                           )}
-                          Run Scoring
+                          <span className="hidden md:inline">Run</span>
                         </Button>
                       </div>
                     </td>
@@ -585,12 +585,12 @@ export default function TeamHealthDashboard() {
 
           {/* No results after filtering */}
           {sortedTeams.length === 0 && (
-            <div className="p-12 text-center">
-              <Filter className="w-12 h-12 mx-auto mb-4 text-white/20" />
-              <p className="text-white/60">No teams match the selected filter</p>
+            <div className="p-8 md:p-12 text-center">
+              <Filter className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-4 text-white/20" />
+              <p className="text-white/60 text-sm md:text-base">No teams match the selected filter</p>
               <button
                 onClick={() => setTierFilter('all')}
-                className="mt-4 text-[#c9a962] hover:underline text-sm"
+                className="mt-4 text-[#c9a962] hover:underline text-sm min-h-[44px]"
               >
                 Clear filter
               </button>
@@ -599,7 +599,7 @@ export default function TeamHealthDashboard() {
         </div>
 
         {/* Footer info */}
-        <div className="mt-6 flex items-center justify-between text-sm text-white/40">
+        <div className="mt-4 md:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs md:text-sm text-white/40">
           <p>Showing {sortedTeams.length} of {teams.length} teams</p>
           <p>Last updated: {new Date().toLocaleString()}</p>
         </div>

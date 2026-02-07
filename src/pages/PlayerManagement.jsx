@@ -179,13 +179,14 @@ export default function PlayerManagement() {
   const currentTeam = teams.find(t => t.id === formData.team_id);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate(-1)}
+            className="min-h-[44px] min-w-[44px]"
             style={{
               boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
               background: '#0f0f0f'
@@ -193,33 +194,33 @@ export default function PlayerManagement() {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-3xl font-bold text-white/90">
+          <h1 className="text-2xl md:text-3xl font-bold text-white/90">
             {isNew ? 'Add Player' : 'Edit Player'}
           </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {/* Photo */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-2xl md:rounded-3xl"
             style={{
               background: '#0f0f0f',
               boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
             }}
           >
-            <h2 className="text-lg font-semibold text-white/70 mb-4">Photo</h2>
-            <div className="flex items-center gap-4">
+            <h2 className="text-base md:text-lg font-semibold text-white/70 mb-3 md:mb-4">Photo</h2>
+            <div className="flex items-center gap-3 md:gap-4">
               {formData.photo_url ? (
-                <img 
-                  src={formData.photo_url} 
-                  alt="Player" 
-                  className="w-24 h-24 rounded-full object-cover"
+                <img
+                  src={formData.photo_url}
+                  alt="Player"
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover"
                   style={{ boxShadow: '4px 4px 8px rgba(0,0,0,0.15)' }}
                 />
               ) : (
-                <div 
-                  className="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold text-white"
-                  style={{ 
+                <div
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center text-2xl md:text-3xl font-bold text-white"
+                  style={{
                     background: currentTeam?.team_color || '#666',
                     boxShadow: '4px 4px 8px rgba(0,0,0,0.15)'
                   }}
@@ -228,8 +229,8 @@ export default function PlayerManagement() {
                 </div>
               )}
               <label className="cursor-pointer">
-                <div 
-                  className="px-4 py-2 rounded-xl flex items-center gap-2"
+                <div
+                  className="px-4 py-3 min-h-[44px] rounded-xl flex items-center gap-2"
                   style={{
                     background: '#0f0f0f',
                     boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)'
@@ -249,137 +250,137 @@ export default function PlayerManagement() {
           </div>
 
           {/* Basic Info */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-2xl md:rounded-3xl"
             style={{
               background: '#0f0f0f',
               boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
             }}
           >
-            <h2 className="text-lg font-semibold text-white/70 mb-4">Basic Information</h2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <h2 className="text-base md:text-lg font-semibold text-white/70 mb-3 md:mb-4">Basic Information</h2>
+            <div className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">First Name *</label>
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">First Name *</label>
                   <Input
                     value={formData.first_name}
                     onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                     required
-                    className="bg-white/[0.07]"
+                    className="bg-white/[0.07] min-h-[44px]"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Last Name *</label>
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Last Name *</label>
                   <Input
                     value={formData.last_name}
                     onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                     required
-                    className="bg-white/[0.07]"
+                    className="bg-white/[0.07] min-h-[44px]"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
                 <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Jersey #</label>
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Jersey #</label>
                   <Input
                     type="number"
                     min="0"
                     max="99"
                     value={formData.jersey_number}
                     onChange={(e) => setFormData({ ...formData, jersey_number: e.target.value })}
-                    className="bg-white/[0.07]"
+                    className="bg-white/[0.07] min-h-[44px]"
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Position</label>
-                  <Select 
-                    value={formData.position} 
+                <div className="col-span-1">
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Position</label>
+                  <Select
+                    value={formData.position}
                     onValueChange={(val) => setFormData({ ...formData, position: val })}
                   >
-                    <SelectTrigger className="bg-white/[0.07]">
+                    <SelectTrigger className="bg-white/[0.07] min-h-[44px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="PG">Point Guard (PG)</SelectItem>
-                      <SelectItem value="SG">Shooting Guard (SG)</SelectItem>
-                      <SelectItem value="SF">Small Forward (SF)</SelectItem>
-                      <SelectItem value="PF">Power Forward (PF)</SelectItem>
-                      <SelectItem value="C">Center (C)</SelectItem>
+                      <SelectItem value="PG" className="min-h-[44px]">Point Guard (PG)</SelectItem>
+                      <SelectItem value="SG" className="min-h-[44px]">Shooting Guard (SG)</SelectItem>
+                      <SelectItem value="SF" className="min-h-[44px]">Small Forward (SF)</SelectItem>
+                      <SelectItem value="PF" className="min-h-[44px]">Power Forward (PF)</SelectItem>
+                      <SelectItem value="C" className="min-h-[44px]">Center (C)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Status</label>
-                  <Select 
-                    value={formData.status} 
+                <div className="col-span-2 sm:col-span-1">
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Status</label>
+                  <Select
+                    value={formData.status}
                     onValueChange={(val) => setFormData({ ...formData, status: val })}
                   >
-                    <SelectTrigger className="bg-white/[0.07]">
+                    <SelectTrigger className="bg-white/[0.07] min-h-[44px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="injured">Injured</SelectItem>
-                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="active" className="min-h-[44px]">Active</SelectItem>
+                      <SelectItem value="injured" className="min-h-[44px]">Injured</SelectItem>
+                      <SelectItem value="inactive" className="min-h-[44px]">Inactive</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Height</label>
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Height</label>
                   <Input
                     value={formData.height}
                     onChange={(e) => setFormData({ ...formData, height: e.target.value })}
                     placeholder="e.g., 6'2&quot;"
-                    className="bg-white/[0.07]"
+                    className="bg-white/[0.07] min-h-[44px]"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-white/60 mb-1 block">Weight</label>
+                  <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Weight</label>
                   <Input
                     value={formData.weight}
                     onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                     placeholder="e.g., 185 lbs"
-                    className="bg-white/[0.07]"
+                    className="bg-white/[0.07] min-h-[44px]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-white/60 mb-1 block">Date of Birth</label>
+                <label className="text-xs md:text-sm font-medium text-white/60 mb-1 block">Date of Birth</label>
                 <Input
                   type="date"
                   value={formData.date_of_birth}
                   onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
-                  className="bg-white/[0.07]"
+                  className="bg-white/[0.07] min-h-[44px]"
                 />
               </div>
             </div>
           </div>
 
           {/* Team Assignment */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-2xl md:rounded-3xl"
             style={{
               background: '#0f0f0f',
               boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
             }}
           >
-            <h2 className="text-lg font-semibold text-white/70 mb-4">Team Assignment</h2>
-            <Select 
-              value={formData.team_id || "none"} 
+            <h2 className="text-base md:text-lg font-semibold text-white/70 mb-3 md:mb-4">Team Assignment</h2>
+            <Select
+              value={formData.team_id || "none"}
               onValueChange={(val) => setFormData({ ...formData, team_id: val === "none" ? "" : val })}
             >
-              <SelectTrigger className="bg-white/[0.07]">
+              <SelectTrigger className="bg-white/[0.07] min-h-[44px]">
                 <SelectValue placeholder="Select a team" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">No Team</SelectItem>
+                <SelectItem value="none" className="min-h-[44px]">No Team</SelectItem>
                 {teams.map(team => (
-                  <SelectItem key={team.id} value={team.id}>
+                  <SelectItem key={team.id} value={team.id} className="min-h-[44px]">
                     {team.team_name} - {team.division}
                   </SelectItem>
                 ))}
@@ -388,57 +389,57 @@ export default function PlayerManagement() {
           </div>
 
           {/* Bio */}
-          <div 
-            className="p-6 rounded-3xl"
+          <div
+            className="p-4 md:p-6 rounded-2xl md:rounded-3xl"
             style={{
               background: '#0f0f0f',
               boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
             }}
           >
-            <h2 className="text-lg font-semibold text-white/70 mb-4">Biography</h2>
+            <h2 className="text-base md:text-lg font-semibold text-white/70 mb-3 md:mb-4">Biography</h2>
             <textarea
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
               placeholder="Player biography..."
               rows={4}
-              className="w-full p-3 rounded-xl bg-white/[0.07] border-0"
+              className="w-full p-3 rounded-xl bg-white/[0.07] border-0 text-sm md:text-base min-h-[100px]"
               style={{ outline: 'none' }}
             />
           </div>
 
           {/* Career Stats (read-only if editing) */}
           {!isNew && player && (
-            <div 
-              className="p-6 rounded-3xl"
+            <div
+              className="p-4 md:p-6 rounded-2xl md:rounded-3xl"
               style={{
                 background: '#0f0f0f',
                 boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
               }}
             >
-              <h2 className="text-lg font-semibold text-white/70 mb-4">Career Statistics</h2>
-              <div className="grid grid-cols-4 gap-4 text-center">
+              <h2 className="text-base md:text-lg font-semibold text-white/70 mb-3 md:mb-4">Career Statistics</h2>
+              <div className="grid grid-cols-4 gap-2 md:gap-4 text-center">
                 <div>
-                  <div className="text-2xl font-bold text-white/90">{player.career_games || 0}</div>
-                  <div className="text-xs text-white/40">Games</div>
+                  <div className="text-xl md:text-2xl font-bold text-white/90">{player.career_games || 0}</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Games</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-white/90">{player.career_points || 0}</div>
-                  <div className="text-xs text-white/40">Points</div>
+                  <div className="text-xl md:text-2xl font-bold text-white/90">{player.career_points || 0}</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Points</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-white/90">{player.career_rebounds || 0}</div>
-                  <div className="text-xs text-white/40">Rebounds</div>
+                  <div className="text-xl md:text-2xl font-bold text-white/90">{player.career_rebounds || 0}</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Rebounds</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-white/90">{player.career_assists || 0}</div>
-                  <div className="text-xs text-white/40">Assists</div>
+                  <div className="text-xl md:text-2xl font-bold text-white/90">{player.career_assists || 0}</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Assists</div>
                 </div>
               </div>
             </div>
           )}
 
           {/* Actions */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
             {!isNew && (
               <Button
                 type="button"
@@ -448,7 +449,7 @@ export default function PlayerManagement() {
                     deleteMutation.mutate();
                   }
                 }}
-                className="text-red-600 border-red-300"
+                className="text-red-600 border-red-300 min-h-[44px] order-3 sm:order-1"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete
@@ -458,17 +459,17 @@ export default function PlayerManagement() {
               type="button"
               variant="outline"
               onClick={() => navigate(-1)}
-              className="flex-1"
+              className="flex-1 min-h-[44px] order-2"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
-              className="flex-1"
+              className="flex-1 min-h-[44px] order-1 sm:order-3"
               style={{
-                backgroundColor: '#1a1a1a',
-                color: 'white',
+                backgroundColor: '#c9a962',
+                color: '#0f0f0f',
                 boxShadow: '4px 4px 12px rgba(0,0,0,0.2)'
               }}
             >

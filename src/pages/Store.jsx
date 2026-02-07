@@ -77,25 +77,25 @@ export default function Store() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Store</h1>
-            <p className="text-white/40">Manage products, team stores & merch drops</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-1 md:mb-2 text-white">Store</h1>
+            <p className="text-white/40 text-sm md:text-base">Manage products, team stores & merch drops</p>
           </div>
-          <div className="flex gap-2">
-            <Button 
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button
               onClick={() => setCreateProductOpen(true)}
               variant="outline"
-              className="border-white/[0.06]"
+              className="border-white/[0.06] min-h-[44px] w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Product
             </Button>
-            <Button 
+            <Button
               onClick={() => setCreateStoreOpen(true)}
-              className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+              className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Team Store
@@ -103,42 +103,42 @@ export default function Store() {
           </div>
         </div>
 
-        <Tabs defaultValue="products" className="space-y-6">
-          <TabsList className="bg-white/[0.05] border-white/[0.06]">
-            <TabsTrigger value="products">All Products ({products.length})</TabsTrigger>
-            <TabsTrigger value="stores">Team Stores ({teamStores.length})</TabsTrigger>
+        <Tabs defaultValue="products" className="space-y-4 md:space-y-6">
+          <TabsList className="bg-white/[0.05] border-white/[0.06] w-full sm:w-auto flex">
+            <TabsTrigger value="products" className="flex-1 sm:flex-initial min-h-[44px] text-xs sm:text-sm">All Products ({products.length})</TabsTrigger>
+            <TabsTrigger value="stores" className="flex-1 sm:flex-initial min-h-[44px] text-xs sm:text-sm">Team Stores ({teamStores.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="products" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
               {products.map((product) => {
                 const Icon = categoryIcons[product.category] || Shirt;
                 return (
-                  <Card key={product.id} className="bg-white/[0.05] border-white/[0.06] hover:border-[#c9a962]/50 transition-all group">
+                  <Card key={product.id} className="bg-white/[0.05] border-white/[0.06] hover:border-[#c9a962]/50 transition-all group active:scale-[0.98]">
                     <CardHeader className="p-0">
                       <div className="aspect-square bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center rounded-t-lg">
                         {product.image_url ? (
                           <img src={product.image_url} alt={product.name} className="w-full h-full object-cover rounded-t-lg" />
                         ) : (
-                          <Icon className="w-16 h-16 text-white/40" />
+                          <Icon className="w-10 h-10 md:w-16 md:h-16 text-white/40" />
                         )}
                       </div>
                     </CardHeader>
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <h3 className="font-semibold text-sm">{product.name}</h3>
+                    <CardContent className="p-3 md:p-4">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-xs sm:text-sm truncate">{product.name}</h3>
                           <p className="text-xs text-white/40 capitalize">{product.category}</p>
                         </div>
                         {product.customizable && (
-                          <span className="text-xs bg-[#c9a962]/20 text-[#c9a962] px-2 py-1 rounded">
+                          <span className="text-xs bg-[#c9a962]/20 text-[#c9a962] px-2 py-0.5 rounded self-start flex-shrink-0">
                             Custom
                           </span>
                         )}
                       </div>
-                      <p className="text-lg font-bold text-[#c9a962]">
+                      <p className="text-base md:text-lg font-bold text-[#c9a962]">
                         ${product.base_price}
-                        {product.customizable && <span className="text-sm text-white/40"> + ${product.customization_price}</span>}
+                        {product.customizable && <span className="text-xs md:text-sm text-white/40"> + ${product.customization_price}</span>}
                       </p>
                     </CardContent>
                   </Card>
@@ -148,33 +148,33 @@ export default function Store() {
           </TabsContent>
 
           <TabsContent value="stores" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               {teamStores.map((store) => (
-                <Card key={store.id} className="bg-white/[0.05] border-white/[0.06] hover:border-[#c9a962]/50 transition-all">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
+                <Card key={store.id} className="bg-white/[0.05] border-white/[0.06] hover:border-[#c9a962]/50 transition-all active:scale-[0.99]">
+                  <CardHeader className="p-4 md:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-[#c9a962]/20 rounded-lg flex items-center justify-center">
-                          <StoreIcon className="w-6 h-6 text-[#c9a962]" />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-[#c9a962]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <StoreIcon className="w-5 h-5 md:w-6 md:h-6 text-[#c9a962]" />
                         </div>
-                        <div>
-                          <h3 className="font-semibold">{store.name}</h3>
-                          <p className="text-sm text-white/40">{store.slug}</p>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-sm md:text-base truncate text-white">{store.name}</h3>
+                          <p className="text-xs md:text-sm text-white/40 truncate">{store.slug}</p>
                         </div>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded ${store.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-white/40'}`}>
+                      <span className={`text-xs px-2 py-1 rounded self-start sm:self-center flex-shrink-0 ${store.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-white/40'}`}>
                         {store.is_active ? 'Active' : 'Closed'}
                       </span>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-white/50 mb-3">{store.description}</p>
+                  <CardContent className="px-4 pb-4 md:px-6 md:pb-6 pt-0">
+                    <p className="text-xs md:text-sm text-white/50 mb-3 line-clamp-2">{store.description}</p>
                     {store.close_date && (
                       <p className="text-xs text-white/40">
                         Orders close: {new Date(store.close_date).toLocaleDateString()}
                       </p>
                     )}
-                    <Button variant="outline" className="w-full mt-3 border-white/[0.06]">
+                    <Button variant="outline" className="w-full mt-3 border-white/[0.06] min-h-[44px]">
                       View Store
                     </Button>
                   </CardContent>

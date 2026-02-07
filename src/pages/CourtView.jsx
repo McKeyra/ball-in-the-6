@@ -188,23 +188,24 @@ export default function CourtView() {
   // Error state
   if (gamesError || initError) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-6">
-        <div 
-          className="max-w-md w-full p-8 rounded-3xl text-center"
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 md:p-6 pb-24">
+        <div
+          className="max-w-md w-full p-6 md:p-8 rounded-3xl text-center"
           style={{
             background: '#1a1a1a',
             boxShadow: '0 10px 26px rgba(0,0,0,.10)'
           }}
         >
-          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white/90 mb-2">Error Loading Game</h2>
-          <p className="text-white/60 mb-6">{initError || gamesError?.message || 'Unable to load game data'}</p>
+          <AlertCircle className="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl md:text-2xl font-bold text-white/90 mb-2">Error Loading Game</h2>
+          <p className="text-sm md:text-base text-white/60 mb-6">{initError || gamesError?.message || 'Unable to load game data'}</p>
           <Button
             onClick={() => {
               setInitError(null);
               setIsCreatingGame(false);
               queryClient.invalidateQueries(['games']);
             }}
+            className="min-h-[44px] px-6"
             style={{
               background: '#c9a962',
               color: 'white'
@@ -220,9 +221,9 @@ export default function CourtView() {
   // Loading state
   if (gamesLoading) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 pb-24">
         <div className="text-center">
-          <div className="text-2xl font-semibold text-white/60 mb-2">Loading games...</div>
+          <div className="text-xl md:text-2xl font-semibold text-white/60 mb-2">Loading games...</div>
           <div className="text-sm text-white/40">Please wait</div>
         </div>
       </div>
@@ -232,9 +233,9 @@ export default function CourtView() {
   // Creating game state
   if (isCreatingGame || (!game && !gameId)) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 pb-24">
         <div className="text-center">
-          <div className="text-2xl font-semibold text-white/60 mb-2">Creating new game...</div>
+          <div className="text-xl md:text-2xl font-semibold text-white/60 mb-2">Creating new game...</div>
           <div className="text-sm text-white/40">Setting up players and court</div>
         </div>
       </div>
@@ -242,8 +243,8 @@ export default function CourtView() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] overflow-hidden relative">
-      <div 
+    <div className="min-h-screen bg-[#0f0f0f] overflow-hidden relative pb-24">
+      <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect fill='none' stroke='%23000' stroke-width='2' x='10' y='10' width='380' height='580'/%3E%3Ccircle fill='none' stroke='%23000' stroke-width='2' cx='200' cy='300' r='60'/%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' d='M 10 10 L 10 150 L 100 150 L 100 10 M 390 10 L 390 150 L 300 150 L 300 10 M 10 590 L 10 450 L 100 450 L 100 590 M 390 590 L 390 450 L 300 450 L 300 590'/%3E%3C/svg%3E")`,
@@ -259,7 +260,7 @@ export default function CourtView() {
           onQuickStat={() => setShowQuickStat(true)}
         />
 
-        <div 
+        <div
           className="px-4 md:px-6 py-3"
           style={{
             background: '#1a1a1a',
@@ -269,7 +270,7 @@ export default function CourtView() {
           <div className="max-w-7xl mx-auto grid grid-cols-4 gap-2 md:gap-3">
             <button
               onClick={() => setShowTimeout(true)}
-              className="py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
+              className="min-h-[44px] py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
               style={{
                 background: '#1a1a1a',
                 boxShadow: '0 10px 26px rgba(0,0,0,.10)',
@@ -282,7 +283,7 @@ export default function CourtView() {
 
             <button
               onClick={() => setShowSubstitution(true)}
-              className="py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
+              className="min-h-[44px] py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
               style={{
                 background: '#1a1a1a',
                 boxShadow: '0 10px 26px rgba(0,0,0,.10)',
@@ -295,7 +296,7 @@ export default function CourtView() {
 
             <button
               onClick={() => setShowSettings(true)}
-              className="py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
+              className="min-h-[44px] py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold text-sm md:text-base"
               style={{
                 background: '#1a1a1a',
                 boxShadow: '0 10px 26px rgba(0,0,0,.10)',
@@ -309,7 +310,7 @@ export default function CourtView() {
             <button
               onClick={handleUndo}
               disabled={events.length === 0}
-              className="py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold disabled:opacity-40 text-sm md:text-base"
+              className="min-h-[44px] py-3 rounded-xl flex items-center justify-center gap-1 md:gap-2 font-semibold disabled:opacity-40 text-sm md:text-base"
               style={{
                 background: '#1a1a1a',
                 boxShadow: '0 10px 26px rgba(0,0,0,.10)',

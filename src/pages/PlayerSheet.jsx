@@ -331,7 +331,7 @@ export default function PlayerSheet() {
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden p-6"
+        className="relative overflow-hidden p-4 md:p-6"
         style={{
           background: `linear-gradient(135deg, ${teamColor}20, ${teamColor}40)`
         }}
@@ -340,20 +340,20 @@ export default function PlayerSheet() {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-6 left-6 z-20 text-white/70 hover:bg-white/30"
+          className="absolute top-4 left-4 md:top-6 md:left-6 z-20 text-white/70 hover:bg-white/30 min-h-[44px] min-w-[44px]"
           onClick={() => navigate(-1)}
         >
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </Button>
 
-        <div className="relative z-10 flex items-center gap-6 max-w-7xl mx-auto">
-          <div className="flex-1">
-            <div className="text-sm text-white/60 mb-1">{player.position} • {teamName}</div>
-            <h1 className="text-4xl font-bold text-white/90">{player.name}</h1>
+        <div className="relative z-10 flex items-center gap-4 md:gap-6 max-w-7xl mx-auto pt-10 md:pt-0">
+          <div className="flex-1 min-w-0">
+            <div className="text-xs md:text-sm text-white/60 mb-1">{player.position} • {teamName}</div>
+            <h1 className="text-2xl md:text-4xl font-bold text-white/90 truncate">{player.name}</h1>
           </div>
 
-          <div 
-            className="w-24 h-24 rounded-full flex items-center justify-center text-5xl font-bold relative"
+          <div
+            className="w-16 h-16 md:w-24 md:h-24 rounded-full flex items-center justify-center text-3xl md:text-5xl font-bold relative flex-shrink-0"
             style={{
               background: teamColor,
               boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.5)',
@@ -366,7 +366,7 @@ export default function PlayerSheet() {
       </motion.div>
 
       {/* Main Content with Sidebar */}
-      <div className="px-6 py-8 max-w-7xl mx-auto">
+      <div className="px-4 md:px-6 lg:px-8 py-4 md:py-8 max-w-7xl mx-auto">
         {!isMobile ? (
           <div className="flex gap-6">
             {/* LEFT & CENTER - Stats Input (Main Focus) */}
@@ -541,7 +541,7 @@ export default function PlayerSheet() {
               {/* Back to Court */}
               <button
                 onClick={() => navigate(createPageUrl("CourtView"))}
-                className="w-full py-4 rounded-2xl flex items-center justify-center gap-2 font-semibold text-white/70"
+                className="w-full min-h-[44px] py-4 rounded-2xl flex items-center justify-center gap-2 font-semibold text-white/70"
                 style={{
                   background: '#0f0f0f',
                   boxShadow: '6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.7)',
@@ -584,12 +584,12 @@ export default function PlayerSheet() {
                     <button
                       key={p.id}
                       onClick={() => switchToPlayer(p.id)}
-                      className={`w-full p-3 rounded-xl text-left transition-all ${
+                      className={`w-full min-h-[44px] p-3 rounded-xl text-left transition-all ${
                         p.id === player.id ? 'ring-2' : ''
                       }`}
                       style={{
                         background: p.id === player.id ? `${teamColor}30` : '#0f0f0f',
-                        boxShadow: p.id === player.id 
+                        boxShadow: p.id === player.id
                           ? 'inset 2px 2px 4px rgba(0,0,0,0.1)'
                           : '3px 3px 6px rgba(0,0,0,0.08), -3px -3px 6px rgba(255,255,255,0.7)',
                         border: 'none',
@@ -597,7 +597,7 @@ export default function PlayerSheet() {
                       }}
                     >
                       <div className="flex items-center gap-3">
-                        <div 
+                        <div
                           className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm"
                           style={{ background: teamColor }}
                         >
@@ -648,16 +648,16 @@ export default function PlayerSheet() {
       )}
 
       {/* Bottom Action Bar */}
-      <div 
-        className="fixed bottom-0 left-0 right-0 p-6 bg-[#0f0f0f]"
+      <div
+        className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-[#0f0f0f] safe-area-inset-bottom"
         style={{
           boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
         }}
       >
-        <div className="max-w-2xl mx-auto flex gap-4">
+        <div className="max-w-2xl mx-auto flex gap-3 md:gap-4">
           <Button
             variant="outline"
-            className="flex-1 h-16 text-lg"
+            className="flex-1 min-h-[48px] md:h-16 text-base md:text-lg"
             onClick={() => navigate(-1)}
             style={{
               boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
@@ -668,7 +668,7 @@ export default function PlayerSheet() {
             Cancel
           </Button>
           <Button
-            className="flex-1 h-16 text-lg font-semibold"
+            className="flex-1 min-h-[48px] md:h-16 text-base md:text-lg font-semibold"
             onClick={handleConfirm}
             style={{
               background: teamColor,
@@ -677,8 +677,9 @@ export default function PlayerSheet() {
               border: 'none'
             }}
           >
-            <CheckCircle className="w-5 h-5 mr-2" />
-            Confirm Stats
+            <CheckCircle className="w-5 h-5 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Confirm Stats</span>
+            <span className="sm:hidden">Confirm</span>
           </Button>
         </div>
       </div>

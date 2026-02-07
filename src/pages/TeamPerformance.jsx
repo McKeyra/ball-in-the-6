@@ -101,33 +101,33 @@ export default function TeamPerformance() {
     const oppColor = isHome ? game.away_team_color : game.home_team_color;
 
     return (
-      <div 
-        className="p-4 rounded-xl flex items-center gap-4 cursor-pointer hover:scale-[1.01] transition-transform"
+      <div
+        className="p-3 md:p-4 rounded-xl flex items-center gap-3 md:gap-4 cursor-pointer active:scale-[0.98] hover:scale-[1.01] transition-transform min-h-[44px]"
         style={{
           background: '#0f0f0f',
           boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)'
         }}
         onClick={() => navigate(createPageUrl("DetailedGameView") + `?gameId=${game.id}`)}
       >
-        <div 
-          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm`}
+        <div
+          className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-white text-xs md:text-sm flex-shrink-0"
           style={{ background: won ? '#22c55e' : '#ef4444' }}
         >
           {won ? 'W' : 'L'}
         </div>
-        <div className="flex-1">
-          <div className="font-semibold text-white/90">
+        <div className="flex-1 min-w-0">
+          <div className="font-semibold text-white/90 text-sm md:text-base truncate">
             {isHome ? 'vs' : '@'} {opponent}
           </div>
-          <div className="text-sm text-white/40">
+          <div className="text-xs md:text-sm text-white/40">
             {game.game_date ? format(new Date(game.game_date), 'MMM d, yyyy') : 'No date'}
           </div>
         </div>
-        <div className="text-right">
-          <div className="font-bold text-xl text-white/90">{teamScore} - {oppScore}</div>
-          <div className="text-xs text-white/40">{game.location || 'TBD'}</div>
+        <div className="text-right flex-shrink-0">
+          <div className="font-bold text-lg md:text-xl text-white/90">{teamScore} - {oppScore}</div>
+          <div className="text-[10px] md:text-xs text-white/40 truncate max-w-[80px]">{game.location || 'TBD'}</div>
         </div>
-        <ChevronRight className="w-5 h-5 text-white/30" />
+        <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white/30 flex-shrink-0" />
       </div>
     );
   };
@@ -138,43 +138,44 @@ export default function TeamPerformance() {
     const oppColor = isHome ? game.away_team_color : game.home_team_color;
 
     return (
-      <div 
-        className="p-4 rounded-xl flex items-center gap-4"
+      <div
+        className="p-3 md:p-4 rounded-xl flex items-center gap-3 md:gap-4 min-h-[44px]"
         style={{
           background: '#0f0f0f',
           boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)'
         }}
       >
-        <div 
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+        <div
+          className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
           style={{ background: oppColor || '#666' }}
         >
           {opponent?.charAt(0) || '?'}
         </div>
-        <div className="flex-1">
-          <div className="font-semibold text-white/90">
+        <div className="flex-1 min-w-0">
+          <div className="font-semibold text-white/90 text-sm md:text-base truncate">
             {isHome ? 'vs' : '@'} {opponent}
           </div>
-          <div className="text-sm text-white/40">
-            {game.game_date ? format(new Date(game.game_date), 'EEE, MMM d') : 'TBD'} 
+          <div className="text-xs md:text-sm text-white/40">
+            {game.game_date ? format(new Date(game.game_date), 'EEE, MMM d') : 'TBD'}
             {game.game_time && ` • ${game.game_time}`}
           </div>
         </div>
-        <div className="text-sm text-white/40">{game.location || 'TBD'}</div>
+        <div className="text-xs md:text-sm text-white/40 flex-shrink-0 truncate max-w-[80px] md:max-w-none">{game.location || 'TBD'}</div>
       </div>
     );
   };
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      <div className="p-6">
+      <div className="p-4 md:p-6 lg:p-8 pb-24">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-8 flex items-center gap-4">
+          <div className="mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate(createPageUrl("TeamOverview"))}
+              className="min-h-[44px] min-w-[44px]"
               style={{
                 background: '#0f0f0f',
                 boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)'
@@ -182,92 +183,94 @@ export default function TeamPerformance() {
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <div 
-              className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl"
+            <div
+              className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white font-bold text-xl md:text-2xl flex-shrink-0"
               style={{ background: team.team_color || '#666' }}
             >
               {team.team_name?.charAt(0)}
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white/90">{team.team_name}</h1>
-              <p className="text-white/60">{team.league} • {team.division}</p>
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white/90 truncate">{team.team_name}</h1>
+              <p className="text-sm md:text-base text-white/60">{team.league} • {team.division}</p>
             </div>
           </div>
 
           {/* Stats Summary */}
-          <div 
-            className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6 p-6 rounded-2xl"
+          <div
+            className="grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-4 mb-4 md:mb-6 p-4 md:p-6 rounded-2xl"
             style={{
               background: '#0f0f0f',
               boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
             }}
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-white/90">{stats.wins}-{stats.losses}</div>
-              <div className="text-sm text-white/40">Record</div>
+              <div className="text-xl md:text-3xl font-bold text-white/90">{stats.wins}-{stats.losses}</div>
+              <div className="text-xs md:text-sm text-white/40">Record</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-white/90">{stats.winPct}%</div>
-              <div className="text-sm text-white/40">Win %</div>
+              <div className="text-xl md:text-3xl font-bold text-white/90">{stats.winPct}%</div>
+              <div className="text-xs md:text-sm text-white/40">Win %</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-white/90">{stats.ppg}</div>
-              <div className="text-sm text-white/40">PPG</div>
+              <div className="text-xl md:text-3xl font-bold text-white/90">{stats.ppg}</div>
+              <div className="text-xs md:text-sm text-white/40">PPG</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-white/90">{stats.oppg}</div>
-              <div className="text-sm text-white/40">Opp PPG</div>
+              <div className="text-xl md:text-3xl font-bold text-white/90">{stats.oppg}</div>
+              <div className="text-xs md:text-sm text-white/40">Opp PPG</div>
             </div>
             <div className="text-center">
-              <div className={`text-3xl font-bold ${parseFloat(stats.diff) >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+              <div className={`text-xl md:text-3xl font-bold ${parseFloat(stats.diff) >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                 {parseFloat(stats.diff) >= 0 ? '+' : ''}{stats.diff}
               </div>
-              <div className="text-sm text-white/40">Diff</div>
+              <div className="text-xs md:text-sm text-white/40">Diff</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-white/90">{team.roster?.length || 0}</div>
-              <div className="text-sm text-white/40">Players</div>
+              <div className="text-xl md:text-3xl font-bold text-white/90">{team.roster?.length || 0}</div>
+              <div className="text-xs md:text-sm text-white/40">Players</div>
             </div>
           </div>
 
           <Tabs defaultValue="trends" className="w-full">
-            <TabsList 
-              className="grid w-full grid-cols-3 mb-6"
+            <TabsList
+              className="grid w-full grid-cols-3 mb-4 md:mb-6"
               style={{
                 background: '#0f0f0f',
                 boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)',
-                padding: '6px',
+                padding: '4px',
                 borderRadius: '16px'
               }}
             >
-              <TabsTrigger value="trends" className="flex items-center gap-2 py-3">
+              <TabsTrigger value="trends" className="flex items-center justify-center gap-1.5 md:gap-2 py-2.5 md:py-3 min-h-[44px] text-sm md:text-base">
                 <TrendingUp className="w-4 h-4" />
-                Trends
+                <span className="hidden sm:inline">Trends</span>
+                <span className="sm:hidden">Stats</span>
               </TabsTrigger>
-              <TabsTrigger value="schedule" className="flex items-center gap-2 py-3">
+              <TabsTrigger value="schedule" className="flex items-center justify-center gap-1.5 md:gap-2 py-2.5 md:py-3 min-h-[44px] text-sm md:text-base">
                 <Calendar className="w-4 h-4" />
-                Upcoming
+                <span className="hidden sm:inline">Upcoming</span>
+                <span className="sm:hidden">Next</span>
               </TabsTrigger>
-              <TabsTrigger value="results" className="flex items-center gap-2 py-3">
+              <TabsTrigger value="results" className="flex items-center justify-center gap-1.5 md:gap-2 py-2.5 md:py-3 min-h-[44px] text-sm md:text-base">
                 <History className="w-4 h-4" />
                 Results
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="trends">
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {/* Scoring Trend Chart */}
-                <div 
-                  className="p-6 rounded-2xl"
+                <div
+                  className="p-4 md:p-6 rounded-2xl"
                   style={{
                     background: '#0f0f0f',
                     boxShadow: '6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.7)'
                   }}
                 >
-                  <h3 className="text-lg font-bold text-white/90 mb-4">Scoring Trend</h3>
+                  <h3 className="text-base md:text-lg font-bold text-white/90 mb-3 md:mb-4">Scoring Trend</h3>
                   {stats.scoreTrend.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={300}>
-                      <LineChart data={stats.scoreTrend}>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <LineChart data={stats.scoreTrend} margin={{ left: -20, right: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
                         <XAxis dataKey="game" stroke="#666" />
                         <YAxis stroke="#666" />
@@ -299,22 +302,22 @@ export default function TeamPerformance() {
                       </LineChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="text-center py-12 text-white/40">No game data available</div>
+                    <div className="text-center py-8 md:py-12 text-white/40 text-sm md:text-base">No game data available</div>
                   )}
                 </div>
 
                 {/* Win/Loss by Game */}
-                <div 
-                  className="p-6 rounded-2xl"
+                <div
+                  className="p-4 md:p-6 rounded-2xl"
                   style={{
                     background: '#0f0f0f',
                     boxShadow: '6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.7)'
                   }}
                 >
-                  <h3 className="text-lg font-bold text-white/90 mb-4">Point Differential by Game</h3>
+                  <h3 className="text-base md:text-lg font-bold text-white/90 mb-3 md:mb-4">Point Differential by Game</h3>
                   {stats.scoreTrend.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={200}>
-                      <BarChart data={stats.scoreTrend}>
+                    <ResponsiveContainer width="100%" height={180}>
+                      <BarChart data={stats.scoreTrend} margin={{ left: -20, right: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
                         <XAxis dataKey="game" stroke="#666" />
                         <YAxis stroke="#666" />
@@ -343,7 +346,7 @@ export default function TeamPerformance() {
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="text-center py-12 text-white/40">No game data available</div>
+                    <div className="text-center py-8 md:py-12 text-white/40 text-sm md:text-base">No game data available</div>
                   )}
                 </div>
               </div>
@@ -352,15 +355,15 @@ export default function TeamPerformance() {
             <TabsContent value="schedule">
               <div className="space-y-3">
                 {upcomingGames.length === 0 ? (
-                  <div 
-                    className="p-12 rounded-2xl text-center"
+                  <div
+                    className="p-8 md:p-12 rounded-2xl text-center"
                     style={{
                       background: '#0f0f0f',
                       boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
                     }}
                   >
-                    <Calendar className="w-12 h-12 text-white/30 mx-auto mb-3" />
-                    <p className="text-white/40">No upcoming games scheduled</p>
+                    <Calendar className="w-10 h-10 md:w-12 md:h-12 text-white/30 mx-auto mb-3" />
+                    <p className="text-white/40 text-sm md:text-base">No upcoming games scheduled</p>
                   </div>
                 ) : (
                   upcomingGames.map(game => <UpcomingGameCard key={game.id} game={game} />)
@@ -371,15 +374,15 @@ export default function TeamPerformance() {
             <TabsContent value="results">
               <div className="space-y-3">
                 {recentGames.length === 0 ? (
-                  <div 
-                    className="p-12 rounded-2xl text-center"
+                  <div
+                    className="p-8 md:p-12 rounded-2xl text-center"
                     style={{
                       background: '#0f0f0f',
                       boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
                     }}
                   >
-                    <History className="w-12 h-12 text-white/30 mx-auto mb-3" />
-                    <p className="text-white/40">No completed games yet</p>
+                    <History className="w-10 h-10 md:w-12 md:h-12 text-white/30 mx-auto mb-3" />
+                    <p className="text-white/40 text-sm md:text-base">No completed games yet</p>
                   </div>
                 ) : (
                   recentGames.map(game => <GameResultCard key={game.id} game={game} />)

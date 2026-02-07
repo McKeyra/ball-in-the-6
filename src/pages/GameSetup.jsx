@@ -167,44 +167,44 @@ export default function GameSetup() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4">
-      <div className="max-w-7xl mx-auto py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-black text-white mb-4 tracking-tight">Basketball Stats Pro</h1>
-          <p className="text-white/60 text-lg">Select teams to start a new game</p>
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
+      <div className="max-w-7xl mx-auto py-4 md:py-8">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-white mb-2 md:mb-4 tracking-tight">Basketball Stats Pro</h1>
+          <p className="text-white/60 text-sm md:text-base lg:text-lg">Select teams to start a new game</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
           {/* Home Team Selection */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl rounded-2xl">
-            <CardHeader className="border-b border-white/10">
-              <CardTitle className="text-white text-2xl">Home Team</CardTitle>
+            <CardHeader className="border-b border-white/10 p-4 md:p-6">
+              <CardTitle className="text-white text-lg md:text-xl lg:text-2xl">Home Team</CardTitle>
             </CardHeader>
-            <CardContent className="p-6 space-y-3 max-h-[600px] overflow-y-auto">
+            <CardContent className="p-4 md:p-6 space-y-2 md:space-y-3 max-h-[400px] md:max-h-[600px] overflow-y-auto">
               {teams.map(team => (
                 <button
                   key={team.id}
                   onClick={() => setSelectedHome(team.id)}
                   disabled={selectedAway === team.id}
-                  className={`w-full p-5 rounded-xl text-left transition-all ${
+                  className={`w-full p-4 md:p-5 rounded-xl text-left transition-all min-h-[60px] ${
                     selectedHome === team.id
-                      ? 'ring-4 ring-white scale-105 shadow-2xl'
+                      ? 'ring-4 ring-white scale-[1.02] shadow-2xl'
                       : selectedAway === team.id
                       ? 'opacity-30 cursor-not-allowed'
-                      : 'hover:scale-102 shadow-lg'
+                      : 'hover:scale-[1.01] shadow-lg active:scale-[0.98]'
                   }`}
                   style={{
                     background: `linear-gradient(135deg, ${team.gradientStart}, ${team.gradientEnd})`
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-2xl font-black text-white tracking-tight">{team.name}</h3>
-                      <p className="text-white/80 text-sm font-semibold mt-1">{team.abbreviation}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-lg md:text-xl lg:text-2xl font-black text-white tracking-tight truncate">{team.name}</h3>
+                      <p className="text-white/80 text-xs md:text-sm font-semibold mt-1">{team.abbreviation}</p>
                     </div>
-                    <div className="text-white/90 text-center">
-                      <Users className="w-6 h-6 mx-auto mb-1" />
-                      <span className="text-xs font-bold">{getTeamPlayers(team.id).length} players</span>
+                    <div className="text-white/90 text-center ml-2 flex-shrink-0">
+                      <Users className="w-5 h-5 md:w-6 md:h-6 mx-auto mb-1" />
+                      <span className="text-[10px] md:text-xs font-bold">{getTeamPlayers(team.id).length} players</span>
                     </div>
                   </div>
                 </button>
@@ -214,34 +214,34 @@ export default function GameSetup() {
 
           {/* Away Team Selection */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl rounded-2xl">
-            <CardHeader className="border-b border-white/10">
-              <CardTitle className="text-white text-2xl">Away Team</CardTitle>
+            <CardHeader className="border-b border-white/10 p-4 md:p-6">
+              <CardTitle className="text-white text-lg md:text-xl lg:text-2xl">Away Team</CardTitle>
             </CardHeader>
-            <CardContent className="p-6 space-y-3 max-h-[600px] overflow-y-auto">
+            <CardContent className="p-4 md:p-6 space-y-2 md:space-y-3 max-h-[400px] md:max-h-[600px] overflow-y-auto">
               {teams.map(team => (
                 <button
                   key={team.id}
                   onClick={() => setSelectedAway(team.id)}
                   disabled={selectedHome === team.id}
-                  className={`w-full p-5 rounded-xl text-left transition-all ${
+                  className={`w-full p-4 md:p-5 rounded-xl text-left transition-all min-h-[60px] ${
                     selectedAway === team.id
-                      ? 'ring-4 ring-white scale-105 shadow-2xl'
+                      ? 'ring-4 ring-white scale-[1.02] shadow-2xl'
                       : selectedHome === team.id
                       ? 'opacity-30 cursor-not-allowed'
-                      : 'hover:scale-102 shadow-lg'
+                      : 'hover:scale-[1.01] shadow-lg active:scale-[0.98]'
                   }`}
                   style={{
                     background: `linear-gradient(135deg, ${team.gradientStart}, ${team.gradientEnd})`
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-2xl font-black text-white tracking-tight">{team.name}</h3>
-                      <p className="text-white/80 text-sm font-semibold mt-1">{team.abbreviation}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-lg md:text-xl lg:text-2xl font-black text-white tracking-tight truncate">{team.name}</h3>
+                      <p className="text-white/80 text-xs md:text-sm font-semibold mt-1">{team.abbreviation}</p>
                     </div>
-                    <div className="text-white/90 text-center">
-                      <Users className="w-6 h-6 mx-auto mb-1" />
-                      <span className="text-xs font-bold">{getTeamPlayers(team.id).length} players</span>
+                    <div className="text-white/90 text-center ml-2 flex-shrink-0">
+                      <Users className="w-5 h-5 md:w-6 md:h-6 mx-auto mb-1" />
+                      <span className="text-[10px] md:text-xs font-bold">{getTeamPlayers(team.id).length} players</span>
                     </div>
                   </div>
                 </button>
@@ -255,9 +255,9 @@ export default function GameSetup() {
             size="lg"
             onClick={() => createGameMutation.mutate()}
             disabled={!selectedHome || !selectedAway || createGameMutation.isPending}
-            className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-xl px-12 py-6 rounded-xl shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-base md:text-lg lg:text-xl px-8 md:px-12 py-4 md:py-6 rounded-xl shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed min-h-[56px] w-full sm:w-auto"
           >
-            <Play className="w-6 h-6 mr-2" />
+            <Play className="w-5 h-5 md:w-6 md:h-6 mr-2" />
             {createGameMutation.isPending ? "Starting Game..." : "Start Game"}
           </Button>
         </div>

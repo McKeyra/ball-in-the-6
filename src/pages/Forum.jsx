@@ -113,21 +113,21 @@ export default function Forum() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-                <MessageSquare className="w-8 h-8 text-orange-600" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3">
+                <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" />
                 Community Forum
               </h1>
-              <p className="text-white/50 mt-1">Connect with coaches, parents, and the sports community</p>
+              <p className="text-white/50 mt-1 text-sm md:text-base">Connect with coaches, parents, and the sports community</p>
             </div>
             <Dialog open={showNewPost} onOpenChange={setShowNewPost}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-orange-500 to-pink-600">
+                <Button className="bg-gradient-to-r from-orange-500 to-pink-600 min-h-[44px] w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   New Discussion
                 </Button>
@@ -193,7 +193,7 @@ export default function Forum() {
         </div>
 
         {/* Categories Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-6 md:mb-8">
           {categories.map(cat => {
             const Icon = cat.icon;
             const count = posts.filter(p => p.category === cat.id).length;
@@ -201,16 +201,16 @@ export default function Forum() {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`p-4 rounded-xl border transition-all ${
+                className={`p-3 sm:p-4 rounded-xl border transition-all min-h-[88px] ${
                   selectedCategory === cat.id
-                    ? 'bg-white/[0.07] border-orange-300 shadow-lg'
-                    : 'bg-white/[0.05] border-white/[0.06] hover:bg-white/[0.07]'
+                    ? 'bg-white/[0.07] border-[#c9a962] shadow-lg'
+                    : 'bg-white/[0.05] border-white/[0.06] hover:bg-white/[0.07] active:bg-white/[0.1]'
                 }`}
               >
                 <div className={`w-10 h-10 ${cat.color} rounded-lg flex items-center justify-center mb-2 mx-auto`}>
                   <Icon className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-xs font-medium text-white text-center">{cat.label}</p>
+                <p className="text-xs font-medium text-white text-center line-clamp-1">{cat.label}</p>
                 <p className="text-xs text-white/40 text-center">{count} posts</p>
               </button>
             );
@@ -261,41 +261,41 @@ function PostCard({ post, user, onClick, onLike, pinned }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
     >
-      <Card 
-        className={`border-none shadow-lg hover:shadow-xl transition-all cursor-pointer ${pinned ? 'ring-2 ring-orange-300' : ''}`}
+      <Card
+        className={`border-none shadow-lg hover:shadow-xl transition-all cursor-pointer active:scale-[0.99] ${pinned ? 'ring-2 ring-[#c9a962]' : ''}`}
         onClick={onClick}
       >
-        <CardContent className="p-6">
-          <div className="flex gap-4">
-            <div className={`w-12 h-12 ${category?.color || 'bg-slate-500'} rounded-xl flex items-center justify-center flex-shrink-0`}>
-              <Icon className="w-6 h-6 text-white" />
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex gap-3 sm:gap-4">
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 ${category?.color || 'bg-slate-500'} rounded-xl flex items-center justify-center flex-shrink-0`}>
+              <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    {pinned && <Pin className="w-4 h-4 text-orange-600" />}
-                    <h3 className="font-semibold text-white line-clamp-1">{post.title}</h3>
+                    {pinned && <Pin className="w-4 h-4 text-[#c9a962]" />}
+                    <h3 className="font-semibold text-white text-sm sm:text-base line-clamp-1">{post.title}</h3>
                   </div>
-                  <p className="text-sm text-white/50 line-clamp-2 mb-3">{post.content}</p>
+                  <p className="text-xs sm:text-sm text-white/50 line-clamp-2 mb-2 sm:mb-3">{post.content}</p>
                 </div>
-                <Badge variant="outline" className="flex-shrink-0">{category?.label}</Badge>
+                <Badge variant="outline" className="flex-shrink-0 self-start text-xs hidden sm:inline-flex">{category?.label}</Badge>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4 text-sm text-white/40">
-                  <span>{post.author_name}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-white/40">
+                  <span className="truncate max-w-[100px] sm:max-w-none">{post.author_name}</span>
                   <span>•</span>
                   <span>{new Date(post.created_date).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <button
                     onClick={(e) => { e.stopPropagation(); onLike.mutate({ postId: post.id, likes: post.likes || [] }); }}
-                    className={`flex items-center gap-1 text-sm ${post.likes?.includes(user?.email) ? 'text-pink-600' : 'text-white/40'}`}
+                    className={`flex items-center gap-1 text-sm min-h-[44px] min-w-[44px] justify-center ${post.likes?.includes(user?.email) ? 'text-pink-600' : 'text-white/40'}`}
                   >
                     <Heart className={`w-4 h-4 ${post.likes?.includes(user?.email) ? 'fill-current' : ''}`} />
                     {post.likes?.length || 0}
                   </button>
-                  <span className="flex items-center gap-1 text-sm text-white/40">
+                  <span className="flex items-center gap-1 text-sm text-white/40 min-h-[44px] min-w-[44px] justify-center">
                     <MessageCircle className="w-4 h-4" />
                     {post.replies_count || 0}
                   </span>

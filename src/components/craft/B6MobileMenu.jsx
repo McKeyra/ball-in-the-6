@@ -7,6 +7,7 @@ import {
   Heart, MessageSquare, Store,
   Settings, LogOut, User
 } from 'lucide-react';
+import logo from '@/assets/logo.svg';
 
 const quickLinks = [
   { name: 'Live Games', icon: PlayCircle, path: '/LiveGame', color: '#c9a962' },
@@ -80,13 +81,11 @@ export default function B6MobileMenu({ isOpen, onClose }) {
                 {/* Header */}
                 <div className="sticky top-0 z-10 bg-[#0f0f0f]/98 backdrop-blur-[30px] flex items-center justify-between p-4 sm:p-5 border-b border-white/[0.06]">
                   <div className="flex items-center gap-2 sm:gap-2.5">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#c9a962] to-[#a8893f] rounded-lg sm:rounded-xl flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#0f0f0f]" viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/>
-                        <path d="M12 2C12 12 12 12 12 22" stroke="currentColor" strokeWidth="1.5"/>
-                        <path d="M2 12C12 12 12 12 22 12" stroke="currentColor" strokeWidth="1.5"/>
-                      </svg>
-                    </div>
+                    <img
+                      src={logo}
+                      alt="Ball in the 6"
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl object-contain"
+                    />
                     <span className="text-base sm:text-lg font-black tracking-tight text-white">Ball in the 6</span>
                   </div>
                   <button

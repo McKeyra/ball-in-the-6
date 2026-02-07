@@ -70,28 +70,28 @@ export default function CleanupDuplicates() {
   const duplicates = findDuplicates();
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white/90 mb-2">Cleanup Duplicate Teams</h1>
-          <p className="text-white/60">Remove duplicate team entries from the database</p>
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-white/90 mb-1 md:mb-2">Cleanup Duplicate Teams</h1>
+          <p className="text-sm md:text-base text-white/60">Remove duplicate team entries from the database</p>
         </div>
 
-        <div 
-          className="p-6 rounded-3xl mb-6"
+        <div
+          className="p-4 md:p-6 rounded-2xl md:rounded-3xl mb-4 md:mb-6"
           style={{
             background: '#0f0f0f',
             boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
           }}
         >
-          <div className="flex items-center justify-between mb-4">
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <div className="text-sm text-white/60">Total Teams</div>
-              <div className="text-3xl font-bold text-white/90">{teams.length}</div>
+              <div className="text-xs md:text-sm text-white/60">Total Teams</div>
+              <div className="text-2xl md:text-3xl font-bold text-white/90">{teams.length}</div>
             </div>
             <div>
-              <div className="text-sm text-white/60">Duplicates Found</div>
-              <div className="text-3xl font-bold text-red-600">{duplicates.length}</div>
+              <div className="text-xs md:text-sm text-white/60">Duplicates Found</div>
+              <div className="text-2xl md:text-3xl font-bold text-red-600">{duplicates.length}</div>
             </div>
           </div>
 
@@ -122,7 +122,7 @@ export default function CleanupDuplicates() {
           <Button
             onClick={handleRemoveDuplicates}
             disabled={removing || duplicates.length === 0}
-            className="w-full h-12 font-semibold"
+            className="w-full min-h-[48px] font-semibold text-sm md:text-base"
             style={{
               background: duplicates.length > 0 ? '#ef4444' : '#9ca3af',
               color: 'white',
@@ -135,8 +135,8 @@ export default function CleanupDuplicates() {
         </div>
 
         {result && (
-          <div 
-            className="p-6 rounded-3xl flex items-center gap-4"
+          <div
+            className="p-4 md:p-6 rounded-2xl md:rounded-3xl flex items-start md:items-center gap-3 md:gap-4"
             style={{
               background: result.success ? '#10b98120' : '#ef444420',
               boxShadow: 'inset 2px 2px 4px rgba(0,0,0,0.05)',
@@ -144,14 +144,14 @@ export default function CleanupDuplicates() {
             }}
           >
             {result.success ? (
-              <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0" />
+              <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-600 flex-shrink-0 mt-0.5 md:mt-0" />
             ) : (
-              <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+              <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-red-600 flex-shrink-0 mt-0.5 md:mt-0" />
             )}
             <div className="flex-1">
-              <div className="font-semibold text-white/90">{result.message}</div>
+              <div className="font-semibold text-sm md:text-base text-white/90">{result.message}</div>
               {result.count > 0 && (
-                <div className="text-sm text-white/60 mt-1">
+                <div className="text-xs md:text-sm text-white/60 mt-1">
                   Database has been cleaned. Refresh to see updated counts.
                 </div>
               )}

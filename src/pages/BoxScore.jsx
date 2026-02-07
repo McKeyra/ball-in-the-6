@@ -111,54 +111,54 @@ export default function BoxScore() {
     const teamStats = stats.filter(s => teamPlayers.some(p => p.id === s.playerId));
 
     return (
-      <Card className="bg-white/[0.08] border-white/[0.08] mb-6">
-        <CardHeader>
-          <CardTitle className="text-white text-2xl">{teamName}</CardTitle>
+      <Card className="bg-white/[0.08] border-white/[0.08] mb-4 md:mb-6">
+        <CardHeader className="p-4 md:p-6">
+          <CardTitle className="text-white text-lg md:text-xl lg:text-2xl">{teamName}</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
+        <CardContent className="p-4 md:p-6 pt-0 md:pt-0">
+          <div className="overflow-x-auto -mx-4 md:mx-0">
+            <Table className="min-w-[600px]">
               <TableHeader>
                 <TableRow className="border-white/[0.08]">
-                  <TableHead className="text-white">Player</TableHead>
-                  <TableHead className="text-white text-center">PTS</TableHead>
-                  <TableHead className="text-white text-center">FG</TableHead>
-                  <TableHead className="text-white text-center">3PT</TableHead>
-                  <TableHead className="text-white text-center">FT</TableHead>
-                  <TableHead className="text-white text-center">REB</TableHead>
-                  <TableHead className="text-white text-center">AST</TableHead>
-                  <TableHead className="text-white text-center">STL</TableHead>
-                  <TableHead className="text-white text-center">BLK</TableHead>
-                  <TableHead className="text-white text-center">TOV</TableHead>
-                  <TableHead className="text-white text-center">PF</TableHead>
+                  <TableHead className="text-white text-xs md:text-sm">Player</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm">PTS</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden md:table-cell">FG</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden md:table-cell">3PT</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden md:table-cell">FT</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm">REB</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm">AST</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden sm:table-cell">STL</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden sm:table-cell">BLK</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden lg:table-cell">TOV</TableHead>
+                  <TableHead className="text-white text-center text-xs md:text-sm hidden lg:table-cell">PF</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {teamStats.map(stat => {
                   const player = players.find(p => p.id === stat.playerId);
                   return (
-                    <TableRow key={stat.id} className="border-white/[0.08]">
-                      <TableCell className="text-white font-medium">
+                    <TableRow key={stat.id} className="border-white/[0.08] min-h-[44px]">
+                      <TableCell className="text-white font-medium text-xs md:text-sm py-3">
                         #{player?.number} {player?.name}
                       </TableCell>
-                      <TableCell className="text-white text-center font-bold">{stat.points}</TableCell>
-                      <TableCell className="text-white text-center">
+                      <TableCell className="text-white text-center font-bold text-xs md:text-sm">{stat.points}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden md:table-cell">
                         {stat.fgm}/{stat.fga}
                       </TableCell>
-                      <TableCell className="text-white text-center">
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden md:table-cell">
                         {stat.fgm3}/{stat.fga3}
                       </TableCell>
-                      <TableCell className="text-white text-center">
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden md:table-cell">
                         {stat.ftm}/{stat.fta}
                       </TableCell>
-                      <TableCell className="text-white text-center">
+                      <TableCell className="text-white text-center text-xs md:text-sm">
                         {stat.oreb + stat.dreb}
                       </TableCell>
-                      <TableCell className="text-white text-center">{stat.ast}</TableCell>
-                      <TableCell className="text-white text-center">{stat.stl}</TableCell>
-                      <TableCell className="text-white text-center">{stat.blk}</TableCell>
-                      <TableCell className="text-white text-center">{stat.tov}</TableCell>
-                      <TableCell className="text-white text-center">{stat.pf}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm">{stat.ast}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden sm:table-cell">{stat.stl}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden sm:table-cell">{stat.blk}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden lg:table-cell">{stat.tov}</TableCell>
+                      <TableCell className="text-white text-center text-xs md:text-sm hidden lg:table-cell">{stat.pf}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -171,49 +171,49 @@ export default function BoxScore() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4">
-      <div className="max-w-7xl mx-auto py-8">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
+      <div className="max-w-7xl mx-auto py-4 md:py-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
           <Button
             variant="outline"
             onClick={() => navigate(createPageUrl("LiveGame") + `?gameId=${gameId}`)}
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20"
+            className="bg-white/10 hover:bg-white/20 text-white border-white/20 min-h-[44px]"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Game
           </Button>
 
-          <div className="flex gap-3">
+          <div className="flex gap-2 md:gap-3 w-full sm:w-auto">
             <Button
               onClick={exportToCSV}
-              className="bg-green-600 hover:bg-green-700 text-white"
+              className="bg-green-600 hover:bg-green-700 text-white min-h-[44px] flex-1 sm:flex-initial text-xs md:text-sm"
             >
-              <FileSpreadsheet className="w-4 h-4 mr-2" />
-              Export CSV
+              <FileSpreadsheet className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Export</span> CSV
             </Button>
             <Button
               onClick={exportToJSON}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white min-h-[44px] flex-1 sm:flex-initial text-xs md:text-sm"
             >
-              <FileText className="w-4 h-4 mr-2" />
-              Export JSON
+              <FileText className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Export</span> JSON
             </Button>
           </div>
         </div>
 
-        <Card className="bg-white/[0.05] border-white/[0.08] mb-8">
-          <CardContent className="p-8">
+        <Card className="bg-white/[0.05] border-white/[0.08] mb-6 md:mb-8">
+          <CardContent className="p-4 md:p-6 lg:p-8">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-white mb-4">Final Score</h1>
-              <div className="flex justify-center items-center gap-8">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">Final Score</h1>
+              <div className="flex justify-center items-center gap-4 md:gap-8">
                 <div>
-                  <h2 className="text-2xl text-white mb-2">{homeTeam?.name}</h2>
-                  <div className="text-6xl font-black text-white">{game?.homeScore}</div>
+                  <h2 className="text-base md:text-xl lg:text-2xl text-white mb-2 truncate max-w-[100px] md:max-w-none">{homeTeam?.name}</h2>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-white">{game?.homeScore}</div>
                 </div>
-                <div className="text-4xl text-white/50">-</div>
+                <div className="text-2xl md:text-3xl lg:text-4xl text-white/50">-</div>
                 <div>
-                  <h2 className="text-2xl text-white mb-2">{awayTeam?.name}</h2>
-                  <div className="text-6xl font-black text-white">{game?.awayScore}</div>
+                  <h2 className="text-base md:text-xl lg:text-2xl text-white mb-2 truncate max-w-[100px] md:max-w-none">{awayTeam?.name}</h2>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-black text-white">{game?.awayScore}</div>
                 </div>
               </div>
             </div>

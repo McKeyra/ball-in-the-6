@@ -46,7 +46,7 @@ const TextField = ({ field, value, onChange }) => (
     onChange={(e) => onChange(field.id, e.target.value)}
     placeholder={field.placeholder}
     className={`
-      w-full px-4 py-3 rounded-lg
+      w-full px-4 py-3 min-h-[44px] rounded-lg text-base
       bg-white/[0.05] ${THEME.border} border
       ${THEME.text.primary} placeholder:${THEME.text.muted}
       focus:outline-none focus:border-[${THEME.accent}] focus:ring-1 focus:ring-[${THEME.accent}]/50
@@ -63,7 +63,7 @@ const TextareaField = ({ field, value, onChange }) => (
     placeholder={field.placeholder}
     rows={field.rows || 4}
     className={`
-      w-full px-4 py-3 rounded-lg resize-none
+      w-full px-4 py-3 rounded-lg resize-none min-h-[88px] text-base
       bg-white/[0.05] ${THEME.border} border
       ${THEME.text.primary} placeholder:${THEME.text.muted}
       focus:outline-none focus:border-[${THEME.accent}] focus:ring-1 focus:ring-[${THEME.accent}]/50
@@ -79,7 +79,7 @@ const SelectField = ({ field, value, onChange }) => (
       value={value || ''}
       onChange={(e) => onChange(field.id, e.target.value)}
       className={`
-        w-full px-4 py-3 rounded-lg appearance-none cursor-pointer
+        w-full px-4 py-3 rounded-lg appearance-none cursor-pointer min-h-[44px] text-base
         bg-white/[0.05] ${THEME.border} border
         ${THEME.text.primary}
         focus:outline-none focus:border-[${THEME.accent}] focus:ring-1 focus:ring-[${THEME.accent}]/50
@@ -128,7 +128,7 @@ const PillsField = ({ field, value = [], onChange }) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className={`
-              px-4 py-2 rounded-full text-sm font-medium
+              px-4 py-2.5 rounded-full text-sm font-medium min-h-[44px]
               transition-all duration-200 border
               ${isSelected
                 ? `bg-[${THEME.accent}]/20 border-[${THEME.accent}] text-[${THEME.accent}] shadow-[0_0_12px_rgba(201,169,98,0.3)]`
@@ -159,7 +159,7 @@ const CardsField = ({ field, value, onChange }) => {
   const columns = field.columns || 2;
 
   return (
-    <div className={`grid gap-3 ${columns === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+    <div className={`grid gap-3 ${columns === 1 ? 'grid-cols-1' : columns === 3 ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'}`}>
       {field.options?.map((opt) => {
         const isSelected = value === opt.value;
         const OptIcon = opt.icon ? getIcon(opt.icon) : null;
@@ -172,7 +172,7 @@ const CardsField = ({ field, value, onChange }) => {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             className={`
-              p-4 rounded-xl text-left border
+              p-4 rounded-xl text-left border min-h-[44px]
               transition-all duration-200
               ${isSelected
                 ? 'border-[#c9a962] bg-[#c9a962]/10'
@@ -246,7 +246,7 @@ const CheckboxesField = ({ field, value = [], onChange }) => {
             key={opt.value}
             whileHover={{ scale: 1.005 }}
             className={`
-              flex items-start gap-3 p-3 rounded-lg cursor-pointer
+              flex items-start gap-3 p-3 rounded-lg cursor-pointer min-h-[44px]
               border transition-all duration-200
               ${isChecked
                 ? 'border-[#c9a962]/50 bg-[#c9a962]/5'
@@ -260,7 +260,7 @@ const CheckboxesField = ({ field, value = [], onChange }) => {
           >
             <div
               className={`
-                w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5
+                w-6 h-6 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5
                 transition-all duration-200
               `}
               style={{
@@ -268,7 +268,7 @@ const CheckboxesField = ({ field, value = [], onChange }) => {
                 backgroundColor: isChecked ? THEME.accent : 'transparent',
               }}
             >
-              {isChecked && <LucideIcons.Check className="w-3 h-3 text-black" />}
+              {isChecked && <LucideIcons.Check className="w-4 h-4 text-black" />}
             </div>
             <input
               type="checkbox"
@@ -332,7 +332,7 @@ const UploadField = ({ field, value, onChange }) => {
         onDrop={handleDrop}
         animate={{ scale: isDragging ? 1.01 : 1 }}
         className={`
-          relative border-2 border-dashed rounded-xl p-8
+          relative border-2 border-dashed rounded-xl p-6 md:p-8 min-h-[120px]
           flex flex-col items-center justify-center gap-3
           transition-all duration-200 cursor-pointer
           ${isDragging
@@ -381,9 +381,9 @@ const UploadField = ({ field, value, onChange }) => {
               <button
                 type="button"
                 onClick={() => removeFile(index)}
-                className="p-1 rounded hover:bg-white/[0.1] text-white/40 hover:text-white transition-colors"
+                className="p-2 rounded hover:bg-white/[0.1] text-white/40 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
-                <LucideIcons.X className="w-4 h-4" />
+                <LucideIcons.X className="w-5 h-5" />
               </button>
             </motion.div>
           ))}
@@ -410,14 +410,14 @@ const FormField = ({ field, value, onChange }) => {
   return (
     <div className="space-y-2">
       {field.label && (
-        <label htmlFor={field.id} className="block text-white font-medium">
+        <label htmlFor={field.id} className="block text-white font-medium text-sm md:text-base">
           {field.label}
           {field.required && <span style={{ color: THEME.accent }}> *</span>}
         </label>
       )}
       <FieldComponent field={field} value={value} onChange={onChange} />
       {field.hint && field.type !== 'upload' && (
-        <p className="text-sm text-white/40">{field.hint}</p>
+        <p className="text-xs md:text-sm text-white/40">{field.hint}</p>
       )}
     </div>
   );
@@ -450,19 +450,19 @@ const FormSection = ({
         type="button"
         onClick={onToggle}
         className={`
-          w-full px-5 py-4 flex items-center gap-3
+          w-full px-4 md:px-5 py-4 flex items-center gap-3 min-h-[56px]
           hover:bg-white/[0.02] transition-colors
         `}
       >
         {Icon && (
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
             style={{ backgroundColor: 'rgba(201, 169, 98, 0.1)' }}
           >
-            <Icon className="w-4 h-4" style={{ color: THEME.accent }} />
+            <Icon className="w-5 h-5" style={{ color: THEME.accent }} />
           </div>
         )}
-        <span className="flex-1 text-left text-white font-medium">{section.label}</span>
+        <span className="flex-1 text-left text-white font-medium text-sm md:text-base">{section.label}</span>
 
         {isComplete ? (
           <div className="flex items-center gap-2">
@@ -491,8 +491,8 @@ const FormSection = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="px-5 pb-5 space-y-5 border-t border-white/[0.06]">
-              <div className="h-5" />
+            <div className="px-4 md:px-5 pb-5 space-y-5 border-t border-white/[0.06]">
+              <div className="h-4 md:h-5" />
               {section.fields?.map((field) => (
                 <FormField
                   key={field.id}
@@ -551,7 +551,7 @@ const WizardMode = ({
                 type="button"
                 onClick={() => setCurrentStep(index)}
                 className={`
-                  w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                  w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center text-sm font-medium
                   transition-all duration-200
                   ${isActive
                     ? 'text-black'
@@ -616,7 +616,7 @@ const WizardMode = ({
           onClick={goPrev}
           disabled={isFirstStep}
           className={`
-            px-4 py-2 rounded-lg text-sm font-medium
+            px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium
             transition-all duration-200
             ${isFirstStep
               ? 'opacity-0 pointer-events-none'
@@ -635,7 +635,7 @@ const WizardMode = ({
             <button
               type="button"
               onClick={goNext}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-white/40 hover:text-white/60 transition-colors"
+              className="px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white/40 hover:text-white/60 transition-colors"
             >
               {skipLabel}
             </button>
@@ -645,7 +645,7 @@ const WizardMode = ({
             <button
               type="button"
               onClick={onSubmit}
-              className="px-6 py-2 rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
+              className="px-6 py-3 min-h-[44px] rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
               style={{
                 backgroundColor: THEME.accent,
                 boxShadow: '0 0 20px rgba(201, 169, 98, 0.3)',
@@ -657,7 +657,7 @@ const WizardMode = ({
             <button
               type="button"
               onClick={goNext}
-              className="px-6 py-2 rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
+              className="px-6 py-3 min-h-[44px] rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
               style={{
                 backgroundColor: THEME.accent,
                 boxShadow: '0 0 20px rgba(201, 169, 98, 0.3)',
@@ -703,7 +703,7 @@ const FormMode = ({
         <button
           type="button"
           onClick={onSubmit}
-          className="px-6 py-3 rounded-lg font-medium text-black transition-all duration-200 hover:scale-[1.02]"
+          className="px-6 py-3 min-h-[44px] rounded-lg font-medium text-black transition-all duration-200 hover:scale-[1.02]"
           style={{
             backgroundColor: THEME.accent,
             boxShadow: '0 0 20px rgba(201, 169, 98, 0.3)',
@@ -834,7 +834,7 @@ const ChatMode = ({
               <button
                 type="button"
                 onClick={goNext}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-white/40 hover:text-white/60 transition-colors"
+                className="px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white/40 hover:text-white/60 transition-colors"
               >
                 {skipLabel}
               </button>
@@ -843,7 +843,7 @@ const ChatMode = ({
             <button
               type="button"
               onClick={isLastField ? onSubmit : goNext}
-              className="px-6 py-2 rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
+              className="px-6 py-3 min-h-[44px] rounded-lg text-sm font-medium text-black transition-all duration-200 hover:scale-[1.02]"
               style={{
                 backgroundColor: THEME.accent,
                 boxShadow: '0 0 20px rgba(201, 169, 98, 0.3)',
@@ -943,7 +943,7 @@ const ModeToggle = ({ mode, setMode }) => {
   ];
 
   return (
-    <div className="flex items-center gap-1 p-1 rounded-lg bg-white/[0.05] border border-white/[0.06]">
+    <div className="flex items-center gap-1 p-1 rounded-lg bg-white/[0.05] border border-white/[0.06] overflow-x-auto">
       {modes.map((m) => {
         const Icon = getIcon(m.icon);
         const isActive = mode === m.id;
@@ -954,7 +954,7 @@ const ModeToggle = ({ mode, setMode }) => {
             type="button"
             onClick={() => setMode(m.id)}
             className={`
-              flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
+              flex items-center gap-2 px-3 py-2.5 md:py-1.5 rounded-md text-sm font-medium min-h-[44px] md:min-h-0 flex-shrink-0
               transition-all duration-200
               ${isActive ? 'text-black' : 'text-white/60 hover:text-white hover:bg-white/[0.05]'}
             `}
@@ -964,7 +964,7 @@ const ModeToggle = ({ mode, setMode }) => {
             } : {}}
           >
             {Icon && <Icon className="w-4 h-4" />}
-            {m.label}
+            <span className="hidden sm:inline">{m.label}</span>
           </button>
         );
       })}
@@ -1084,26 +1084,26 @@ const FormBuilder = ({
 
   return (
     <div
-      className="min-h-screen p-6"
+      className="min-h-screen p-4 md:p-6 lg:p-8 pb-24"
       style={{ backgroundColor: THEME.background }}
     >
       <div className={`max-w-4xl mx-auto ${showPreview ? 'lg:max-w-6xl' : ''}`}>
-        <div className={`flex gap-6 ${showPreview ? 'lg:flex-row flex-col' : 'flex-col'}`}>
+        <div className={`flex gap-4 md:gap-6 ${showPreview ? 'lg:flex-row flex-col' : 'flex-col'}`}>
           {/* Main Form Area */}
           <div className={`flex-1 ${showPreview ? 'lg:max-w-2xl' : ''}`}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`${THEME.card} ${THEME.border} border rounded-2xl p-6 space-y-6`}
+              className={`${THEME.card} ${THEME.border} border rounded-2xl p-4 md:p-6 space-y-4 md:space-y-6`}
             >
               {/* Header */}
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
                 <div>
                   {title && (
-                    <h1 className="text-2xl font-bold text-white">{title}</h1>
+                    <h1 className="text-xl md:text-2xl font-bold text-white">{title}</h1>
                   )}
                   {subtitle && (
-                    <p className="text-white/60 mt-1">{subtitle}</p>
+                    <p className="text-white/60 mt-1 text-sm md:text-base">{subtitle}</p>
                   )}
                 </div>
                 <div className="flex items-center gap-4">
@@ -1112,7 +1112,7 @@ const FormBuilder = ({
               </div>
 
               {/* Mode Toggle */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-start overflow-x-auto">
                 <ModeToggle mode={mode} setMode={setMode} />
               </div>
 
@@ -1173,11 +1173,11 @@ const FormBuilder = ({
               className="lg:w-80 w-full"
             >
               <div
-                className={`${THEME.card} ${THEME.border} border rounded-2xl p-5 sticky top-6`}
+                className={`${THEME.card} ${THEME.border} border rounded-2xl p-4 md:p-5 sticky top-4 md:top-6`}
               >
                 <div className="flex items-center gap-2 mb-4">
                   <LucideIcons.Eye className="w-4 h-4" style={{ color: THEME.accent }} />
-                  <span className="text-white font-medium">Preview</span>
+                  <span className="text-white font-medium text-base md:text-sm">Preview</span>
                 </div>
                 <PreviewComponent data={formData} />
               </div>

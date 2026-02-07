@@ -101,31 +101,31 @@ export default function SponsorPipeline() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-4 lg:p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-4 md:mb-6 gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white">Sponsor Pipeline</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">Sponsor Pipeline</h1>
+          <p className="text-gray-400 text-xs sm:text-sm mt-1">
             {metrics.sponsorCount} active sponsors • {formatCurrency(metrics.totalPipeline)} pipeline • {formatCurrency(metrics.weightedPipeline)} weighted
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-[160px] bg-[#1a1a1a] border-[#2a2a2a] text-white">
+            <SelectTrigger className="w-full sm:w-[160px] bg-[#1a1a1a] border-[#2a2a2a] text-white min-h-[44px]">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
               {SPONSOR_TYPES.map(type => (
-                <SelectItem key={type} value={type} className="text-white hover:bg-[#2a2a2a]">
+                <SelectItem key={type} value={type} className="text-white hover:bg-[#2a2a2a] min-h-[44px]">
                   {type.replace(/_/g, ' ')}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Link to={createPageUrl("AddSponsor")}>
-            <Button className="bg-[#c9a962] hover:bg-[#b8944f] text-black font-medium">
+          <Link to={createPageUrl("AddSponsor")} className="w-full sm:w-auto">
+            <Button className="bg-[#c9a962] hover:bg-[#b8944f] text-black font-medium min-h-[44px] w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" /> Add Sponsor
             </Button>
           </Link>
@@ -148,10 +148,10 @@ export default function SponsorPipeline() {
       </DragDropContext>
 
       {sponsors.length === 0 && !isLoading && (
-        <Card className="bg-[#1a1a1a] border-[#2a2a2a] p-12 text-center mt-8">
-          <p className="text-gray-400 mb-4">No sponsors in your pipeline yet.</p>
+        <Card className="bg-[#1a1a1a] border-[#2a2a2a] p-6 md:p-12 text-center mt-6 md:mt-8">
+          <p className="text-gray-400 mb-4 text-sm md:text-base">No sponsors in your pipeline yet.</p>
           <Link to={createPageUrl("AddSponsor")}>
-            <Button className="bg-[#c9a962] hover:bg-[#b8944f] text-black font-medium">
+            <Button className="bg-[#c9a962] hover:bg-[#b8944f] text-black font-medium min-h-[44px]">
               <Plus className="w-4 h-4 mr-2" /> Add Your First Sponsor
             </Button>
           </Link>

@@ -216,68 +216,68 @@ const TEAM_SECTIONS = [
 // Preview Component
 function TeamPreview({ data }) {
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Team Card */}
-      <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-6">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-xl bg-[#c9a962]/20 flex items-center justify-center">
-            <Users className="w-8 h-8 text-[#c9a962]" />
+      <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-4 md:p-6">
+        <div className="flex items-center gap-3 md:gap-4 mb-4">
+          <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[#c9a962]/20 flex items-center justify-center">
+            <Users className="w-6 h-6 md:w-8 md:h-8 text-[#c9a962]" />
           </div>
-          <div>
-            <h3 className="text-xl font-bold text-white">
+          <div className="min-w-0">
+            <h3 className="text-lg md:text-xl font-bold text-white truncate">
               {data.name || "Team Name"}
             </h3>
-            <p className="text-white/40 text-sm">
+            <p className="text-white/40 text-xs md:text-sm">
               {data.division ? data.division.toUpperCase() : "Division"} • {data.skill_level?.[0] || "Skill Level"}
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="p-3 rounded-lg bg-white/[0.04]">
-            <span className="text-white/40">Gender</span>
-            <p className="text-white font-medium">{data.gender?.[0] || "—"}</p>
+        <div className="grid grid-cols-2 gap-2 md:gap-3 text-sm">
+          <div className="p-2.5 md:p-3 rounded-lg bg-white/[0.04]">
+            <span className="text-white/40 text-xs md:text-sm">Gender</span>
+            <p className="text-white font-medium text-sm md:text-base">{data.gender?.[0] || "—"}</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/[0.04]">
-            <span className="text-white/40">Season</span>
-            <p className="text-white font-medium">{data.season || "—"}</p>
+          <div className="p-2.5 md:p-3 rounded-lg bg-white/[0.04]">
+            <span className="text-white/40 text-xs md:text-sm">Season</span>
+            <p className="text-white font-medium text-sm md:text-base">{data.season || "—"}</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/[0.04]">
-            <span className="text-white/40">League</span>
-            <p className="text-white font-medium capitalize">{data.league_type || "—"}</p>
+          <div className="p-2.5 md:p-3 rounded-lg bg-white/[0.04]">
+            <span className="text-white/40 text-xs md:text-sm">League</span>
+            <p className="text-white font-medium capitalize text-sm md:text-base">{data.league_type || "—"}</p>
           </div>
-          <div className="p-3 rounded-lg bg-white/[0.04]">
-            <span className="text-white/40">Roster</span>
-            <p className="text-white font-medium">{data.expected_roster_size || "—"}</p>
+          <div className="p-2.5 md:p-3 rounded-lg bg-white/[0.04]">
+            <span className="text-white/40 text-xs md:text-sm">Roster</span>
+            <p className="text-white font-medium text-sm md:text-base">{data.expected_roster_size || "—"}</p>
           </div>
         </div>
       </div>
 
       {/* Coach Info */}
       {data.head_coach_name && (
-        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-5">
-          <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wide mb-3">
+        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-4 md:p-5">
+          <h4 className="text-xs md:text-sm font-semibold text-white/60 uppercase tracking-wide mb-2 md:mb-3">
             Head Coach
           </h4>
-          <p className="text-white font-medium">{data.head_coach_name}</p>
-          <p className="text-white/40 text-sm">{data.head_coach_email}</p>
+          <p className="text-white font-medium text-sm md:text-base">{data.head_coach_name}</p>
+          <p className="text-white/40 text-xs md:text-sm">{data.head_coach_email}</p>
           {data.head_coach_phone && (
-            <p className="text-white/40 text-sm">{data.head_coach_phone}</p>
+            <p className="text-white/40 text-xs md:text-sm">{data.head_coach_phone}</p>
           )}
         </div>
       )}
 
       {/* Practice Days */}
       {data.preferred_days?.length > 0 && (
-        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-5">
-          <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wide mb-3">
+        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-4 md:p-5">
+          <h4 className="text-xs md:text-sm font-semibold text-white/60 uppercase tracking-wide mb-2 md:mb-3">
             Practice Days
           </h4>
           <div className="flex flex-wrap gap-2">
             {data.preferred_days.map((day) => (
               <span
                 key={day}
-                className="px-3 py-1 rounded-full bg-[#c9a962]/20 text-[#c9a962] text-sm font-medium"
+                className="px-2.5 md:px-3 py-1 rounded-full bg-[#c9a962]/20 text-[#c9a962] text-xs md:text-sm font-medium min-h-[32px] flex items-center"
               >
                 {day}
               </span>
@@ -288,14 +288,14 @@ function TeamPreview({ data }) {
 
       {/* Certifications */}
       {data.coaching_certifications?.length > 0 && (
-        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-5">
-          <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wide mb-3">
+        <div className="rounded-2xl bg-white/[0.07] border border-white/[0.06] p-4 md:p-5">
+          <h4 className="text-xs md:text-sm font-semibold text-white/60 uppercase tracking-wide mb-2 md:mb-3">
             Certifications
           </h4>
           <div className="space-y-2">
             {data.coaching_certifications.map((cert) => (
-              <div key={cert} className="flex items-center gap-2 text-emerald-400 text-sm">
-                <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center">
+              <div key={cert} className="flex items-center gap-2 text-emerald-400 text-xs md:text-sm min-h-[32px]">
+                <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center flex-shrink-0">
                   ✓
                 </div>
                 <span className="capitalize">{cert.replace(/_/g, " ")}</span>
@@ -364,7 +364,7 @@ export default function TeamRegistration() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
+    <div className="min-h-screen bg-[#0f0f0f] pb-24">
       <FormBuilder
         title="Team Registration"
         subtitle="Register your team for the upcoming season"

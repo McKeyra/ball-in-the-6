@@ -440,7 +440,7 @@ export default function PlayerProfile() {
   const awayBench = awayPlayers.filter(p => !p.on_court);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] pb-8">
+    <div className="min-h-screen bg-[#0f0f0f] pb-24">
       <GameClockManager game={game} isRunning={isRunning} />
       
       {/* Top Bar with Controls */}
@@ -456,7 +456,7 @@ export default function PlayerProfile() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-white/70 hover:bg-white/30 h-10 w-10 flex-shrink-0"
+            className="text-white/70 hover:bg-white/30 min-h-[44px] min-w-[44px] flex-shrink-0"
             onClick={() => navigate(createPageUrl("CourtView"))}
             style={{
               boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
@@ -484,7 +484,7 @@ export default function PlayerProfile() {
             {/* Play/Pause */}
             <button
               onClick={() => setIsRunning(!isRunning)}
-              className="h-10 w-10 rounded-xl flex items-center justify-center"
+              className="min-h-[44px] min-w-[44px] rounded-xl flex items-center justify-center"
               style={{
                 background: isRunning ? teamColor : '#0f0f0f',
                 boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
@@ -510,7 +510,7 @@ export default function PlayerProfile() {
 
             <button
               onClick={resetShotClock}
-              className="h-10 w-10 rounded-xl flex items-center justify-center"
+              className="min-h-[44px] min-w-[44px] rounded-xl flex items-center justify-center"
               style={{
                 background: '#0f0f0f',
                 boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
@@ -525,7 +525,7 @@ export default function PlayerProfile() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-white/70 hover:bg-white/30 h-10 w-10 flex-shrink-0"
+            className="text-white/70 hover:bg-white/30 min-h-[44px] min-w-[44px] flex-shrink-0"
             onClick={() => setShowPlayerSwitcher(true)}
             style={{
               boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)',
@@ -571,7 +571,7 @@ export default function PlayerProfile() {
           {hasPendingStats && (
             <Button
               onClick={handleConfirm}
-              className="h-12 px-6 font-semibold flex-shrink-0"
+              className="min-h-[44px] px-4 md:px-6 font-semibold flex-shrink-0 text-sm md:text-base"
               style={{
                 background: teamColor,
                 color: 'white',
@@ -579,7 +579,7 @@ export default function PlayerProfile() {
                 border: 'none'
               }}
             >
-              <CheckCircle className="w-4 h-4 mr-2" />
+              <CheckCircle className="w-4 h-4 mr-1 md:mr-2" />
               Confirm
             </Button>
           )}

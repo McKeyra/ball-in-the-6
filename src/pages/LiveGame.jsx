@@ -146,25 +146,25 @@ export default function LiveGame() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] p-6">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-[#c9a962] rounded-xl flex items-center justify-center">
-              <Trophy className="w-7 h-7 text-[#0f0f0f]" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#c9a962] rounded-xl flex items-center justify-center">
+              <Trophy className="w-5 h-5 md:w-7 md:h-7 text-[#0f0f0f]" />
             </div>
             <div>
-              <h1 className="text-3xl font-light tracking-tight text-white">Live Game Tracker</h1>
-              <p className="text-white/40 font-light">Real-time stats & play-by-play</p>
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight text-white">Live Game Tracker</h1>
+              <p className="text-sm md:text-base text-white/40 font-light">Real-time stats & play-by-play</p>
             </div>
           </div>
 
           {/* Game Selector */}
-          <div className="bg-white/[0.05] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-6">
+          <div className="bg-white/[0.05] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-4 md:p-6">
             <label className="text-sm text-white/40 mb-2 block font-light">Select Game</label>
             <Select value={selectedGame?.id} onValueChange={(value) => setSelectedGame(games.find(g => g.id === value))}>
-              <SelectTrigger className="bg-white/[0.08] border-white/[0.08] text-white">
+              <SelectTrigger className="bg-white/[0.08] border-white/[0.08] text-white min-h-[44px]">
                 <SelectValue placeholder="Choose a game to track..." />
               </SelectTrigger>
               <SelectContent>
@@ -172,7 +172,7 @@ export default function LiveGame() {
                   const home = teams.find(t => t.id === game.home_team_id);
                   const away = teams.find(t => t.id === game.away_team_id);
                   return (
-                    <SelectItem key={game.id} value={game.id}>
+                    <SelectItem key={game.id} value={game.id} className="min-h-[44px]">
                       {home?.name || 'Home'} vs {away?.name || 'Away'} - {new Date(game.game_date).toLocaleDateString()}
                     </SelectItem>
                   );
@@ -183,62 +183,63 @@ export default function LiveGame() {
         </div>
 
         {selectedGame ? (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             {/* Scoreboard */}
-            <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] overflow-hidden">
-              <div className="p-8">
-                <div className="grid grid-cols-3 gap-8 items-center">
+            <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] overflow-hidden">
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="grid grid-cols-3 gap-2 md:gap-8 items-center">
                   {/* Home Team */}
                   <div className="text-center">
-                    <div className="text-white/40 text-xs tracking-[0.2em] uppercase mb-2 font-light">Home</div>
-                    <div className="text-2xl font-light text-white mb-2">{homeTeam?.name || 'Home Team'}</div>
+                    <div className="text-white/40 text-[10px] md:text-xs tracking-[0.1em] md:tracking-[0.2em] uppercase mb-1 md:mb-2 font-light">Home</div>
+                    <div className="text-sm md:text-xl lg:text-2xl font-light text-white mb-1 md:mb-2 truncate">{homeTeam?.name || 'Home Team'}</div>
                     <motion.div
                       key={homeScore}
                       initial={{ scale: 1.2 }}
                       animate={{ scale: 1 }}
-                      className="text-6xl font-extralight text-[#c9a962]"
+                      className="text-3xl md:text-5xl lg:text-6xl font-extralight text-[#c9a962]"
                     >
                       {homeScore}
                     </motion.div>
                   </div>
 
                   {/* Center Controls */}
-                  <div className="text-center space-y-4">
-                    <div className="flex items-center justify-center gap-2 text-white/40">
-                      <Clock className="w-4 h-4" />
-                      <span className="text-xl font-light">{period}</span>
+                  <div className="text-center space-y-2 md:space-y-4">
+                    <div className="flex items-center justify-center gap-1 md:gap-2 text-white/40">
+                      <Clock className="w-3 h-3 md:w-4 md:h-4" />
+                      <span className="text-base md:text-xl font-light">{period}</span>
                     </div>
                     <Button
                       size="lg"
                       onClick={toggleGameStatus}
-                      className={`w-full ${isLive ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+                      className={`w-full min-h-[44px] text-xs md:text-sm ${isLive ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'}`}
                     >
-                      {isLive ? <Pause className="w-5 h-5 mr-2" /> : <Play className="w-5 h-5 mr-2" />}
-                      {isLive ? 'Pause Game' : 'Start Game'}
+                      {isLive ? <Pause className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" /> : <Play className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />}
+                      <span className="hidden sm:inline">{isLive ? 'Pause Game' : 'Start Game'}</span>
+                      <span className="sm:hidden">{isLive ? 'Pause' : 'Start'}</span>
                     </Button>
                     <Select value={period} onValueChange={setPeriod}>
-                      <SelectTrigger className="bg-white/[0.08] border-white/[0.08] text-white">
+                      <SelectTrigger className="bg-white/[0.08] border-white/[0.08] text-white min-h-[44px] text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Q1">Quarter 1</SelectItem>
-                        <SelectItem value="Q2">Quarter 2</SelectItem>
-                        <SelectItem value="Q3">Quarter 3</SelectItem>
-                        <SelectItem value="Q4">Quarter 4</SelectItem>
-                        <SelectItem value="OT">Overtime</SelectItem>
+                        <SelectItem value="Q1" className="min-h-[44px]">Quarter 1</SelectItem>
+                        <SelectItem value="Q2" className="min-h-[44px]">Quarter 2</SelectItem>
+                        <SelectItem value="Q3" className="min-h-[44px]">Quarter 3</SelectItem>
+                        <SelectItem value="Q4" className="min-h-[44px]">Quarter 4</SelectItem>
+                        <SelectItem value="OT" className="min-h-[44px]">Overtime</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Away Team */}
                   <div className="text-center">
-                    <div className="text-white/40 text-xs tracking-[0.2em] uppercase mb-2 font-light">Away</div>
-                    <div className="text-2xl font-light text-white mb-2">{awayTeam?.name || 'Away Team'}</div>
+                    <div className="text-white/40 text-[10px] md:text-xs tracking-[0.1em] md:tracking-[0.2em] uppercase mb-1 md:mb-2 font-light">Away</div>
+                    <div className="text-sm md:text-xl lg:text-2xl font-light text-white mb-1 md:mb-2 truncate">{awayTeam?.name || 'Away Team'}</div>
                     <motion.div
                       key={awayScore}
                       initial={{ scale: 1.2 }}
                       animate={{ scale: 1 }}
-                      className="text-6xl font-extralight text-indigo-400"
+                      className="text-3xl md:text-5xl lg:text-6xl font-extralight text-indigo-400"
                     >
                       {awayScore}
                     </motion.div>
@@ -248,50 +249,50 @@ export default function LiveGame() {
             </div>
 
             {/* Player Selection & Actions */}
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
               {/* Player Selector */}
-              <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-8">
-                <h3 className="text-white font-light text-lg flex items-center gap-2 mb-6">
-                  <Users className="w-5 h-5 text-[#c9a962]" />
+              <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-4 md:p-6 lg:p-8">
+                <h3 className="text-white font-light text-base md:text-lg flex items-center gap-2 mb-4 md:mb-6">
+                  <Users className="w-4 h-4 md:w-5 md:h-5 text-[#c9a962]" />
                   Select Player
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm text-white/40 mb-2 block font-light">{homeTeam?.name || 'Home Team'}</label>
+                    <label className="text-xs md:text-sm text-white/40 mb-2 block font-light">{homeTeam?.name || 'Home Team'}</label>
                     <div className="grid grid-cols-2 gap-2">
                       {homePlayers.map((player) => (
                         <Button
                           key={player.user_email}
                           variant={selectedPlayer === player.user_email ? "default" : "outline"}
-                          className={`justify-start ${
+                          className={`justify-start min-h-[44px] text-xs md:text-sm ${
                             selectedPlayer === player.user_email
                               ? 'bg-[#c9a962] text-[#0f0f0f] hover:bg-[#b8943f]'
                               : 'bg-white/[0.08] border-white/[0.06] text-white hover:bg-white/[0.12]'
                           }`}
                           onClick={() => setSelectedPlayer(player.user_email)}
                         >
-                          <span className="mr-2 font-bold">#{player.jersey_number || '0'}</span>
-                          {player.name}
+                          <span className="mr-1 md:mr-2 font-bold">#{player.jersey_number || '0'}</span>
+                          <span className="truncate">{player.name}</span>
                         </Button>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-white/40 mb-2 block font-light">{awayTeam?.name || 'Away Team'}</label>
+                    <label className="text-xs md:text-sm text-white/40 mb-2 block font-light">{awayTeam?.name || 'Away Team'}</label>
                     <div className="grid grid-cols-2 gap-2">
                       {awayPlayers.map((player) => (
                         <Button
                           key={player.user_email}
                           variant={selectedPlayer === player.user_email ? "default" : "outline"}
-                          className={`justify-start ${
+                          className={`justify-start min-h-[44px] text-xs md:text-sm ${
                             selectedPlayer === player.user_email
                               ? 'bg-indigo-500 text-white hover:bg-indigo-600'
                               : 'bg-white/[0.08] border-white/[0.06] text-white hover:bg-white/[0.12]'
                           }`}
                           onClick={() => setSelectedPlayer(player.user_email)}
                         >
-                          <span className="mr-2 font-bold">#{player.jersey_number || '0'}</span>
-                          {player.name}
+                          <span className="mr-1 md:mr-2 font-bold">#{player.jersey_number || '0'}</span>
+                          <span className="truncate">{player.name}</span>
                         </Button>
                       ))}
                     </div>
@@ -300,22 +301,22 @@ export default function LiveGame() {
               </div>
 
               {/* Event Buttons */}
-              <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-8">
-                <h3 className="text-white font-light text-lg flex items-center gap-2 mb-6">
-                  <Target className="w-5 h-5 text-[#c9a962]" />
+              <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-4 md:p-6 lg:p-8">
+                <h3 className="text-white font-light text-base md:text-lg flex items-center gap-2 mb-4 md:mb-6">
+                  <Target className="w-4 h-4 md:w-5 md:h-5 text-[#c9a962]" />
                   Record Event
                 </h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2 md:gap-3">
                   {eventButtons.map((btn) => (
                     <Button
                       key={btn.type}
                       onClick={() => recordEvent(btn.type, btn.points)}
                       disabled={!selectedPlayer || !isLive}
-                      className={`h-16 bg-gradient-to-r ${btn.color} hover:opacity-90 transition-opacity disabled:opacity-30`}
+                      className={`min-h-[56px] md:h-16 bg-gradient-to-r ${btn.color} hover:opacity-90 transition-opacity disabled:opacity-30`}
                     >
                       <div className="text-center">
-                        <div className="font-semibold">{btn.label}</div>
-                        {btn.points > 0 && <div className="text-xs opacity-90">+{btn.points}</div>}
+                        <div className="font-semibold text-xs md:text-sm">{btn.label}</div>
+                        {btn.points > 0 && <div className="text-[10px] md:text-xs opacity-90">+{btn.points}</div>}
                       </div>
                     </Button>
                   ))}
@@ -324,12 +325,12 @@ export default function LiveGame() {
             </div>
 
             {/* Play by Play */}
-            <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-8">
-              <h3 className="text-white font-light text-lg flex items-center gap-2 mb-6">
-                <TrendingUp className="w-5 h-5 text-[#c9a962]" />
+            <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)] p-4 md:p-6 lg:p-8">
+              <h3 className="text-white font-light text-base md:text-lg flex items-center gap-2 mb-4 md:mb-6">
+                <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-[#c9a962]" />
                 Play-by-Play
               </h3>
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+              <div className="space-y-2 max-h-64 md:max-h-96 overflow-y-auto">
                 <AnimatePresence>
                   {gameEvents.slice().reverse().map((event) => {
                     const player = players.find(p => p.user_email === event.player_email);
@@ -338,44 +339,44 @@ export default function LiveGame() {
                         key={event.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center justify-between p-3 bg-white/[0.05] rounded-xl"
+                        className="flex items-center justify-between p-3 bg-white/[0.05] rounded-xl min-h-[44px]"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-[#c9a962] flex items-center justify-center text-[#0f0f0f] font-bold text-sm">
+                        <div className="flex items-center gap-2 md:gap-3">
+                          <div className="w-8 h-8 rounded-full bg-[#c9a962] flex items-center justify-center text-[#0f0f0f] font-bold text-xs md:text-sm flex-shrink-0">
                             {player?.jersey_number || '0'}
                           </div>
-                          <div>
-                            <p className="text-white font-light">
+                          <div className="min-w-0">
+                            <p className="text-white font-light text-sm md:text-base truncate">
                               {player?.name}
                             </p>
-                            <p className="text-white/40 text-sm font-light">
+                            <p className="text-white/40 text-xs md:text-sm font-light">
                               {event.event_type.replace(/_/g, ' ')} • {event.period}
                             </p>
                           </div>
                         </div>
                         {event.points > 0 && (
-                          <div className="text-2xl font-light text-[#c9a962]">+{event.points}</div>
+                          <div className="text-lg md:text-2xl font-light text-[#c9a962] flex-shrink-0 ml-2">+{event.points}</div>
                         )}
                       </motion.div>
                     );
                   })}
                 </AnimatePresence>
                 {gameEvents.length === 0 && (
-                  <div className="text-center py-12 text-white/30">
-                    <RotateCcw className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="font-light">No events recorded yet</p>
-                    <p className="text-sm mt-1 font-light">Select a player and start tracking!</p>
+                  <div className="text-center py-8 md:py-12 text-white/30">
+                    <RotateCcw className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-3 opacity-50" />
+                    <p className="font-light text-sm md:text-base">No events recorded yet</p>
+                    <p className="text-xs md:text-sm mt-1 font-light">Select a player and start tracking!</p>
                   </div>
                 )}
               </div>
             </div>
           </div>
         ) : (
-          <div className="rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)]">
-            <div className="py-20 text-center">
-              <Trophy className="w-16 h-16 mx-auto mb-4 text-white/20" />
-              <h3 className="text-xl font-light text-white mb-2">No Game Selected</h3>
-              <p className="text-white/40 font-light">Choose a game from the dropdown above to start tracking</p>
+          <div className="rounded-2xl md:rounded-[28px] bg-white/[0.07] border border-white/[0.055] shadow-[0_20px_50px_rgba(0,0,0,.10)]">
+            <div className="py-12 md:py-20 text-center px-4">
+              <Trophy className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-white/20" />
+              <h3 className="text-lg md:text-xl font-light text-white mb-2">No Game Selected</h3>
+              <p className="text-sm md:text-base text-white/40 font-light">Choose a game from the dropdown above to start tracking</p>
             </div>
           </div>
         )}

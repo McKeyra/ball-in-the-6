@@ -27,16 +27,16 @@ export default function Messenger() {
   }, []);
 
   return (
-    <div className="h-[calc(100vh-100px)] w-full max-w-[1600px] mx-auto flex overflow-hidden pb-4">
-       <MessengerSidebar 
-          activeCategory={activeCategory} 
+    <div className="h-[calc(100vh-100px)] w-full max-w-[1600px] mx-auto flex flex-col md:flex-row overflow-hidden pb-24 md:pb-4 p-2 md:p-4 lg:p-6">
+       <MessengerSidebar
+          activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
           selectedUser={selectedUser}
           onSelectUser={setSelectedUser}
           currentUserRole={userRole}
        />
-       <ChatWindow 
-          user={selectedUser} 
+       <ChatWindow
+          user={selectedUser}
           category={selectedUser?.type || activeCategory}
           currentUser={currentUser}
        />

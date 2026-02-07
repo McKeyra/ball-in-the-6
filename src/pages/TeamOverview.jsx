@@ -114,15 +114,16 @@ export default function TeamOverview() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      <div className="p-6">
+      <div className="p-4 md:p-6 lg:p-8 pb-24">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex items-center gap-3 md:gap-4">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate(createPageUrl("LeagueManagement"))}
+                className="min-h-[44px] min-w-[44px]"
                 style={{
                   background: '#0f0f0f',
                   boxShadow: '4px 4px 8px rgba(0,0,0,0.1), -4px -4px 8px rgba(255,255,255,0.7)'
@@ -131,17 +132,17 @@ export default function TeamOverview() {
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div>
-                <h1 className="text-4xl font-bold text-white/90 mb-2">Team Overview</h1>
-                <p className="text-white/60">League standings and team performance</p>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white/90 mb-1 md:mb-2">Team Overview</h1>
+                <p className="text-sm md:text-base text-white/60">League standings and team performance</p>
               </div>
             </div>
           </div>
 
           {/* Filters */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-4 md:mb-6">
             <Select value={filterLeague} onValueChange={setFilterLeague}>
-              <SelectTrigger 
-                className="w-40"
+              <SelectTrigger
+                className="w-full sm:w-40 min-h-[44px]"
                 style={{
                   background: '#0f0f0f',
                   boxShadow: 'inset 3px 3px 6px rgba(0,0,0,0.1), inset -3px -3px 6px rgba(255,255,255,0.7)'
@@ -151,7 +152,7 @@ export default function TeamOverview() {
               </SelectTrigger>
               <SelectContent>
                 {leagues.map(league => (
-                  <SelectItem key={league} value={league}>
+                  <SelectItem key={league} value={league} className="min-h-[44px]">
                     {league === 'all' ? 'All Leagues' : league}
                   </SelectItem>
                 ))}
@@ -159,8 +160,8 @@ export default function TeamOverview() {
             </Select>
 
             <Select value={filterDivision} onValueChange={setFilterDivision}>
-              <SelectTrigger 
-                className="w-52"
+              <SelectTrigger
+                className="w-full sm:w-52 min-h-[44px]"
                 style={{
                   background: '#0f0f0f',
                   boxShadow: 'inset 3px 3px 6px rgba(0,0,0,0.1), inset -3px -3px 6px rgba(255,255,255,0.7)'
@@ -170,7 +171,7 @@ export default function TeamOverview() {
               </SelectTrigger>
               <SelectContent>
                 {divisions.map(div => (
-                  <SelectItem key={div} value={div}>
+                  <SelectItem key={div} value={div} className="min-h-[44px]">
                     {div === 'all' ? 'All Divisions' : div}
                   </SelectItem>
                 ))}
@@ -179,36 +180,38 @@ export default function TeamOverview() {
           </div>
 
           <Tabs defaultValue="standings" className="w-full">
-            <TabsList 
-              className="grid w-full grid-cols-2 mb-6"
+            <TabsList
+              className="grid w-full grid-cols-2 mb-4 md:mb-6"
               style={{
                 background: '#0f0f0f',
                 boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)',
-                padding: '6px',
+                padding: '4px md:6px',
                 borderRadius: '16px',
                 height: 'auto'
               }}
             >
-              <TabsTrigger value="standings" className="flex items-center gap-2 py-3">
-                <Medal className="w-5 h-5" />
-                League Standings
+              <TabsTrigger value="standings" className="flex items-center justify-center gap-1.5 md:gap-2 py-2.5 md:py-3 min-h-[44px] text-sm md:text-base">
+                <Medal className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="hidden sm:inline">League</span> Standings
               </TabsTrigger>
-              <TabsTrigger value="teams" className="flex items-center gap-2 py-3">
-                <Trophy className="w-5 h-5" />
-                Team Cards
+              <TabsTrigger value="teams" className="flex items-center justify-center gap-1.5 md:gap-2 py-2.5 md:py-3 min-h-[44px] text-sm md:text-base">
+                <Trophy className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="hidden sm:inline">Team</span> Cards
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="standings">
-              <StandingsTable 
-                teams={sortedTeams} 
-                teamRecords={teamRecords} 
-                onTeamClick={(teamId) => navigate(createPageUrl("TeamPerformance") + `?teamId=${teamId}`)}
-              />
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <StandingsTable
+                  teams={sortedTeams}
+                  teamRecords={teamRecords}
+                  onTeamClick={(teamId) => navigate(createPageUrl("TeamPerformance") + `?teamId=${teamId}`)}
+                />
+              </div>
             </TabsContent>
 
             <TabsContent value="teams">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {sortedTeams.map(team => (
                   <TeamRecordCard
                     key={team.id}
