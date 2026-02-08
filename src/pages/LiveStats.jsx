@@ -116,11 +116,9 @@ export default function LiveStats() {
   const tabs = [
     { id: 'live', label: 'Live', icon: Zap, count: liveGames.length },
     { id: 'recent', label: 'Recent', icon: Clock, count: recentGames.length },
-    { id: 'upcoming', label: 'Upcoming', icon: Calendar, count: upcomingGames.length },
+    { id: 'upcoming', label: 'Upcoming', icon: Timer, count: upcomingGames.length },
     { id: 'leaders', label: 'Leaders', icon: Award, count: null },
   ];
-
-  const Calendar = Clock; // Alias for upcoming tab
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">

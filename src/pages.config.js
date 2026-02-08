@@ -47,6 +47,7 @@ import Teams from './pages/Teams';
 import SponsorPipeline from './pages/SponsorPipeline';
 import TeamHealthDashboard from './pages/TeamHealthDashboard';
 import TeamRegistration from './pages/TeamRegistration';
+import SeedOSBA from './pages/SeedOSBA';
 
 // Form Pages - Registration
 import PlayerRegistration from './pages/forms/PlayerRegistration';
@@ -145,6 +146,7 @@ export const PAGES = {
     "SponsorPipeline": SponsorPipeline,
     "TeamHealthDashboard": TeamHealthDashboard,
     "TeamRegistration": TeamRegistration,
+    "SeedOSBA": SeedOSBA,
     // Registration Forms
     "PlayerRegistration": PlayerRegistration,
     "CoachRegistration": CoachRegistration,

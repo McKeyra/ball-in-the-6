@@ -6,10 +6,10 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-k
 // Check if Supabase is properly configured
 const isSupabaseConfigured = supabaseUrl !== 'https://placeholder.supabase.co';
 
-// Use ball_in_the_6 schema instead of public
+// Use public schema (Supabase JS SDK only allows public or graphql_public)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   db: {
-    schema: 'ball_in_the_6'
+    schema: 'public'
   }
 });
 
