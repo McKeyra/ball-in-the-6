@@ -848,4 +848,16 @@ END $$;
 INSERT INTO organization (name, city, primary_color)
 VALUES ('Ball in the 6', 'Toronto', '#c9a962');
 
--- Setup complete! All tables created with RLS policies.
+-- ============================================
+-- GRANT permissions to anon and authenticated roles
+-- (Required for Supabase JS SDK to access tables)
+-- ============================================
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
+
+-- Also set default privileges for any future tables
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+
+-- Setup complete! All tables created with RLS policies and grants.
