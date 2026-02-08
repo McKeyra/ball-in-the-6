@@ -104,7 +104,7 @@ export default function OrgDashboard() {
               {organization?.name || "Your Organization"} - {organization?.sport || "Multi-Sport"}
             </p>
           </div>
-          <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 font-semibold min-h-[44px] w-full sm:w-auto">
+          <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 font-semibold min-h-[44px] w-full sm:w-auto">
             <Sparkles className="w-4 h-4 mr-2" />
             Upgrade to Pro
           </Button>

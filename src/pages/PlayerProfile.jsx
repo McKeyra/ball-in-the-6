@@ -451,7 +451,7 @@ export default function PlayerProfile() {
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}
       >
-        <div className="flex items-center justify-between gap-2 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between gap-2 max-w-7xl mx-auto">
           {/* Left: Back Button */}
           <Button
             variant="ghost"
@@ -587,7 +587,7 @@ export default function PlayerProfile() {
       </motion.div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-6">
         <Tabs defaultValue="log" className="w-full">
           <TabsList 
             // Changed grid-cols-3 to grid-cols-4 to accommodate the new "Player Log" tab while keeping "Career"

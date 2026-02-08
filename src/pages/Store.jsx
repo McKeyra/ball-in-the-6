@@ -95,7 +95,7 @@ export default function Store() {
             </Button>
             <Button
               onClick={() => setCreateStoreOpen(true)}
-              className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto"
+              className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Team Store
@@ -268,7 +268,7 @@ export default function Store() {
 
               <Button 
                 onClick={() => createProductMutation.mutate(productForm)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
                 disabled={!productForm.name || !productForm.base_price}
               >
                 Add Product
@@ -331,7 +331,7 @@ export default function Store() {
 
               <Button 
                 onClick={() => createStoreMutation.mutate(storeForm)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
                 disabled={!storeForm.name}
               >
                 Create Store

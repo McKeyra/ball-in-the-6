@@ -114,7 +114,7 @@ export default function Forum() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 md:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
@@ -127,12 +127,12 @@ export default function Forum() {
             </div>
             <Dialog open={showNewPost} onOpenChange={setShowNewPost}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-orange-500 to-pink-600 min-h-[44px] w-full sm:w-auto">
+                <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   New Discussion
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
+              <DialogContent className="max-w-2xl bg-[#121212] border-white/[0.06] text-white">
                 <DialogHeader>
                   <DialogTitle>Start a New Discussion</DialogTitle>
                 </DialogHeader>
@@ -158,7 +158,7 @@ export default function Forum() {
                     onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                     className="min-h-[150px]"
                   />
-                  <Button onClick={handleCreatePost} className="w-full bg-gradient-to-r from-orange-500 to-pink-600">
+                  <Button onClick={handleCreatePost} className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90">
                     Post Discussion
                   </Button>
                 </div>
@@ -234,12 +234,12 @@ export default function Forum() {
           </AnimatePresence>
 
           {filteredPosts.length === 0 && (
-            <Card className="border-none shadow-lg">
+            <Card className="bg-white/[0.05] border-white/[0.06]">
               <CardContent className="py-16 text-center">
                 <MessageSquare className="w-16 h-16 mx-auto mb-4 text-white/20" />
                 <h3 className="text-xl font-semibold text-white mb-2">No discussions yet</h3>
                 <p className="text-white/50 mb-4">Be the first to start a conversation!</p>
-                <Button onClick={() => setShowNewPost(true)} className="bg-gradient-to-r from-orange-500 to-pink-600">
+                <Button onClick={() => setShowNewPost(true)} className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90">
                   Start Discussion
                 </Button>
               </CardContent>
@@ -262,7 +262,7 @@ function PostCard({ post, user, onClick, onLike, pinned }) {
       exit={{ opacity: 0 }}
     >
       <Card
-        className={`border-none shadow-lg hover:shadow-xl transition-all cursor-pointer active:scale-[0.99] ${pinned ? 'ring-2 ring-[#c9a962]' : ''}`}
+        className={`bg-white/[0.05] border-white/[0.06] hover:border-white/[0.08] transition-all cursor-pointer active:scale-[0.99] ${pinned ? 'ring-2 ring-[#c9a962]' : ''}`}
         onClick={onClick}
       >
         <CardContent className="p-4 sm:p-6">

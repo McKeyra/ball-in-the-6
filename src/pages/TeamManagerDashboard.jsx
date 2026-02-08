@@ -86,7 +86,7 @@ export default function TeamManagerDashboard() {
                     <p className="text-xs md:text-sm text-white/40">Track payments & send reminders</p>
                   </div>
                 </div>
-                <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
+                <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
                   New Invoice
                 </Button>
               </div>
@@ -143,7 +143,7 @@ export default function TeamManagerDashboard() {
                     <p className="text-xs md:text-sm text-white/40">Track orders & sizes</p>
                   </div>
                 </div>
-                <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
+                <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
                   Place Order
                 </Button>
               </div>

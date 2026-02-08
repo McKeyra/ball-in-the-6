@@ -82,7 +82,7 @@ export default function OGH() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-12 h-12 rounded-xl bg-[#c9a962]/20 flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function OGH() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">

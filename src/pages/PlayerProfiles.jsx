@@ -58,17 +58,12 @@ export default function PlayerProfiles() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white/90">Player Profiles</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">Player Profiles</h1>
             <p className="text-sm md:text-base text-white/60">{players.length} registered players</p>
           </div>
           <Button
             onClick={() => navigate(createPageUrl("PlayerManagement"))}
-            className="min-h-[44px]"
-            style={{
-              backgroundColor: '#c9a962',
-              color: '#0f0f0f',
-              boxShadow: '4px 4px 12px rgba(0,0,0,0.2)'
-            }}
+            className="min-h-[44px] bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Add New Player
@@ -77,11 +72,7 @@ export default function PlayerProfiles() {
 
         {/* Filters */}
         <div
-          className="p-3 md:p-4 rounded-xl md:rounded-2xl mb-4 md:mb-6"
-          style={{
-            background: '#0f0f0f',
-            boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7)'
-          }}
+          className="p-3 md:p-4 rounded-xl md:rounded-2xl mb-4 md:mb-6 bg-white/[0.05] border border-white/[0.06]"
         >
           <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
             <div className="col-span-2 relative">
@@ -134,11 +125,7 @@ export default function PlayerProfiles() {
         {/* Players Grid */}
         {filteredPlayers.length === 0 ? (
           <div
-            className="p-8 md:p-12 rounded-2xl md:rounded-3xl text-center"
-            style={{
-              background: '#0f0f0f',
-              boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
-            }}
+            className="p-8 md:p-12 rounded-2xl text-center bg-white/[0.05] border border-white/[0.06]"
           >
             <Users className="w-12 h-12 md:w-16 md:h-16 text-white/30 mx-auto mb-4" />
             <h3 className="text-lg md:text-xl font-semibold text-white/70 mb-2">No Players Found</h3>
@@ -149,8 +136,7 @@ export default function PlayerProfiles() {
             </p>
             <Button
               onClick={() => navigate(createPageUrl("PlayerManagement"))}
-              className="min-h-[44px]"
-              style={{ backgroundColor: '#c9a962', color: '#0f0f0f' }}
+              className="min-h-[44px] bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
             >
               <UserPlus className="w-4 h-4 mr-2" />
               Add Player
@@ -164,11 +150,7 @@ export default function PlayerProfiles() {
                 <button
                   key={player.id}
                   onClick={() => navigate(createPageUrl("PlayerManagement") + `?playerId=${player.id}`)}
-                  className="text-left rounded-2xl md:rounded-3xl p-4 md:p-5 hover:scale-[1.02] transition-transform min-h-[44px]"
-                  style={{
-                    background: '#0f0f0f',
-                    boxShadow: '8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)'
-                  }}
+                  className="text-left rounded-2xl p-4 md:p-5 hover:scale-[1.02] transition-transform min-h-[44px] bg-white/[0.05] border border-white/[0.06]"
                 >
                   {/* Player Header */}
                   <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
@@ -177,21 +159,18 @@ export default function PlayerProfiles() {
                         src={player.photo_url}
                         alt={player.first_name}
                         className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover flex-shrink-0"
-                        style={{ boxShadow: '4px 4px 8px rgba(0,0,0,0.15)' }}
+                        style={{}}
                       />
                     ) : (
                       <div
                         className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-white text-lg md:text-xl flex-shrink-0"
-                        style={{
-                          background: team?.team_color || '#666',
-                          boxShadow: '4px 4px 8px rgba(0,0,0,0.15)'
-                        }}
+                        style={{ background: team?.team_color || '#666' }}
                       >
                         {player.jersey_number || '?'}
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="font-bold text-base md:text-lg text-white/90 truncate">
+                      <div className="font-bold text-base md:text-lg text-white truncate">
                         {player.first_name} {player.last_name}
                       </div>
                       <div className="flex items-center gap-2 text-xs md:text-sm text-white/40">
@@ -219,11 +198,7 @@ export default function PlayerProfiles() {
 
                   {/* Career Stats */}
                   <div
-                    className="rounded-xl p-2.5 md:p-3"
-                    style={{
-                      background: '#0f0f0f',
-                      boxShadow: 'inset 3px 3px 6px rgba(0,0,0,0.1), inset -3px -3px 6px rgba(255,255,255,0.7)'
-                    }}
+                    className="rounded-xl p-2.5 md:p-3 bg-white/[0.08] border border-white/[0.08]"
                   >
                     <div className="flex items-center gap-1 mb-2 text-[10px] md:text-xs text-white/40">
                       <Trophy className="w-3 h-3" />
@@ -231,19 +206,19 @@ export default function PlayerProfiles() {
                     </div>
                     <div className="grid grid-cols-4 gap-1 md:gap-2 text-center">
                       <div>
-                        <div className="text-base md:text-lg font-bold text-white/90">{getPlayerAvg(player, 'career_points')}</div>
+                        <div className="text-base md:text-lg font-bold text-white">{getPlayerAvg(player, 'career_points')}</div>
                         <div className="text-[10px] md:text-xs text-white/40">PPG</div>
                       </div>
                       <div>
-                        <div className="text-base md:text-lg font-bold text-white/90">{getPlayerAvg(player, 'career_rebounds')}</div>
+                        <div className="text-base md:text-lg font-bold text-white">{getPlayerAvg(player, 'career_rebounds')}</div>
                         <div className="text-[10px] md:text-xs text-white/40">RPG</div>
                       </div>
                       <div>
-                        <div className="text-base md:text-lg font-bold text-white/90">{getPlayerAvg(player, 'career_assists')}</div>
+                        <div className="text-base md:text-lg font-bold text-white">{getPlayerAvg(player, 'career_assists')}</div>
                         <div className="text-[10px] md:text-xs text-white/40">APG</div>
                       </div>
                       <div>
-                        <div className="text-base md:text-lg font-bold text-white/90">{getPlayerAvg(player, 'career_steals')}</div>
+                        <div className="text-base md:text-lg font-bold text-white">{getPlayerAvg(player, 'career_steals')}</div>
                         <div className="text-[10px] md:text-xs text-white/40">SPG</div>
                       </div>
                     </div>

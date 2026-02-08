@@ -403,141 +403,139 @@ export default function SeedOSBA() {
       setStatus({ step: 'Starting...', progress: 0, log: [], error: null });
       const teamMap = {};
 
-      // Step 1: Create League
-      addLog('Creating OSBA league...');
-      setStatus(s => ({ ...s, step: 'Creating league', progress: 5 }));
-      let league;
+      // Step 1: Create Teams in bulk
+      addLog('Creating 14 OSBA teams...');
+      setStatus(s => ({ ...s, step: 'Creating teams...', progress: 10 }));
+
+      const teamRecords = OSBA_TEAMS.map(t => ({
+        name: t.name,
+        team_name: t.team_name,
+        abbreviation: t.abbreviation,
+        league: t.league,
+        division: t.division,
+        primary_color: t.primary_color,
+        gradientStart: t.gradientStart,
+        gradientEnd: t.gradientEnd,
+        city: t.city,
+        province: t.province,
+        wins: t.wins,
+        losses: t.losses,
+        ties: 0,
+        staff: t.staff,
+        status: "active",
+      }));
+
+      let createdTeams = [];
       try {
-        league = await base44.entities.League.create({
-          name: "Ontario Scholastic Basketball Association",
-          abbreviation: "OSBA",
-          sport: "basketball",
-          season: "2025-2026",
-          status: "active",
+        createdTeams = await base44.entities.Team.bulkCreate(teamRecords);
+        createdTeams.forEach((team, i) => {
+          teamMap[OSBA_TEAMS[i].name] = team;
         });
-        addLog(`League created: ${league.id}`);
+        addLog(`Created ${createdTeams.length} teams`);
       } catch (e) {
-        addLog(`League creation skipped (may already exist): ${e.message}`);
-      }
-
-      // Step 2: Create Teams
-      setStatus(s => ({ ...s, step: 'Creating teams', progress: 10 }));
-      for (let i = 0; i < OSBA_TEAMS.length; i++) {
-        const t = OSBA_TEAMS[i];
-        const pct = 10 + Math.round((i / OSBA_TEAMS.length) * 30);
-        setStatus(s => ({ ...s, step: `Creating team: ${t.name}`, progress: pct }));
-
-        try {
-          const team = await base44.entities.Team.create({
-            name: t.name,
-            team_name: t.team_name,
-            abbreviation: t.abbreviation,
-            league: t.league,
-            division: t.division,
-            primary_color: t.primary_color,
-            gradientStart: t.gradientStart,
-            gradientEnd: t.gradientEnd,
-            city: t.city,
-            province: t.province,
-            wins: t.wins,
-            losses: t.losses,
-            ties: 0,
-            staff: t.staff,
-            status: "active",
-          });
-          teamMap[t.name] = team;
-          addLog(`Team created: ${t.name} (${team.id})`);
-        } catch (e) {
-          addLog(`Failed to create team ${t.name}: ${e.message}`);
+        addLog(`Bulk team create failed: ${e.message}. Trying one-by-one...`);
+        for (const t of OSBA_TEAMS) {
+          try {
+            const team = await base44.entities.Team.create({
+              name: t.name, team_name: t.team_name, abbreviation: t.abbreviation,
+              league: t.league, division: t.division, primary_color: t.primary_color,
+              wins: t.wins, losses: t.losses, ties: 0, status: "active",
+            });
+            teamMap[t.name] = team;
+            addLog(`Team: ${t.name}`);
+          } catch (e2) {
+            addLog(`SKIP team ${t.name}: ${e2.message}`);
+          }
         }
       }
 
-      // Step 3: Create Players
-      setStatus(s => ({ ...s, step: 'Creating players', progress: 40 }));
-      const playerMap = {};
+      setStatus(s => ({ ...s, step: 'Creating players...', progress: 35 }));
 
+      // Step 2: Create Players in bulk per team
+      let totalPlayers = 0;
       for (let i = 0; i < OSBA_TEAMS.length; i++) {
         const t = OSBA_TEAMS[i];
         const team = teamMap[t.name];
         if (!team) continue;
 
-        const pct = 40 + Math.round((i / OSBA_TEAMS.length) * 30);
-        setStatus(s => ({ ...s, step: `Creating players: ${t.name}`, progress: pct }));
+        const pct = 35 + Math.round((i / OSBA_TEAMS.length) * 45);
+        setStatus(s => ({ ...s, step: `Players: ${t.abbreviation}...`, progress: pct }));
 
-        for (const p of t.players) {
-          try {
-            const player = await base44.entities.Player.create({
-              name: `${p.first_name} ${p.last_name}`,
-              first_name: p.first_name,
-              last_name: p.last_name,
-              jersey_number: p.jersey_number,
-              number: p.jersey_number,
-              position: p.position,
-              height: p.height,
-              team_id: team.id,
-              status: "active",
-            });
-
-            if (!playerMap[t.name]) playerMap[t.name] = [];
-            playerMap[t.name].push(player);
-          } catch (e) {
-            // Try simpler record if some fields aren't in the table
-            try {
-              const player = await base44.entities.Player.create({
-                name: `${p.first_name} ${p.last_name}`,
-                jersey_number: p.jersey_number,
-                position: p.position,
-                team_id: team.id,
-              });
-              if (!playerMap[t.name]) playerMap[t.name] = [];
-              playerMap[t.name].push(player);
-            } catch (e2) {
-              addLog(`Failed player ${p.first_name} ${p.last_name}: ${e2.message}`);
-            }
-          }
-        }
-        addLog(`Created ${t.players.length} players for ${t.name}`);
-      }
-
-      // Step 4: Create Games
-      setStatus(s => ({ ...s, step: 'Creating games', progress: 75 }));
-      for (let i = 0; i < RECENT_GAMES.length; i++) {
-        const g = RECENT_GAMES[i];
-        const homeTeam = teamMap[g.home];
-        const awayTeam = teamMap[g.away];
-        if (!homeTeam || !awayTeam) {
-          addLog(`Skipping game ${g.home} vs ${g.away} — team not found`);
-          continue;
-        }
-
-        const pct = 75 + Math.round((i / RECENT_GAMES.length) * 20);
-        setStatus(s => ({ ...s, step: `Creating game: ${g.home} vs ${g.away}`, progress: pct }));
+        const playerRecords = t.players.map(p => ({
+          name: `${p.first_name} ${p.last_name}`,
+          first_name: p.first_name,
+          last_name: p.last_name,
+          jersey_number: p.jersey_number,
+          number: p.jersey_number,
+          position: p.position,
+          height: p.height,
+          team_id: team.id,
+          status: "active",
+        }));
 
         try {
-          await base44.entities.Game.create({
-            home_team_id: homeTeam.id,
-            away_team_id: awayTeam.id,
-            home_team_name: g.home,
-            away_team_name: g.away,
-            home_team_color: homeTeam.primary_color || homeTeam.gradientStart,
-            away_team_color: awayTeam.primary_color || awayTeam.gradientStart,
-            home_score: g.home_score,
-            away_score: g.away_score,
-            quarter: 4,
-            game_clock_seconds: 0,
-            shot_clock_seconds: 0,
-            status: "completed",
-            game_date: g.date,
-          });
-          addLog(`Game: ${g.home} ${g.home_score} - ${g.away} ${g.away_score}`);
+          const created = await base44.entities.Player.bulkCreate(playerRecords);
+          totalPlayers += created.length;
+          addLog(`${t.abbreviation}: ${created.length} players`);
         } catch (e) {
-          addLog(`Failed game ${g.home} vs ${g.away}: ${e.message}`);
+          // Fallback: try minimal fields
+          addLog(`Bulk failed for ${t.abbreviation}, trying minimal...`);
+          const minRecords = t.players.map(p => ({
+            name: `${p.first_name} ${p.last_name}`,
+            jersey_number: p.jersey_number,
+            position: p.position,
+            team_id: team.id,
+          }));
+          try {
+            const created = await base44.entities.Player.bulkCreate(minRecords);
+            totalPlayers += created.length;
+            addLog(`${t.abbreviation}: ${created.length} players (minimal)`);
+          } catch (e2) {
+            addLog(`SKIP ${t.abbreviation} players: ${e2.message}`);
+          }
+        }
+      }
+      addLog(`Total players created: ${totalPlayers}`);
+
+      // Step 3: Create Games in bulk
+      setStatus(s => ({ ...s, step: 'Creating games...', progress: 85 }));
+
+      const gameRecords = RECENT_GAMES
+        .filter(g => teamMap[g.home] && teamMap[g.away])
+        .map(g => ({
+          home_team_id: teamMap[g.home].id,
+          away_team_id: teamMap[g.away].id,
+          home_team_name: g.home,
+          away_team_name: g.away,
+          home_team_color: teamMap[g.home].primary_color,
+          away_team_color: teamMap[g.away].primary_color,
+          home_score: g.home_score,
+          away_score: g.away_score,
+          quarter: 4,
+          game_clock_seconds: 0,
+          shot_clock_seconds: 0,
+          status: "completed",
+          game_date: g.date,
+        }));
+
+      try {
+        const created = await base44.entities.Game.bulkCreate(gameRecords);
+        addLog(`Created ${created.length} games`);
+      } catch (e) {
+        addLog(`Bulk game create failed: ${e.message}. Trying one-by-one...`);
+        for (const rec of gameRecords) {
+          try {
+            await base44.entities.Game.create(rec);
+            addLog(`Game: ${rec.home_team_name} ${rec.home_score}-${rec.away_score} ${rec.away_team_name}`);
+          } catch (e2) {
+            addLog(`SKIP game: ${e2.message}`);
+          }
         }
       }
 
-      // Step 5: Done
+      // Done
       setStatus(s => ({ ...s, step: 'Complete!', progress: 100 }));
-      addLog(`Seed complete: ${Object.keys(teamMap).length} teams, ${Object.values(playerMap).flat().length} players, ${RECENT_GAMES.length} games`);
+      addLog(`Done! ${Object.keys(teamMap).length} teams, ${totalPlayers} players, ${gameRecords.length} games`);
       queryClient.invalidateQueries();
     },
     onError: (err) => {

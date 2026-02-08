@@ -93,7 +93,7 @@ export default function PlayerDevelopment() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <header className="mb-6 md:mb-8">
           <h1 className="text-2xl md:text-4xl font-black text-white tracking-tight">Player <span style={{ color: '#c9a962' }}>Development</span></h1>
           <p className="text-sm md:text-base text-white/40 mt-1">AI-powered training, video analysis, and progress tracking.</p>

@@ -101,7 +101,7 @@ export default function FanPages() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 md:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
@@ -137,10 +137,10 @@ export default function FanPages() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="border-none shadow-lg overflow-hidden hover:shadow-xl transition-all">
+                <Card className="bg-white/[0.05] border-white/[0.06] overflow-hidden hover:border-white/[0.08] transition-all">
                   {/* Banner */}
                   <div 
-                    className="h-32 bg-gradient-to-r from-orange-500 to-pink-600 relative"
+                    className="h-32 bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 relative"
                     style={fanPage.banner_image ? { backgroundImage: `url(${fanPage.banner_image})`, backgroundSize: 'cover' } : {}}
                   >
                     <div className="absolute inset-0 bg-black/20" />
@@ -234,7 +234,7 @@ export default function FanPages() {
         </div>
 
         {fanPages.length === 0 && (
-          <Card className="border-none shadow-lg bg-white/[0.03]">
+          <Card className="bg-white/[0.03] border-white/[0.06]">
             <CardContent className="py-12 md:py-16 text-center px-4">
               <Heart className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-white/20" />
               <h3 className="text-lg md:text-xl font-semibold text-white mb-2">No fan pages yet</h3>
@@ -275,7 +275,7 @@ function CreateFanPageDialog({ open, onOpenChange, teams, onSubmit }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg bg-[#121212] border-white/[0.06] text-white">
         <DialogHeader>
           <DialogTitle>Create Team Fan Page</DialogTitle>
         </DialogHeader>
@@ -285,7 +285,7 @@ function CreateFanPageDialog({ open, onOpenChange, teams, onSubmit }) {
             <select
               value={formData.team_id}
               onChange={(e) => handleTeamSelect(e.target.value)}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg bg-white/[0.05] border-white/[0.06] text-white"
             >
               <option value="">Choose a team...</option>
               {teams.map(team => (
@@ -326,7 +326,7 @@ function CreateFanPageDialog({ open, onOpenChange, teams, onSubmit }) {
           <Button
             onClick={() => onSubmit({ ...formData, followers: [], announcements: [] })}
             disabled={!formData.team_id}
-            className="w-full bg-gradient-to-r from-orange-500 to-pink-600"
+            className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
           >
             Create Fan Page
           </Button>

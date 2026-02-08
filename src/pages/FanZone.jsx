@@ -57,7 +57,7 @@ export default function FanZone() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-6 lg:p-8 pb-24">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24"><div className="max-w-7xl mx-auto">
         <header className="mb-6 md:mb-8 text-center md:text-left">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">Fan <span className="text-[#c9a962]">Zone</span></h1>
             <p className="text-white/40 mt-1 text-sm md:text-base">Connect with the community and vote for your stars.</p>
@@ -175,6 +175,6 @@ export default function FanZone() {
                 </div>
             </div>
         )}
-    </div>
+    </div></div>
   );
 }

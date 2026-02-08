@@ -67,7 +67,7 @@ export default function Programs() {
           </div>
           <Button
             onClick={() => setCreateOpen(true)}
-            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] px-4"
+            className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] px-4"
           >
             <Plus className="w-5 h-5 mr-2" />
             Create Program
@@ -245,7 +245,7 @@ export default function Programs() {
 
               <Button 
                 onClick={handleCreate}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
                 disabled={!formData.name}
               >
                 Create Program

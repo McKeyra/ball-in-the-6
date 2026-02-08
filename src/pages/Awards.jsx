@@ -120,7 +120,7 @@ export default function Awards() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 md:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
@@ -138,7 +138,7 @@ export default function Awards() {
                   Nominate
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-lg">
+              <DialogContent className="max-w-lg bg-[#121212] border-white/[0.06] text-white">
                 <DialogHeader>
                   <DialogTitle>Submit a Nomination</DialogTitle>
                 </DialogHeader>
@@ -416,7 +416,7 @@ function NominationForm({ players, teams, leagues, onSubmit, onClose }) {
       <Button
         onClick={() => onSubmit(formData)}
         disabled={!formData.recipient_id}
-        className="w-full bg-gradient-to-r from-yellow-500 to-orange-500"
+        className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
       >
         Submit Nomination
       </Button>

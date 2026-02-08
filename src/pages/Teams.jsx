@@ -64,7 +64,7 @@ export default function Teams() {
           </div>
           <Button
             onClick={() => setCreateOpen(true)}
-            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] min-w-[44px] px-4 md:px-6"
+            className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] min-w-[44px] px-4 md:px-6"
           >
             <Plus className="w-5 h-5 mr-2" />
             Create Team
@@ -202,7 +202,7 @@ export default function Teams() {
 
               <Button
                 onClick={() => createMutation.mutate(formData)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px]"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px]"
                 disabled={!formData.name}
               >
                 Create Team

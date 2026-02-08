@@ -48,7 +48,7 @@ export default function DetailedGameView() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
           <Button

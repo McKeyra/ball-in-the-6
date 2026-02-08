@@ -113,7 +113,7 @@ export default function OrgPresidentDashboard() {
                       <p className="text-xs md:text-sm text-white/40">Your brand in App Store & Google Play</p>
                     </div>
                   </div>
-                  <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
+                  <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
                     Launch App Builder
                   </Button>
                 </div>
@@ -125,8 +125,8 @@ export default function OrgPresidentDashboard() {
                     <div className="aspect-[9/19] bg-black rounded-2xl md:rounded-3xl p-2 shadow-2xl mx-auto max-w-[200px] md:max-w-xs">
                       <div className="w-full h-full bg-gradient-to-br from-[#c9a962] to-yellow-500 rounded-xl md:rounded-2xl flex items-center justify-center">
                         <div className="text-center">
-                          <Smartphone className="w-10 h-10 md:w-16 md:h-16 text-[#0A0A0A] mx-auto mb-2 md:mb-4" />
-                          <p className="text-lg md:text-2xl font-bold text-[#0A0A0A]">
+                          <Smartphone className="w-10 h-10 md:w-16 md:h-16 text-[#0f0f0f] mx-auto mb-2 md:mb-4" />
+                          <p className="text-lg md:text-2xl font-bold text-[#0f0f0f]">
                             {organization?.name || 'Your Org'}
                           </p>
                         </div>

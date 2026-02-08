@@ -47,7 +47,7 @@ export default function TeamDetail() {
   if (!team) return <div className="p-4 md:p-10 text-white text-center">Team not found</div>;
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 pb-24">
+    <div className="min-h-screen bg-[#0f0f0f] p-4 md:p-6 lg:p-8 pb-24"><div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 mb-6 md:mb-8">
         <Link to={createPageUrl('LeagueManagement')}>
@@ -170,6 +170,6 @@ export default function TeamDetail() {
           </TabsContent>
 
       </Tabs>
-    </div>
+    </div></div>
   );
 }

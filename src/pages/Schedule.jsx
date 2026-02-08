@@ -103,7 +103,7 @@ export default function Schedule() {
             </Button>
             <Button
               onClick={() => setCreateOpen(true)}
-              className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] text-xs md:text-sm"
+              className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] text-xs md:text-sm"
             >
               <Plus className="w-4 h-4 mr-1 md:mr-2" />
               Add to Schedule
@@ -335,7 +335,7 @@ export default function Schedule() {
 
               <Button
                 onClick={() => createMutation.mutate(formData)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[48px]"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[48px]"
                 disabled={!formData.title || !formData.date}
               >
                 Add to Schedule

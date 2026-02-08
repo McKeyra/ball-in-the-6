@@ -136,7 +136,7 @@ export default function CoachDashboard() {
                         <Clock className="w-3 h-3" />
                         {new Date(game.date).toLocaleDateString()} - {game.time}
                       </div>
-                      <Button size="sm" className="w-full mt-2 bg-[#c9a962] text-[#0A0A0A] min-h-[44px]">
+                      <Button size="sm" className="w-full mt-2 bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px]">
                         Set Lineup
                       </Button>
                     </div>

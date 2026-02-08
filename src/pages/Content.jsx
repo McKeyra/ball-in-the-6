@@ -58,7 +58,7 @@ export default function Content() {
           </div>
           <Button
             onClick={() => setCreatePostOpen(true)}
-            className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto"
+            className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create Post
@@ -142,7 +142,7 @@ export default function Content() {
 
               <Button 
                 onClick={() => createPostMutation.mutate(postForm)}
-                className="w-full bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90"
+                className="w-full bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90"
                 disabled={!postForm.content}
               >
                 Create Post

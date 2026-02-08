@@ -84,7 +84,7 @@ export default function Dashboard() {
               <p className="text-sm md:text-base text-white/50 mt-1">Here's what's happening with your sports world</p>
             </div>
             <Link to={createPageUrl("Feed")}>
-              <Button className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 min-h-[44px] min-w-[44px] px-4">
+              <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] min-w-[44px] px-4">
                 <Plus className="w-4 h-4 mr-2" />
                 Quick Actions
               </Button>

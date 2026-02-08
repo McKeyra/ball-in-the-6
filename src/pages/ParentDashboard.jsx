@@ -94,7 +94,7 @@ export default function ParentDashboard() {
                     <p className="text-xs md:text-sm text-white/40">Payments & invoices</p>
                   </div>
                 </div>
-                <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
+                <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] w-full sm:w-auto">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Add Funds
                 </Button>
@@ -125,7 +125,7 @@ export default function ParentDashboard() {
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                       <p className="text-lg md:text-xl font-bold text-white">${payment.amount}</p>
                       {payment.status === 'pending' && (
-                        <Button size="sm" className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 min-h-[44px] flex-1 sm:flex-none">
+                        <Button size="sm" className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 min-h-[44px] flex-1 sm:flex-none">
                           Pay Now
                         </Button>
                       )}

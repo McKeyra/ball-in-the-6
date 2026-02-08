@@ -126,7 +126,7 @@ export default function PlayerDashboard() {
               </div>
               <CardContent className="p-4 md:p-6 -mt-6 md:-mt-8 relative z-10">
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-[#c9a962] rounded-xl md:rounded-2xl flex items-center justify-center mb-3 md:mb-4 shadow-lg">
-                  <Shirt className="w-6 h-6 md:w-8 md:h-8 text-[#0A0A0A]" />
+                  <Shirt className="w-6 h-6 md:w-8 md:h-8 text-[#0f0f0f]" />
                 </div>
                 <h3 className="text-lg md:text-2xl font-bold text-white mb-2">Your NIL Merch Store</h3>
                 <p className="text-sm md:text-base text-white/50 mb-4">
@@ -134,7 +134,7 @@ export default function PlayerDashboard() {
                   <span className="text-[#c9a962] font-semibold"> You keep 90%.</span>
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button className="bg-[#c9a962] text-[#0A0A0A] hover:bg-[#c9a962]/90 flex-1 min-h-[44px]">
+                  <Button className="bg-[#c9a962] text-[#0f0f0f] hover:bg-[#c9a962]/90 flex-1 min-h-[44px]">
                     Launch Store
                   </Button>
                   <Button variant="outline" className="border-white/[0.06] min-h-[44px]">
