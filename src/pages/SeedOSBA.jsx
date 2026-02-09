@@ -376,6 +376,22 @@ const OSBA_TEAMS = [
   },
 ];
 
+// Live games to seed for testing LiveGame stats entry
+const LIVE_GAMES = [
+  { home: "Royal Crown School", away: "Ridley College", date: "2026-02-08" },
+  { home: "Crestwood Prep", away: "Orangeville Prep", date: "2026-02-08" },
+];
+
+// Upcoming scheduled games
+const UPCOMING_GAMES = [
+  { home: "William Academy", away: "C.O.D.E. Academy", date: "2026-02-10" },
+  { home: "Ridley College", away: "Brampton City Prep National", date: "2026-02-11" },
+  { home: "Hodan Prep", away: "Inspire Academy", date: "2026-02-12" },
+  { home: "Fort Erie International Academy", away: "Cambridge International Academy", date: "2026-02-13" },
+  { home: "Royal Crown School", away: "Polaris Prep Academy", date: "2026-02-14" },
+  { home: "Crestwood Prep", away: "Lincoln Prep", date: "2026-02-15" },
+];
+
 // Recent game results from OSBA Feb 7-8, 2026
 const RECENT_GAMES = [
   { home: "Crestwood Prep", away: "Canada Topflight Academy Gold", home_score: 112, away_score: 67, date: "2026-02-07" },
@@ -533,9 +549,108 @@ export default function SeedOSBA() {
         }
       }
 
+      // Step 4: Create Live Games with PlayerStat records
+      setStatus(s => ({ ...s, step: 'Creating live games...', progress: 90 }));
+
+      const liveGameRecords = LIVE_GAMES
+        .filter(g => teamMap[g.home] && teamMap[g.away])
+        .map(g => ({
+          home_team_id: teamMap[g.home].id,
+          away_team_id: teamMap[g.away].id,
+          home_team_name: g.home,
+          away_team_name: g.away,
+          home_team_color: teamMap[g.home].primary_color,
+          away_team_color: teamMap[g.away].primary_color,
+          home_score: 0,
+          away_score: 0,
+          quarter: 1,
+          game_clock_seconds: 600,
+          shot_clock_seconds: 24,
+          status: "live",
+          game_date: g.date,
+        }));
+
+      let liveGamesCreated = [];
+      for (const rec of liveGameRecords) {
+        try {
+          const game = await base44.entities.Game.create(rec);
+          liveGamesCreated.push({ game, rec });
+          addLog(`Live game: ${rec.home_team_name} vs ${rec.away_team_name}`);
+        } catch (e) {
+          addLog(`SKIP live game: ${e.message}`);
+        }
+      }
+
+      // Create PlayerStat records for each live game (required for LiveGame stat tracking)
+      for (const { game, rec } of liveGamesCreated) {
+        try {
+          // Get players for both teams
+          const homeTeamData = OSBA_TEAMS.find(t => t.name === rec.home_team_name);
+          const awayTeamData = OSBA_TEAMS.find(t => t.name === rec.away_team_name);
+          if (!homeTeamData || !awayTeamData) continue;
+
+          // Fetch the created players for these teams from the DB
+          const allPlayers = await base44.entities.Player.list('-created_date', 200);
+          const homePlayers = allPlayers.filter(p => p.team_id === rec.home_team_id);
+          const awayPlayers = allPlayers.filter(p => p.team_id === rec.away_team_id);
+
+          const statRecords = [...homePlayers, ...awayPlayers].map(player => ({
+            game_id: game.id,
+            player_id: player.id,
+            team_id: player.team_id,
+            points: 0, fgm: 0, fga: 0, fgm3: 0, fga3: 0,
+            ftm: 0, fta: 0, oreb: 0, dreb: 0,
+            ast: 0, stl: 0, blk: 0, tov: 0,
+            pf: 0, tf: 0, uf: 0, minutes: 0,
+          }));
+
+          await base44.entities.PlayerStat.bulkCreate(statRecords);
+          addLog(`  Stats: ${statRecords.length} player records for ${rec.home_team_name} vs ${rec.away_team_name}`);
+        } catch (e) {
+          addLog(`  Stats failed: ${e.message}`);
+        }
+      }
+
+      // Step 5: Create Upcoming Games
+      setStatus(s => ({ ...s, step: 'Creating upcoming games...', progress: 95 }));
+
+      const upcomingGameRecords = UPCOMING_GAMES
+        .filter(g => teamMap[g.home] && teamMap[g.away])
+        .map(g => ({
+          home_team_id: teamMap[g.home].id,
+          away_team_id: teamMap[g.away].id,
+          home_team_name: g.home,
+          away_team_name: g.away,
+          home_team_color: teamMap[g.home].primary_color,
+          away_team_color: teamMap[g.away].primary_color,
+          home_score: 0,
+          away_score: 0,
+          quarter: 0,
+          game_clock_seconds: 0,
+          shot_clock_seconds: 0,
+          status: "scheduled",
+          game_date: g.date,
+        }));
+
+      try {
+        const created = await base44.entities.Game.bulkCreate(upcomingGameRecords);
+        addLog(`Created ${created.length} upcoming games`);
+      } catch (e) {
+        addLog(`Bulk upcoming failed: ${e.message}. Trying one-by-one...`);
+        for (const rec of upcomingGameRecords) {
+          try {
+            await base44.entities.Game.create(rec);
+            addLog(`Upcoming: ${rec.home_team_name} vs ${rec.away_team_name} (${rec.game_date})`);
+          } catch (e2) {
+            addLog(`SKIP upcoming: ${e2.message}`);
+          }
+        }
+      }
+
       // Done
+      const totalGames = gameRecords.length + liveGamesCreated.length + upcomingGameRecords.length;
       setStatus(s => ({ ...s, step: 'Complete!', progress: 100 }));
-      addLog(`Done! ${Object.keys(teamMap).length} teams, ${totalPlayers} players, ${gameRecords.length} games`);
+      addLog(`Done! ${Object.keys(teamMap).length} teams, ${totalPlayers} players, ${totalGames} games (${gameRecords.length} completed, ${liveGamesCreated.length} live, ${upcomingGameRecords.length} upcoming)`);
       queryClient.invalidateQueries();
     },
     onError: (err) => {
@@ -579,7 +694,7 @@ export default function SeedOSBA() {
           <Card className="bg-white/[0.08] border-white/[0.08]">
             <CardContent className="p-4 text-center">
               <Trophy className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">{RECENT_GAMES.length}</div>
+              <div className="text-2xl font-bold text-white">{RECENT_GAMES.length + LIVE_GAMES.length + UPCOMING_GAMES.length}</div>
               <div className="text-xs text-white/50">Games</div>
             </CardContent>
           </Card>

@@ -99,6 +99,7 @@ export default function Feed() {
   // Live games
   const liveGames = games.filter(g => g.status === 'live' || g.status === 'in_progress');
   const recentGames = games.filter(g => g.status === 'completed').slice(0, 5);
+  const upcomingGames = games.filter(g => g.status === 'scheduled').slice(0, 5);
 
   // Build feed items
   const getFeedItems = () => {
@@ -120,6 +121,13 @@ export default function Feed() {
       recentGames.forEach(game => {
         items.push({
           type: 'game',
+          data: game,
+          timestamp: new Date(game.game_date || Date.now()),
+        });
+      });
+      upcomingGames.forEach(game => {
+        items.push({
+          type: 'upcoming_game',
           data: game,
           timestamp: new Date(game.game_date || Date.now()),
         });
@@ -257,6 +265,53 @@ export default function Feed() {
             </div>
           </Card>
         </Link>
+      </motion.div>
+    );
+  };
+
+  // Render upcoming game card
+  const renderUpcomingGameCard = (game) => {
+    return (
+      <motion.div
+        key={`upcoming-${game.id}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <Card className="bg-white/[0.05] border-white/[0.06] overflow-hidden">
+          <div className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500" />
+          <div className="p-4 md:p-5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-medium text-blue-400 bg-blue-500/20 px-2 py-1 rounded-full flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                UPCOMING
+              </span>
+              <span className="text-xs text-white/40">
+                {game.game_date ? format(new Date(game.game_date), 'MMM d') : 'TBD'}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <p className="font-semibold text-white/80">
+                  {game.home_team_name || 'Home'}
+                </p>
+              </div>
+              <div className="text-center px-4">
+                <p className="text-lg font-bold text-white/50">VS</p>
+              </div>
+              <div className="flex-1 text-right">
+                <p className="font-semibold text-white/80">
+                  {game.away_team_name || 'Away'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-2 mt-3 text-xs text-white/40">
+              <Calendar className="w-3 h-3" />
+              <span>{game.game_date ? format(new Date(game.game_date), 'EEEE, MMM d, yyyy') : 'Date TBD'}</span>
+            </div>
+          </div>
+        </Card>
       </motion.div>
     );
   };
@@ -459,6 +514,8 @@ export default function Feed() {
                     return renderPostCard(item.data);
                   case 'game':
                     return renderGameCard(item.data);
+                  case 'upcoming_game':
+                    return renderUpcomingGameCard(item.data);
                   case 'program':
                     return renderProgramCard(item.data);
                   default:
