@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball in the 6 - Getting Started Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #e8e8e8;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #c9a962 0%, #b89952 100%);
+            color: #0f0f0f;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .alert {
+            background: #2d1f1f;
+            border-left: 4px solid #c9a962;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .alert h3 {
+            color: #c9a962;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #c9a962;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #c9a962;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #d4b876;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #e8e8e8;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: #252525;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(201, 169, 98, 0.2);
+        }
+
+        .step {
+            background: #1f1f1f;
+            border-left: 4px solid #c9a962;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            background: #c9a962;
+            color: #0f0f0f;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+
+        code {
+            background: #0f0f0f;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #c9a962;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #0f0f0f;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #333;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: #e8e8e8;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: #c9a962;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: #c9a962;
+        }
+
+        .button {
+            display: inline-block;
+            background: #c9a962;
+            color: #0f0f0f;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+            margin: 10px 10px 10px 0;
+        }
+
+        .button:hover {
+            background: #b89952;
+            transform: translateY(-2px);
+            border-bottom: none;
+        }
+
+        .button.secondary {
+            background: #333;
+            color: #e8e8e8;
+        }
+
+        .button.secondary:hover {
+            background: #444;
+        }
+
+        .warning {
+            background: #3d2a1f;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .success {
+            background: #1f3d2a;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .info {
+            background: #1f2a3d;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #252525;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #c9a962;
+            color: #0f0f0f;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            background: #c9a962;
+            color: #0f0f0f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .badge.red {
+            background: #f44336;
+            color: white;
+        }
+
+        .badge.green {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge.blue {
+            background: #2196f3;
+            color: white;
+        }
+
+        footer {
+            background: #0f0f0f;
+            padding: 30px 40px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #c9a962;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #c9a962;
+            border: 3px solid #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .step-number {
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏀 Ball in the 6</h1>
+            <p>Basketball League Management Platform - Getting Started Guide</p>
+        </header>
+
+        <div class="content">
+            <div class="alert">
+                <h3>📋 Quick Start Checklist</h3>
+                <p>This guide will walk you through understanding the current application and planning your next steps.</p>
+                <p style="margin-top: 10px;"><strong>Status:</strong> <span class="badge">Prototype</span> <strong>Ready for:</strong> <span class="badge green">Local Use</span> <strong>Needs:</strong> <span class="badge red">Enterprise Rebuild</span></p>
+            </div>
+
+            <!-- SECTION 1: UNDERSTAND CURRENT STATE -->
+            <div class="section">
+                <h2>1️⃣ Understand the Current Application</h2>
+
+                <div class="card">
+                    <h3>📖 Read the Documentation</h3>
+                    <p>Start by reading the comprehensive handoff document to understand the full scope:</p>
+                    <a href="APPLICATION_HANDOFF.md" class="button">📄 Read APPLICATION_HANDOFF.md</a>
+
+                    <h4>Key Sections to Review:</h4>
+                    <ul>
+                        <li><strong>Executive Summary</strong> - Current state and limitations</li>
+                        <li><strong>Technology Stack</strong> - React, Supabase, Tailwind CSS</li>
+                        <li><strong>Database Schema</strong> - 50+ tables documented</li>
+                        <li><strong>Known Limitations</strong> - What needs fixing</li>
+                        <li><strong>Enterprise Rebuild Recommendations</strong> - How to modernize</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 What This Application Does</h3>
+                    <div class="info">
+                        <strong>Purpose:</strong> Manage basketball leagues, teams, games, and player development for community sports organizations.
+                    </div>
+
+                    <h4>Core Features:</h4>
+                    <table>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>🏀 Live Game Tracking</td>
+                            <td>Real-time scorekeeping, shot clock, substitutions</td>
+                        </tr>
+                        <tr>
+                            <td>👥 Team Management</td>
+                            <td>Roster management, lineup builder, team health scoring</td>
+                        </tr>
+                        <tr>
+                            <td>🏆 League Administration</td>
+                            <td>Schedule creation, standings, playoff brackets</td>
+                        </tr>
+                        <tr>
+                            <td>📊 Player Development</td>
+                            <td>Stats tracking, performance analytics, training plans</td>
+                        </tr>
+                        <tr>
+                            <td>💬 Community Features</td>
+                            <td>Social feed, forums, fan pages, messaging</td>
+                        </tr>
+                        <tr>
+                            <td>📝 Forms & Compliance</td>
+                            <td>Waivers, medical forms, background checks</td>
+                        </tr>
+                        <tr>
+                            <td>🛍️ E-Commerce</td>
+                            <td>Team stores, sponsor management, program sign-ups</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECTION 2: CURRENT TECH STACK -->
+            <div class="section">
+                <h2>2️⃣ Current Technology Stack</h2>
+
+                <div class="card">
+                    <h3>💻 Frontend</h3>
+                    <ul>
+                        <li><strong>Framework:</strong> React 18.2.0</li>
+                        <li><strong>Build Tool:</strong> Vite 6.1.0</li>
+                        <li><strong>UI Library:</strong> Radix UI + Tailwind CSS 3.4.17</li>
+                        <li><strong>State Management:</strong> TanStack React Query 5.84.1 + React Context</li>
+                        <li><strong>Routing:</strong> React Router DOM 6.26.0</li>
+                        <li><strong>Forms:</strong> React Hook Form + Zod validation</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🗄️ Backend (Supabase)</h3>
+                    <div class="warning">
+                        <strong>⚠️ High Coupling Warning:</strong> The entire application is tightly coupled to Supabase. Migrating to another database requires significant refactoring.
+                    </div>
+                    <ul>
+                        <li><strong>Database:</strong> Supabase PostgreSQL (50+ tables)</li>
+                        <li><strong>Authentication:</strong> Supabase Auth (email/password + OAuth)</li>
+                        <li><strong>Storage:</strong> Supabase Storage for file uploads</li>
+                        <li><strong>Edge Functions:</strong> Deno/TypeScript serverless functions</li>
+                        <li><strong>Real-time:</strong> Polling-based (NOT true WebSocket)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 3: RUN LOCALLY -->
+            <div class="section">
+                <h2>3️⃣ Run the Application Locally</h2>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Clone the Repository</strong>
+                    <pre><code>git clone https://github.com/McKeyra/ball-in-the-6.git
+cd ball-in-the-6</code></pre>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Install Dependencies</strong>
+                    <pre><code>npm install</code></pre>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Configure Environment Variables</strong>
+                    <p>Copy <code>.env.example</code> to <code>.env</code> and fill in your Supabase credentials:</p>
+                    <pre><code>cp .env.example .env
+
+# Edit .env with your credentials:
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here</code></pre>
+
+                    <div class="info">
+                        <strong>📌 Where to Get Supabase Credentials:</strong>
+                        <ol>
+                            <li>Go to <a href="https://supabase.com" target="_blank">supabase.com</a></li>
+                            <li>Create a new project (or use existing)</li>
+                            <li>Go to Settings → API</li>
+                            <li>Copy "Project URL" and "anon/public key"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Set Up Database Schema</strong>
+                    <p>In Supabase SQL Editor, run the archived Supabase schema:</p>
+                    <pre><code>-- Copy contents of archive/supabase-sql/supabase-setup-public.sql
+-- Paste into Supabase SQL Editor and run</code></pre>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Start Development Server</strong>
+                    <pre><code>npm run dev</code></pre>
+                    <div class="success">
+                        ✅ Application should now be running at <code>http://localhost:5173</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Create Test User</strong>
+                    <p>In Supabase Dashboard → Authentication → Add user:</p>
+                    <ul>
+                        <li>Email: <code>test@example.com</code></li>
+                        <li>Password: Your choice (minimum 6 characters)</li>
+                    </ul>
+                    <p>Then insert admin role in SQL Editor:</p>
+                    <pre><code>INSERT INTO user_roles (email, role, full_name)
+VALUES ('test@example.com', 'owner', 'Test User');</code></pre>
+                </div>
+            </div>
+
+            <!-- SECTION 4: DATABASE MIGRATION -->
+            <div class="section">
+                <h2>4️⃣ Migrate to Digital Ocean PostgreSQL</h2>
+
+                <div class="warning">
+                    <strong>⚠️ Important:</strong> The current app is built for Supabase. To use Digital Ocean PostgreSQL, you need to build a custom API layer. See Section 6 for enterprise rebuild.
+                </div>
+
+                <div class="card">
+                    <h3>Option A: Database Only Migration (Not Recommended)</h3>
+                    <p>You can set up the database on Digital Ocean, but the app won't work without refactoring:</p>
+
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <strong>Create Digital Ocean Database</strong>
+                        <ul>
+                            <li>Go to <a href="https://cloud.digitalocean.com" target="_blank">Digital Ocean</a></li>
+                            <li>Create Managed PostgreSQL Database</li>
+                            <li>Choose region and plan</li>
+                            <li>Get connection details</li>
+                        </ul>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <strong>Run Database Setup Script</strong>
+                        <pre><code>psql -h your-db-host.db.ondigitalocean.com \
+     -p 25060 \
+     -U doadmin \
+     -d ball_in_the_6 \
+     --set=sslmode=require \
+     -f digital-ocean-postgres-setup.sql</code></pre>
+                    </div>
+
+                    <div class="warning">
+                        <strong>⚠️ App Won't Work Yet:</strong> You still need to build a REST API to connect the frontend to Digital Ocean database. See enterprise rebuild recommendations.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Option B: Full Enterprise Rebuild (Recommended)</h3>
+                    <p>Follow the 6-phase migration plan in the handoff document. See Section 6 below.</p>
+                </div>
+            </div>
+
+            <!-- SECTION 5: KNOWN ISSUES -->
+            <div class="section">
+                <h2>5️⃣ Known Limitations & Issues</h2>
+
+                <div class="card">
+                    <h3>🚨 Critical Issues</h3>
+
+                    <table>
+                        <tr>
+                            <th>Issue</th>
+                            <th>Impact</th>
+                            <th>Solution</th>
+                        </tr>
+                        <tr>
+                            <td>⚠️ No Automated Testing</td>
+                            <td>High risk of bugs in production</td>
+                            <td>Add Vitest + Playwright tests</td>
+                        </tr>
+                        <tr>
+                            <td>⚠️ Tight Supabase Coupling</td>
+                            <td>Cannot migrate databases easily</td>
+                            <td>Build separate API layer</td>
+                        </tr>
+                        <tr>
+                            <td>⚠️ Polling-Based Real-Time</td>
+                            <td>Not scalable, high server load</td>
+                            <td>Implement WebSocket server</td>
+                        </tr>
+                        <tr>
+                            <td>⚠️ No Error Tracking</td>
+                            <td>Cannot monitor production issues</td>
+                            <td>Add Sentry error tracking</td>
+                        </tr>
+                        <tr>
+                            <td>⚠️ Security Vulnerabilities</td>
+                            <td>RLS policies use USING(true)</td>
+                            <td>Implement proper authorization</td>
+                        </tr>
+                        <tr>
+                            <td>⚠️ No Type Safety</td>
+                            <td>Runtime errors, hard to debug</td>
+                            <td>Migrate to full TypeScript</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Performance Issues</h3>
+                    <ul>
+                        <li><strong>Large bundle size:</strong> No code splitting by route</li>
+                        <li><strong>Mobile lag:</strong> Heavy component tree, no virtualization</li>
+                        <li><strong>No caching strategy:</strong> Default React Query settings only</li>
+                        <li><strong>No offline support:</strong> Loses state on refresh</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 6: ENTERPRISE REBUILD -->
+            <div class="section">
+                <h2>6️⃣ Enterprise Rebuild Plan</h2>
+
+                <div class="alert">
+                    <h3>💼 Recommended Approach</h3>
+                    <p>For production deployment, follow the 6-phase migration plan outlined in <code>APPLICATION_HANDOFF.md</code></p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 1: Stabilization <span class="badge blue">2-4 weeks</span></h4>
+                            <ul>
+                                <li>Add error tracking (Sentry)</li>
+                                <li>Implement logging infrastructure</li>
+                                <li>Document all API endpoints</li>
+                                <li>Create data export scripts</li>
+                                <li>Freeze feature development</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 2: Database Migration <span class="badge blue">2-3 weeks</span></h4>
+                            <ul>
+                                <li>Set up Digital Ocean PostgreSQL</li>
+                                <li>Run <code>digital-ocean-postgres-setup.sql</code></li>
+                                <li>Export data from Supabase</li>
+                                <li>Validate data integrity</li>
+                                <li>Configure backups</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 3: Backend API Development <span class="badge blue">6-8 weeks</span></h4>
+                            <ul>
+                                <li>Choose stack: Node.js + Express/Fastify OR Go + Gin</li>
+                                <li>Implement REST API with full CRUD</li>
+                                <li>Add JWT authentication</li>
+                                <li>Build WebSocket server for real-time</li>
+                                <li>Write API tests (80%+ coverage)</li>
+                            </ul>
+
+                            <h4 style="margin-top: 15px;">Recommended Stack:</h4>
+                            <pre><code>Backend: Node.js + Fastify + Prisma ORM
+Database: Digital Ocean PostgreSQL
+Real-time: Socket.io
+Auth: JWT with refresh tokens
+Cache: Redis
+Testing: Jest + Supertest</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 4: Frontend Modernization <span class="badge blue">8-10 weeks</span></h4>
+                            <ul>
+                                <li>Migrate to Next.js 14+</li>
+                                <li>Keep Radix UI + Tailwind components</li>
+                                <li>Replace Base44 client with API client</li>
+                                <li>Implement new auth flow</li>
+                                <li>Replace polling with WebSocket</li>
+                                <li>Add server-side rendering</li>
+                                <li>Write E2E tests (Playwright)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 5: Testing & QA <span class="badge blue">3-4 weeks</span></h4>
+                            <ul>
+                                <li>Load testing (k6, Artillery)</li>
+                                <li>Security audit</li>
+                                <li>Accessibility audit (WCAG 2.1 AA)</li>
+                                <li>Cross-browser testing</li>
+                                <li>User acceptance testing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4>Phase 6: Deployment <span class="badge blue">2 weeks</span></h4>
+                            <ul>
+                                <li>Set up production infrastructure</li>
+                                <li>Configure monitoring (Datadog, Sentry)</li>
+                                <li>Set up CI/CD pipeline</li>
+                                <li>Deploy with blue-green strategy</li>
+                                <li>Launch 🚀</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 Budget Estimate</h3>
+                    <table>
+                        <tr>
+                            <th>Category</th>
+                            <th>Cost</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Development (2 Full-Stack Developers × 6 months)</strong></td>
+                            <td>$200,000 - $300,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Infrastructure (Annual)</strong></td>
+                            <td>$5,800 - $13,200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Third-Party Services (Annual)</strong></td>
+                            <td>$7,200</td>
+                        </tr>
+                        <tr>
+                            <th>Total (Year 1)</th>
+                            <th>$213,000 - $320,400</th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>⏱️ Timeline</h3>
+                    <div class="success">
+                        <strong>Total Duration:</strong> 5.5 - 7.5 months with 2 full-stack developers
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 7: RECOMMENDED TECH STACK -->
+            <div class="section">
+                <h2>7️⃣ Recommended Enterprise Stack</h2>
+
+                <div class="card">
+                    <h3>🏗️ Backend API</h3>
+                    <pre><code>Language: TypeScript
+Framework: Node.js + Fastify (fast) OR NestJS (structured)
+Database: Digital Ocean PostgreSQL
+ORM: Prisma (type-safe, excellent DX)
+Auth: JWT with refresh tokens
+Real-time: Socket.io
+Caching: Redis
+Validation: Zod
+Testing: Vitest + Supertest</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>⚛️ Frontend</h3>
+                    <pre><code>Framework: Next.js 14+ (App Router)
+Language: TypeScript (strict mode)
+UI: Keep Radix UI + Tailwind CSS
+State: Zustand + TanStack Query
+Forms: React Hook Form + Zod
+Testing: Vitest + Playwright
+Monitoring: Sentry</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>🚀 Infrastructure</h3>
+                    <pre><code>Frontend Hosting: Vercel or Netlify
+Backend API: AWS ECS, Railway, or Google Cloud Run
+Database: Digital Ocean Managed PostgreSQL
+Cache: Redis (Upstash or Digital Ocean)
+CDN: Cloudflare
+Monitoring: Datadog or New Relic
+Error Tracking: Sentry
+CI/CD: GitHub Actions</code></pre>
+                </div>
+            </div>
+
+            <!-- SECTION 8: FILES REFERENCE -->
+            <div class="section">
+                <h2>8️⃣ Important Files Reference</h2>
+
+                <div class="card">
+                    <h3>📂 Documentation</h3>
+                    <ul>
+                        <li><code>APPLICATION_HANDOFF.md</code> - Complete technical handoff (1,383 lines)</li>
+                        <li><code>.planning/codebase/ARCHITECTURE.md</code> - Architecture patterns</li>
+                        <li><code>.planning/codebase/STRUCTURE.md</code> - File structure</li>
+                        <li><code>.planning/codebase/STACK.md</code> - Technology stack</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🗄️ Database</h3>
+                    <ul>
+                        <li><code>digital-ocean-postgres-setup.sql</code> - Production database schema (50+ tables)</li>
+                        <li><code>archive/supabase-sql/supabase-setup-public.sql</code> - Supabase version with RLS</li>
+                        <li><code>archive/supabase-sql/seed_data.sql</code> - Sample test data</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚙️ Configuration</h3>
+                    <ul>
+                        <li><code>.env.example</code> - Environment variables template</li>
+                        <li><code>package.json</code> - Dependencies and scripts</li>
+                        <li><code>vite.config.js</code> - Build configuration</li>
+                        <li><code>tailwind.config.js</code> - Design system tokens</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💻 Critical Source Files</h3>
+                    <ul>
+                        <li><code>src/api/base44Client.js</code> - Supabase wrapper (replace with API client)</li>
+                        <li><code>src/lib/AuthContext.jsx</code> - Authentication logic</li>
+                        <li><code>src/pages.config.js</code> - Route registry (80+ pages)</li>
+                        <li><code>src/Layout.jsx</code> - App shell and navigation</li>
+                        <li><code>src/components/ui/</code> - 50+ reusable UI components</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 9: NEXT STEPS -->
+            <div class="section">
+                <h2>9️⃣ Immediate Next Steps</h2>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Decision: Prototype or Enterprise?</strong>
+                    <div style="margin-top: 10px;">
+                        <div class="info">
+                            <strong>Option A: Use as Prototype</strong>
+                            <ul>
+                                <li>Keep using Supabase</li>
+                                <li>Good for 10-50 teams locally</li>
+                                <li>No enterprise features</li>
+                                <li>Cost: ~$25-50/month</li>
+                            </ul>
+                        </div>
+                        <div class="warning" style="margin-top: 15px;">
+                            <strong>Option B: Enterprise Rebuild</strong>
+                            <ul>
+                                <li>Follow 6-phase migration plan</li>
+                                <li>Production-ready, scalable</li>
+                                <li>Timeline: 5.5-7.5 months</li>
+                                <li>Budget: $213k-$320k</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Review Complete Documentation</strong>
+                    <p>Read <code>APPLICATION_HANDOFF.md</code> thoroughly before making technical decisions.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Test the Current Application</strong>
+                    <p>Run locally with Supabase to understand features and limitations.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>If Proceeding with Rebuild:</strong>
+                    <ul>
+                        <li>Assemble development team (2 full-stack developers)</li>
+                        <li>Set up project infrastructure (Git, CI/CD)</li>
+                        <li>Begin Phase 1: Stabilization</li>
+                        <li>Add error tracking (Sentry)</li>
+                        <li>Freeze feature development on current app</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Get Expert Consultation</strong>
+                    <p>Consider hiring experienced architects for:</p>
+                    <ul>
+                        <li>Infrastructure design review</li>
+                        <li>Security audit</li>
+                        <li>Scalability planning</li>
+                        <li>Tech stack selection</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 10: SUPPORT -->
+            <div class="section">
+                <h2>🆘 Support & Resources</h2>
+
+                <div class="card">
+                    <h3>📧 Contact</h3>
+                    <p><strong>Project Owner:</strong> Michael</p>
+                    <p><strong>Email:</strong> <a href="mailto:michael@enuw.ca">michael@enuw.ca</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/McKeyra/ball-in-the-6" target="_blank">github.com/McKeyra/ball-in-the-6</a></p>
+                </div>
+
+                <div class="card">
+                    <h3>📚 Additional Resources</h3>
+                    <ul>
+                        <li><a href="https://supabase.com/docs" target="_blank">Supabase Documentation</a></li>
+                        <li><a href="https://react.dev" target="_blank">React Documentation</a></li>
+                        <li><a href="https://nextjs.org/docs" target="_blank">Next.js Documentation</a></li>
+                        <li><a href="https://www.prisma.io/docs" target="_blank">Prisma ORM Documentation</a></li>
+                        <li><a href="https://tailwindcss.com/docs" target="_blank">Tailwind CSS Documentation</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎓 Learning Path</h3>
+                    <p>If you're new to the stack, study these in order:</p>
+                    <ol>
+                        <li>React fundamentals and hooks</li>
+                        <li>TanStack Query (React Query) for data fetching</li>
+                        <li>Supabase basics (auth, database, realtime)</li>
+                        <li>Tailwind CSS utility classes</li>
+                        <li>TypeScript fundamentals</li>
+                        <li>Next.js App Router (for rebuild)</li>
+                        <li>PostgreSQL and Prisma ORM (for rebuild)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="alert" style="background: #1f3d2a; border-left-color: #4caf50;">
+                <h3>✅ Ready to Start?</h3>
+                <p>You now have everything you need to understand and work with this application. Choose your path (prototype or enterprise) and follow the corresponding steps above.</p>
+                <div style="margin-top: 20px;">
+                    <a href="APPLICATION_HANDOFF.md" class="button">📄 Read Full Handoff Doc</a>
+                    <a href="https://github.com/McKeyra/ball-in-the-6" target="_blank" class="button secondary">🔗 View on GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Ball in the 6</strong> - Basketball League Management Platform</p>
+            <p style="margin-top: 10px;">Created with ❤️ in Toronto | Last Updated: February 15, 2026</p>
+            <p style="margin-top: 5px; font-size: 0.85em;">Generated with <a href="https://claude.ai" target="_blank">Claude Sonnet 4.5</a></p>
+        </footer>
+    </div>
+</body>
+</html>
