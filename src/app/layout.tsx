@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { AuthProvider } from '@/components/auth/AuthProvider';
+import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import './globals.css';
 
 const inter = Inter({
@@ -54,9 +55,11 @@ export default function RootLayout({
           Skip to content
         </a>
         <AuthProvider>
-          <div id="main-content">
-            {children}
-          </div>
+          <ThemeProvider>
+            <div id="main-content">
+              {children}
+            </div>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

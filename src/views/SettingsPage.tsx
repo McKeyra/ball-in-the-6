@@ -8,7 +8,7 @@ import {
   Mail,
   Phone,
   Bell,
-  Moon,
+  Palette,
   Globe,
   Eye,
   MapPin,
@@ -22,6 +22,7 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeSwitcher } from '@/components/theme/ThemeSwitcher';
 import Link from 'next/link';
 
 interface ToggleProps {
@@ -88,7 +89,7 @@ const CACHE_SIZE = '24.3 MB';
 
 export const SettingsPage: React.FC = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [themeOpen, setThemeOpen] = useState(false);
   const [profileVisible, setProfileVisible] = useState(true);
   const [locationSharing, setLocationSharing] = useState(true);
   const [activityStatus, setActivityStatus] = useState(true);
@@ -143,11 +144,17 @@ export const SettingsPage: React.FC = () => {
             />
             <Divider />
             <SettingRow
-              icon={Moon}
+              icon={Palette}
               iconColor="text-accent-purple"
-              label="Dark Mode"
-              action={<Toggle enabled={darkMode} onChange={setDarkMode} />}
+              label="Theme"
+              value={themeOpen ? 'Close' : 'Choose'}
+              onClick={() => setThemeOpen(!themeOpen)}
             />
+            {themeOpen && (
+              <div className="px-4 pb-3 pt-1">
+                <ThemeSwitcher />
+              </div>
+            )}
             <Divider />
             <SettingRow icon={Globe} iconColor="text-accent-blue" label="Language" value="English" />
           </div>
