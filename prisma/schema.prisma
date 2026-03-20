@@ -1,0 +1,462 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── USER & PROFILE SYSTEM ───────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  authId        String    @unique @map("auth_id") // ENUW Auth external ID
+  email         String    @unique
+  name          String
+  ageBracket    String    @map("age_bracket") // child | teen | adult
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  profile       Profile?
+  children      ParentChild[] @relation("Parent")
+  parents       ParentChild[] @relation("Child")
+  posts         Post[]
+  registrations Registration[]
+  invoices      Invoice[]
+  sentMessages  Message[]     @relation("Sender")
+  receivedMessages Message[]  @relation("Recipient")
+  notifications Notification[]
+  coachNotes    CoachNote[]   @relation("CoachNoteCoach")
+  playerNotes   CoachNote[]   @relation("CoachNotePlayer")
+  chatMembers   ChatMember[]
+  shotCharts    ShotChart[]
+
+  @@map("users")
+}
+
+model Profile {
+  id            String    @id @default(cuid())
+  userId        String    @unique @map("user_id")
+  type          String    // fan | player | team | coach | organization | business
+  displayName   String    @map("display_name")
+  handle        String    @unique
+  avatar        String?
+  bio           String?
+  location      String?
+  verified      Boolean   @default(false)
+  followers     Int       @default(0)
+  following     Int       @default(0)
+  joinedDate    DateTime  @default(now()) @map("joined_date")
+
+  // Theme tokens (JSON)
+  tokens        Json?
+
+  // Profile-type specific data (JSON — varies by type)
+  stats         Json?
+  metadata      Json?     // position, jerseyNumber, certifications, etc.
+
+  // Links
+  links         ProfileLink[]
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model ProfileLink {
+  id            String    @id @default(cuid())
+  profileId     String    @map("profile_id")
+  platform      String
+  url           String
+  label         String
+
+  profile       Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("profile_links")
+}
+
+// ─── PARENT-CHILD CLAIM SYSTEM ───────────────────────────────────────────────
+
+model ParentChild {
+  id              String    @id @default(cuid())
+  parentId        String    @map("parent_id")
+  childId         String    @map("child_id")
+  status          String    @default("pending") // pending | verified | rejected
+  verificationCode String? @map("verification_code")
+  claimedAt       DateTime  @default(now()) @map("claimed_at")
+  verifiedAt      DateTime? @map("verified_at")
+
+  parent          User      @relation("Parent", fields: [parentId], references: [id])
+  child           User      @relation("Child", fields: [childId], references: [id])
+
+  @@unique([parentId, childId])
+  @@map("parent_children")
+}
+
+// ─── FEED & POSTS ────────────────────────────────────────────────────────────
+
+model Post {
+  id            String    @id @default(cuid())
+  authorId      String    @map("author_id")
+  type          String    // play | fullwidth | nobleed | headerfill | slider | game
+  caption       String?
+  imageUrl      String?   @map("image_url")
+  imageUrls     String[]  @map("image_urls")
+  score         Int       @default(0)
+  assists       Int       @default(0)
+  drops         Int       @default(0)
+  commentCount  Int       @default(0) @map("comment_count")
+  gameId        String?   @map("game_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  author        User      @relation(fields: [authorId], references: [id])
+  game          Game?     @relation(fields: [gameId], references: [id])
+
+  @@index([authorId])
+  @@index([createdAt(sort: Desc)])
+  @@map("posts")
+}
+
+// ─── COURTS ──────────────────────────────────────────────────────────────────
+
+model Court {
+  id            String    @id @default(cuid())
+  name          String
+  area          String
+  address       String
+  type          String    // outdoor | indoor
+  courts        Int       @default(1)
+  activePlayers Int       @default(0) @map("active_players")
+  hot           Boolean   @default(false)
+  imageUrl      String?   @map("image_url")
+  rating        Float     @default(0)
+  lat           Float?
+  lng           Float?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("courts")
+}
+
+// ─── GAMES & SCORES ──────────────────────────────────────────────────────────
+
+model Team {
+  id            String    @id @default(cuid())
+  name          String
+  logo          String?
+  color         String?
+  sport         String
+  league        String?
+  division      String?
+  homeCourt     String?   @map("home_court")
+  record        String?
+
+  homeGames     Game[]    @relation("HomeTeam")
+  awayGames     Game[]    @relation("AwayTeam")
+  standings     Standing[]
+  programs      Program[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("teams")
+}
+
+model Game {
+  id            String    @id @default(cuid())
+  homeTeamId    String    @map("home_team_id")
+  awayTeamId    String    @map("away_team_id")
+  homeScore     Int       @default(0) @map("home_score")
+  awayScore     Int       @default(0) @map("away_score")
+  status        String    // live | upcoming | final
+  level         String    // pro | collegiate | highschool | elementary
+  sport         String
+  venue         String?
+  time          DateTime
+  mvpName       String?   @map("mvp_name")
+  mvpStats      String?   @map("mvp_stats")
+  mvpAvatar     String?   @map("mvp_avatar")
+  impactScore   Float?    @map("impact_score")
+
+  homeTeam      Team      @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam      Team      @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  posts         Post[]
+  events        Event[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([sport])
+  @@map("games")
+}
+
+model Standing {
+  id            String    @id @default(cuid())
+  teamId        String    @map("team_id")
+  sport         String
+  season        String
+  conference    String?
+  division      String?
+  wins          Int       @default(0)
+  losses        Int       @default(0)
+  ties          Int       @default(0)
+  points        Float     @default(0)
+  winPct        Float     @default(0) @map("win_pct")
+  streak        String?
+  lastTen       String?   @map("last_ten")
+
+  team          Team      @relation(fields: [teamId], references: [id])
+
+  @@unique([teamId, sport, season])
+  @@map("standings")
+}
+
+// ─── PROGRAMS & REGISTRATION ─────────────────────────────────────────────────
+
+model Program {
+  id                String    @id @default(cuid())
+  name              String
+  orgId             String    @map("org_id")
+  teamId            String?   @map("team_id")
+  type              String    // league | camp | training | clinic
+  sport             String
+  ageGroups         String[]  @map("age_groups")
+  gender            String    // male | female | co-ed
+  skillLevel        String    @map("skill_level")
+  season            String
+  startDate         DateTime  @map("start_date")
+  endDate           DateTime  @map("end_date")
+  schedule          Json
+  price             Float
+  earlyBirdPrice    Float     @map("early_bird_price")
+  earlyBirdDeadline DateTime  @map("early_bird_deadline")
+  siblingDiscount   Float     @default(0) @map("sibling_discount")
+  paymentPlans      Json      @map("payment_plans")
+  spotsTotal        Int       @map("spots_total")
+  spotsFilled       Int       @default(0) @map("spots_filled")
+  status            String    @default("draft")
+  requirements      String[]
+  description       String?
+  coaches           String[]
+
+  team              Team?     @relation(fields: [teamId], references: [id])
+  registrations     Registration[]
+  events            Event[]
+  groupChats        GroupChat[]
+
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  @@index([sport])
+  @@index([status])
+  @@map("programs")
+}
+
+model Registration {
+  id            String    @id @default(cuid())
+  programId     String    @map("program_id")
+  playerId      String    @map("player_id")
+  parentId      String?   @map("parent_id")
+  status        String    @default("pending")
+  paymentPlan   Json      @map("payment_plan")
+  amountPaid    Float     @default(0) @map("amount_paid")
+  amountDue     Float     @default(0) @map("amount_due")
+  registeredAt  DateTime  @default(now()) @map("registered_at")
+
+  program       Program   @relation(fields: [programId], references: [id])
+  player        User      @relation(fields: [playerId], references: [id])
+  invoices      Invoice[]
+
+  @@unique([programId, playerId])
+  @@map("registrations")
+}
+
+model Invoice {
+  id              String    @id @default(cuid())
+  registrationId  String?   @map("registration_id")
+  userId          String    @map("user_id")
+  amount          Float
+  dueDate         DateTime  @map("due_date")
+  status          String    @default("pending")
+  paidAt          DateTime? @map("paid_at")
+  description     String?
+
+  registration    Registration? @relation(fields: [registrationId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([status])
+  @@map("invoices")
+}
+
+// ─── EVENTS & CALENDAR ───────────────────────────────────────────────────────
+
+model Event {
+  id            String    @id @default(cuid())
+  programId     String?   @map("program_id")
+  gameId        String?   @map("game_id")
+  type          String    // practice | game | clinic | meeting
+  title         String
+  date          DateTime
+  time          String
+  venue         String?
+  description   String?
+
+  program       Program?  @relation(fields: [programId], references: [id])
+  game          Game?     @relation(fields: [gameId], references: [id])
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@index([date])
+  @@map("events")
+}
+
+// ─── MESSAGING ───────────────────────────────────────────────────────────────
+
+model Message {
+  id            String    @id @default(cuid())
+  senderId      String    @map("sender_id")
+  recipientId   String    @map("recipient_id")
+  content       String
+  read          Boolean   @default(false)
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  sender        User      @relation("Sender", fields: [senderId], references: [id])
+  recipient     User      @relation("Recipient", fields: [recipientId], references: [id])
+
+  @@index([recipientId, read])
+  @@map("messages")
+}
+
+model GroupChat {
+  id            String    @id @default(cuid())
+  name          String
+  programId     String?   @map("program_id")
+  lastMessage   String?   @map("last_message")
+  lastMessageAt DateTime? @map("last_message_at")
+
+  program       Program?  @relation(fields: [programId], references: [id])
+  members       ChatMember[]
+  chatMessages  ChatMessage[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@map("group_chats")
+}
+
+model ChatMember {
+  id            String    @id @default(cuid())
+  chatId        String    @map("chat_id")
+  userId        String    @map("user_id")
+  unread        Int       @default(0)
+  joinedAt      DateTime  @default(now()) @map("joined_at")
+
+  chat          GroupChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@unique([chatId, userId])
+  @@map("chat_members")
+}
+
+model ChatMessage {
+  id            String    @id @default(cuid())
+  chatId        String    @map("chat_id")
+  senderId      String    @map("sender_id")
+  content       String
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  chat          GroupChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@index([chatId, createdAt])
+  @@map("chat_messages")
+}
+
+// ─── NOTIFICATIONS ───────────────────────────────────────────────────────────
+
+model Notification {
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
+  type          String    // registration | payment | game | coach_note | message | system
+  title         String
+  body          String
+  read          Boolean   @default(false)
+  data          Json?
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+// ─── COACH NOTES ─────────────────────────────────────────────────────────────
+
+model CoachNote {
+  id            String    @id @default(cuid())
+  coachId       String    @map("coach_id")
+  playerId      String    @map("player_id")
+  type          String    // feedback | progress | concern | praise
+  content       String
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  coach         User      @relation("CoachNoteCoach", fields: [coachId], references: [id])
+  player        User      @relation("CoachNotePlayer", fields: [playerId], references: [id])
+
+  @@index([playerId])
+  @@map("coach_notes")
+}
+
+// ─── SHOT CHART / COURT ANALYTICS ────────────────────────────────────────────
+
+model ShotChart {
+  id            String    @id @default(cuid())
+  playerId      String    @map("player_id")
+  gameId        String?   @map("game_id")
+  season        String?
+  zone          String
+  makes         Int       @default(0)
+  attempts      Int       @default(0)
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  player        User      @relation(fields: [playerId], references: [id])
+
+  @@index([playerId, season])
+  @@map("shot_charts")
+}
+
+// ─── SPORT CONFIG (reference data) ───────────────────────────────────────────
+
+model SportConfig {
+  id            String    @id
+  name          String
+  icon          String?
+  positions     String[]
+  statCategories String[] @map("stat_categories")
+  scoringSystem Json     @map("scoring_system")
+  periods       Json
+  conferences   String[]
+  divisions     String[]
+
+  @@map("sport_configs")
+}
+
+// ─── N8N WEBHOOK LOG (audit trail) ───────────────────────────────────────────
+
+model WebhookLog {
+  id            String    @id @default(cuid())
+  event         String    // user.registered, payment.completed, etc.
+  payload       Json
+  status        String    @default("sent")
+  responseCode  Int?      @map("response_code")
+  error         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@index([event])
+  @@index([createdAt])
+  @@map("webhook_logs")
+}

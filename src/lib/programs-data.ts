@@ -378,3 +378,6 @@ export const ALL_INVOICES: Invoice[] = [
     status: 'overdue',
   },
 ];
+
+/** Alias used by API routes */
+export const PROGRAMS = ALL_PROGRAMS;
