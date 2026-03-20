@@ -22,22 +22,52 @@ export const metadata: Metadata = {
     template: '%s — Ball in the 6',
   },
   description: "Toronto's sports community platform. Plays, game results, player intelligence, and court discovery — all in the 6ix.",
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Ball in the 6',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     type: 'website',
     title: 'Ball in the 6 — Toronto Sports',
-    description: "Toronto's sports community platform.",
+    description: "Toronto's sports community platform. Plays, game results, player intelligence, and court discovery — all in the 6ix.",
     siteName: 'Ball in the 6',
+    url: 'https://ball-in-the-6.vercel.app',
+    locale: 'en_CA',
   },
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ball in the 6 — Toronto Sports',
+    description: "Toronto's sports community platform.",
   },
+  metadataBase: new URL('https://ball-in-the-6.vercel.app'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  category: 'sports',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 5,
   viewportFit: 'cover',
-  themeColor: '#ffffff',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
 };
 
 export default function RootLayout({

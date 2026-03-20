@@ -1,0 +1,10 @@
+# Ball in the 6 — Toronto's Operating System for Sports
+# https://ball-in-the-6.vercel.app
+
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /settings/
+
+Sitemap: https://ball-in-the-6.vercel.app/sitemap.xml

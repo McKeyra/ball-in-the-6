@@ -1,0 +1,26 @@
+{
+  "name": "Ball in the 6",
+  "short_name": "B6",
+  "description": "Toronto's Operating System for Sports",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#C8FF00",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "social", "entertainment"]
+}
