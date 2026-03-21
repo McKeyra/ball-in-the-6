@@ -16,7 +16,7 @@ export async function GET(request: Request): Promise<Response> {
   try {
     // Determine user role from their profile type
     const profile = await prisma.profile.findUnique({
-      where: { userId: user.sub },
+      where: { userId: user.userId },
     });
 
     const isCoach = profile?.type === 'coach';
@@ -26,7 +26,7 @@ export async function GET(request: Request): Promise<Response> {
     if (isCoach) {
       // Coach: return notes they wrote
       notes = await prisma.coachNote.findMany({
-        where: { coachId: user.sub },
+        where: { coachId: user.userId },
         include: {
           player: {
             include: { profile: true },
@@ -38,7 +38,7 @@ export async function GET(request: Request): Promise<Response> {
       // Parent: return notes for their verified children
       const parentChildren = await prisma.parentChild.findMany({
         where: {
-          parentId: user.sub,
+          parentId: user.userId,
           status: 'verified',
         },
         select: { childId: true },
@@ -95,7 +95,7 @@ export async function POST(request: Request): Promise<Response> {
   // Verify the user is a coach
   try {
     const profile = await prisma.profile.findUnique({
-      where: { userId: user.sub },
+      where: { userId: user.userId },
     });
 
     if (profile?.type !== 'coach') {
@@ -127,7 +127,7 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const note = await prisma.coachNote.create({
       data: {
-        coachId: user.sub,
+        coachId: user.userId,
         playerId,
         type,
         content: content.trim(),
@@ -142,8 +142,8 @@ export async function POST(request: Request): Promise<Response> {
     // Fire n8n webhook
     await sendWebhookSafe('coach_note.created', {
       noteId: note.id,
-      coachId: user.sub,
-      coachEmail: user.email,
+      coachId: user.userId,
+      coachEmail: user.token.email,
       playerId: note.playerId,
       playerName: note.player.profile?.displayName ?? note.player.name,
       type: note.type,

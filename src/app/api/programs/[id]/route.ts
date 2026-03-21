@@ -82,7 +82,7 @@ export async function PUT(
   try {
     orgProfile = await prisma.profile.findFirst({
       where: {
-        userId: auth.user.sub,
+        userId: auth.user.userId,
         type: 'organization',
       },
     });

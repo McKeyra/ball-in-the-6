@@ -114,7 +114,7 @@ export async function POST(request: Request): Promise<Response> {
   try {
     orgProfile = await prisma.profile.findFirst({
       where: {
-        userId: auth.user.sub,
+        userId: auth.user.userId,
         type: 'organization',
       },
     });

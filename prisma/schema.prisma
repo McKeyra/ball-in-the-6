@@ -157,11 +157,83 @@ model Team {
   awayGames     Game[]    @relation("AwayTeam")
   standings     Standing[]
   programs      Program[]
+  players       Player[]
 
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   @@map("teams")
+}
+
+// ─── ROSTER PLAYERS ─────────────────────────────────────────────────────────
+
+model Player {
+  id            String    @id @default(cuid())
+  teamId        String    @map("team_id")
+  name          String
+  number        Int
+  position      String    // PG | SG | SF | PF | C
+  onCourt       Boolean   @default(false) @map("on_court")
+
+  team          Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  stats         PlayerStat[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@index([teamId])
+  @@map("players")
+}
+
+// ─── PER-GAME PLAYER STATS ──────────────────────────────────────────────────
+
+model PlayerStat {
+  id            String    @id @default(cuid())
+  gameId        String    @map("game_id")
+  playerId      String    @map("player_id")
+  teamSide      String    @map("team_side")   // home | away
+  minutes       Int       @default(0)
+  points        Int       @default(0)
+  fgMade        Int       @default(0) @map("fg_made")
+  fgAttempts    Int       @default(0) @map("fg_attempts")
+  threeMade     Int       @default(0) @map("three_made")
+  threeAttempts Int       @default(0) @map("three_attempts")
+  ftMade        Int       @default(0) @map("ft_made")
+  ftAttempts    Int       @default(0) @map("ft_attempts")
+  offRebounds   Int       @default(0) @map("off_rebounds")
+  defRebounds   Int       @default(0) @map("def_rebounds")
+  assists       Int       @default(0)
+  steals        Int       @default(0)
+  blocks        Int       @default(0)
+  turnovers     Int       @default(0)
+  fouls         Int       @default(0)
+
+  game          Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player        Player    @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, playerId])
+  @@index([gameId])
+  @@map("player_stats")
+}
+
+// ─── GAME EVENTS (play-by-play) ─────────────────────────────────────────────
+
+model GameEvent {
+  id            String    @id @default(cuid())
+  gameId        String    @map("game_id")
+  type          String    // score | foul | timeout | substitution | violation | quarter_end
+  description   String
+  quarter       Int
+  gameClock     Int       @map("game_clock")  // seconds remaining when event occurred
+  teamSide      String?   @map("team_side")   // home | away
+  playerName    String?   @map("player_name")
+  points        Int?      // 1, 2, or 3 for scoring events
+
+  game          Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@index([gameId, createdAt])
+  @@map("game_events")
 }
 
 model Game {
@@ -180,10 +252,23 @@ model Game {
   mvpAvatar     String?   @map("mvp_avatar")
   impactScore   Float?    @map("impact_score")
 
+  // Live game settings
+  quarter       Int       @default(1)
+  gameClock     Int       @default(600) @map("game_clock")       // seconds remaining
+  shotClock     Int       @default(24)  @map("shot_clock")       // seconds remaining
+  quarterLength Int       @default(10)  @map("quarter_length")   // minutes per quarter
+  overtimeLength Int      @default(5)   @map("overtime_length")  // minutes per OT
+  shotClockSec  Int       @default(24)  @map("shot_clock_sec")   // shot clock duration
+  timeoutsHome  Int       @default(2)   @map("timeouts_home")
+  timeoutsAway  Int       @default(2)   @map("timeouts_away")
+  foulOutLimit  Int       @default(5)   @map("foul_out_limit")
+
   homeTeam      Team      @relation("HomeTeam", fields: [homeTeamId], references: [id])
   awayTeam      Team      @relation("AwayTeam", fields: [awayTeamId], references: [id])
   posts         Post[]
   events        Event[]
+  gameEvents    GameEvent[]
+  playerStats   PlayerStat[]
 
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
@@ -443,6 +528,59 @@ model SportConfig {
   divisions     String[]
 
   @@map("sport_configs")
+}
+
+// ─── SCOUTING DATA (scraped stats pipeline) ─────────────────────────────────
+
+model ScoutingLeague {
+  id        String   @id @default(cuid())
+  sport     String
+  code      String                      // EP slug or org code (e.g. "ajhl", "cebl", "ibl")
+  name      String                      // Full display name
+  country   String   @default("CA")     // ISO 2-letter
+  province  String?                     // ON, BC, QC, AB, SK, MB, NB, NS, NL, PE, NT, YT, NU
+  level     String?                     // major-junior, junior-a, junior-b, u18-aaa, u15, college, university, senior, pro, prep, women
+  source    String                      // eliteprospects.com, usports.ca, pointstreak, etc.
+
+  seasons   ScoutingSeason[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([sport, code, country])
+  @@index([sport])
+  @@index([country])
+  @@map("scouting_leagues")
+}
+
+model ScoutingSeason {
+  id         String   @id @default(cuid())
+  leagueId   String   @map("league_id")
+  season     String                     // "2024-25" or "2024"
+  sourceUrl  String?  @map("source_url")
+  scrapeDate DateTime @default(now()) @map("scrape_date")
+
+  league     ScoutingLeague  @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  players    ScoutingPlayer[]
+
+  @@unique([leagueId, season])
+  @@index([season])
+  @@map("scouting_seasons")
+}
+
+model ScoutingPlayer {
+  id        String   @id @default(cuid())
+  seasonId  String   @map("season_id")
+  rank      Int
+  name      String
+  team      String
+  stats     Json                        // Flexible per sport: {gp, g, a, tp, pim} | {ppg, rpg, apg} | {avg, hr, rbi} etc.
+
+  season    ScoutingSeason @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@index([name])
+  @@index([seasonId])
+  @@map("scouting_players")
 }
 
 // ─── N8N WEBHOOK LOG (audit trail) ───────────────────────────────────────────

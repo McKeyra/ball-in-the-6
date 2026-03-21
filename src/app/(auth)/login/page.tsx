@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'motion/react';
 import { Zap, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { useAuth } from '@/components/auth/AuthProvider';
 
 export default function LoginPage(): React.JSX.Element {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { login } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -19,20 +20,23 @@ export default function LoginPage(): React.JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
 
-    try {
-      await login(email, password);
-      router.push('/');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
-      setError(message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    login(email, password)
+      .then(() => {
+        const redirect = searchParams.get('redirect') || '/';
+        router.push(redirect);
+      })
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
+        setError(message);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (

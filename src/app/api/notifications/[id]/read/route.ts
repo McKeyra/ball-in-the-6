@@ -23,7 +23,7 @@ export async function PUT(
       return notFound('Notification not found');
     }
 
-    if (notification.userId !== user.sub) {
+    if (notification.userId !== user.userId) {
       return error('Not authorized to update this notification', 403, 'FORBIDDEN');
     }
 

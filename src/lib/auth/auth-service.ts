@@ -6,7 +6,10 @@ import type {
   AuthErrorResponse,
 } from './types';
 
-const AUTH_BASE_URL = 'https://auth.226.wtf';
+/**
+ * Auth service — all calls go through our own /api/auth/* proxy routes,
+ * which handle cookie setting and user sync to the ballinthe6 database.
+ */
 
 class AuthServiceError extends Error {
   public readonly statusCode: number;
@@ -21,7 +24,19 @@ class AuthServiceError extends Error {
 }
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
-  const body = await response.json();
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch {
+    if (!response.ok) {
+      throw new AuthServiceError(
+        `Request failed with status ${response.status}`,
+        response.status,
+        'REQUEST_FAILED',
+      );
+    }
+    throw new AuthServiceError('Invalid response from server', 500, 'INVALID_RESPONSE');
+  }
 
   if (!response.ok) {
     const errorBody = body as AuthErrorResponse;
@@ -37,14 +52,12 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthTokens> => {
-    const response = await fetch(`${AUTH_BASE_URL}/auth/login`, {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({
         email: credentials.email,
         password: credentials.password,
-        brand: credentials.brand,
       }),
     });
 
@@ -52,16 +65,14 @@ export const authService = {
   },
 
   register: async (data: RegisterData): Promise<AuthTokens> => {
-    const response = await fetch(`${AUTH_BASE_URL}/auth/register`, {
+    const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({
         email: data.email,
         password: data.password,
         name: data.name,
-        date_of_birth: data.dateOfBirth,
-        brand: data.brand,
+        dateOfBirth: data.dateOfBirth,
       }),
     });
 
@@ -69,9 +80,8 @@ export const authService = {
   },
 
   logout: async (): Promise<void> => {
-    const response = await fetch(`${AUTH_BASE_URL}/auth/logout`, {
+    const response = await fetch('/api/auth/logout', {
       method: 'POST',
-      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -80,22 +90,17 @@ export const authService = {
   },
 
   refreshToken: async (): Promise<AuthTokens> => {
-    const response = await fetch(`${AUTH_BASE_URL}/auth/refresh`, {
+    const response = await fetch('/api/auth/refresh', {
       method: 'POST',
-      credentials: 'include',
     });
 
     return handleResponse<AuthTokens>(response);
   },
 
-  getMe: async (token: string): Promise<AuthUser> => {
-    const response = await fetch(`${AUTH_BASE_URL}/auth/me`, {
+  getMe: async (): Promise<AuthUser> => {
+    const response = await fetch('/api/auth/me', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
 
     return handleResponse<AuthUser>(response);

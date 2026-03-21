@@ -6,6 +6,7 @@ export const AUTH_BRAND = 'b6' as const;
 export interface AuthUser {
   id: string;
   email: string;
+  fullName?: string;
   brands: string[];
   ageBracket: AgeBracket;
   mfaVerified: boolean;

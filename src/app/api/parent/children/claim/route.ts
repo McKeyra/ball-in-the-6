@@ -40,7 +40,7 @@ export async function POST(request: Request): Promise<Response> {
       return notFound('No user found with that email');
     }
 
-    if (childUser.id === user.sub) {
+    if (childUser.id === user.userId) {
       return badRequest('Cannot claim yourself as a child');
     }
 
@@ -48,7 +48,7 @@ export async function POST(request: Request): Promise<Response> {
     const existing = await prisma.parentChild.findUnique({
       where: {
         parentId_childId: {
-          parentId: user.sub,
+          parentId: user.userId,
           childId: childUser.id,
         },
       },
@@ -61,7 +61,7 @@ export async function POST(request: Request): Promise<Response> {
     // Create the parent-child relationship
     const parentChild = await prisma.parentChild.create({
       data: {
-        parentId: user.sub,
+        parentId: user.userId,
         childId: childUser.id,
         status: 'pending',
         verificationCode,
@@ -71,8 +71,8 @@ export async function POST(request: Request): Promise<Response> {
     // Fire n8n webhook
     await sendWebhookSafe('parent.child_claimed', {
       parentChildId: parentChild.id,
-      parentId: user.sub,
-      parentEmail: user.email,
+      parentId: user.userId,
+      parentEmail: user.token.email,
       childId: childUser.id,
       childEmail,
     });

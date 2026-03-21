@@ -12,7 +12,7 @@ export async function GET(request: Request): Promise<Response> {
   try {
     const parentChildren = await prisma.parentChild.findMany({
       where: {
-        parentId: user.sub,
+        parentId: user.userId,
         status: 'verified',
       },
       include: {

@@ -12,7 +12,7 @@ export async function GET(request: Request): Promise<Response> {
   const auth = await requireAuth(request);
   if ('error' in auth) return auth.error;
 
-  const userId = auth.user.sub;
+  const userId = auth.user.userId;
   const { searchParams } = new URL(request.url);
   const { page, limit } = parsePageParams(searchParams);
   const statusParam = searchParams.get('status');

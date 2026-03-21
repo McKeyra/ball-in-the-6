@@ -41,7 +41,7 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     // Ensure the requesting user is the parent on this record
-    if (parentChild.parentId !== user.sub) {
+    if (parentChild.parentId !== user.userId) {
       return error('Not authorized to verify this relationship', 403, 'FORBIDDEN');
     }
 

@@ -82,14 +82,18 @@ function mapPrismaGameToResponse(game: PrismaGameWithTeams): Game {
 async function fetchGamesFromDb(
   level: string | null,
   status: string | null,
+  sport: string | null,
 ): Promise<Game[]> {
-  const where: Record<string, string> = {};
+  const where: Record<string, unknown> = {};
 
   if (level && VALID_LEVELS.includes(level as GameLevel)) {
     where.level = level;
   }
   if (status && VALID_STATUSES.includes(status as GameStatusFilter)) {
     where.status = status;
+  }
+  if (sport) {
+    where.sport = { equals: sport, mode: 'insensitive' };
   }
 
   const games = await prisma.game.findMany({
@@ -108,7 +112,7 @@ async function fetchGamesFromDb(
   return games.map(mapPrismaGameToResponse);
 }
 
-function fetchGamesFromMock(level: string | null, status: string | null): Game[] {
+function fetchGamesFromMock(level: string | null, status: string | null, _sport: string | null): Game[] {
   let filtered = [...GAMES];
 
   if (level && VALID_LEVELS.includes(level as GameLevel)) {
@@ -127,14 +131,15 @@ export async function GET(request: Request): Promise<Response> {
 
   const levelParam = searchParams.get('level');
   const statusParam = searchParams.get('status');
+  const sportParam = searchParams.get('sport');
 
   let games: Game[];
 
   try {
-    games = await fetchGamesFromDb(levelParam, statusParam);
+    games = await fetchGamesFromDb(levelParam, statusParam, sportParam);
   } catch {
     // Database not connected or query failed — fall back to mock data
-    games = fetchGamesFromMock(levelParam, statusParam);
+    games = fetchGamesFromMock(levelParam, statusParam, sportParam);
   }
 
   return success(games, {
@@ -142,6 +147,7 @@ export async function GET(request: Request): Promise<Response> {
     filters: {
       level: levelParam ?? 'all',
       status: statusParam ?? 'all',
+      sport: sportParam ?? 'all',
     },
   });
 }

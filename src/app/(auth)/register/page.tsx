@@ -63,7 +63,7 @@ export default function RegisterPage(): React.JSX.Element {
     dateOfBirth.length > 0 &&
     termsAccepted;
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setError(null);
 
@@ -84,15 +84,17 @@ export default function RegisterPage(): React.JSX.Element {
 
     setIsSubmitting(true);
 
-    try {
-      await register({ email, password, name, dateOfBirth });
-      router.push('/');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Registration failed. Please try again.';
-      setError(message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    register({ email, password, name, dateOfBirth })
+      .then(() => {
+        router.push('/');
+      })
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : 'Registration failed. Please try again.';
+        setError(message);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (

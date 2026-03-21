@@ -13,7 +13,7 @@ export async function POST(
   const auth = await requireAuth(request);
   if ('error' in auth) return auth.error;
 
-  const userId = auth.user.sub;
+  const userId = auth.user.userId;
   const { id: invoiceId } = await params;
 
   if (!invoiceId || typeof invoiceId !== 'string') {

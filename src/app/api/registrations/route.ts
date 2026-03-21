@@ -11,7 +11,7 @@ export async function GET(request: Request): Promise<Response> {
   const auth = await requireAuth(request);
   if ('error' in auth) return auth.error;
 
-  const userId = auth.user.sub;
+  const userId = auth.user.userId;
 
   try {
     const registrations = await prisma.registration.findMany({
@@ -70,7 +70,7 @@ export async function POST(request: Request): Promise<Response> {
   const auth = await requireAuth(request);
   if ('error' in auth) return auth.error;
 
-  const userId = auth.user.sub;
+  const userId = auth.user.userId;
 
   let body: CreateRegistrationBody;
   try {

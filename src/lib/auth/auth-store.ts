@@ -1,7 +1,13 @@
 import { create } from 'zustand';
-import type { AuthUser, AuthTokens, LoginCredentials, RegisterData } from './types';
-import { AUTH_BRAND } from './types';
+import type { AuthUser, AuthTokens, RegisterData } from './types';
 import { authService } from './auth-service';
+
+/**
+ * Auth state store.
+ * Tokens are stored in httpOnly cookies by the server-side /api/auth/* routes.
+ * We keep a client-side copy of tokens for expiry checks and refreshing,
+ * but the cookie is the source of truth for API requests.
+ */
 
 const TOKENS_STORAGE_KEY = 'b6_auth_tokens';
 
@@ -71,11 +77,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   login: async (email, password) => {
     set({ isLoading: true });
     try {
-      const credentials: LoginCredentials = { email, password, brand: AUTH_BRAND };
-      const tokens = await authService.login(credentials);
+      // Calls /api/auth/login which sets httpOnly cookies
+      const tokens = await authService.login({ email, password, brand: 'b6' });
       persistTokens(tokens);
 
-      const user = await authService.getMe(tokens.accessToken);
+      const user = await authService.getMe();
       set({ user, tokens, isAuthenticated: true, isLoading: false });
     } catch (error) {
       set({ user: null, tokens: null, isAuthenticated: false, isLoading: false });
@@ -86,11 +92,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   register: async (data) => {
     set({ isLoading: true });
     try {
-      const registerData: RegisterData = { ...data, brand: AUTH_BRAND };
-      const tokens = await authService.register(registerData);
+      const tokens = await authService.register({ ...data, brand: 'b6' });
       persistTokens(tokens);
 
-      const user = await authService.getMe(tokens.accessToken);
+      const user = await authService.getMe();
       set({ user, tokens, isAuthenticated: true, isLoading: false });
     } catch (error) {
       set({ user: null, tokens: null, isAuthenticated: false, isLoading: false });
@@ -100,6 +105,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     try {
+      // Calls /api/auth/logout which clears httpOnly cookies
       await authService.logout();
     } catch {
       /* best-effort server logout */
@@ -110,10 +116,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   refreshSession: async () => {
     try {
+      // Calls /api/auth/refresh which reads refresh cookie and sets new ones
       const tokens = await authService.refreshToken();
       persistTokens(tokens);
 
-      const user = await authService.getMe(tokens.accessToken);
+      const user = await authService.getMe();
       set({ user, tokens, isAuthenticated: true });
     } catch {
       persistTokens(null);
@@ -124,7 +131,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   checkAuth: async () => {
     const { tokens } = get();
     if (!tokens) {
-      set({ isLoading: false, isAuthenticated: false });
+      // No client-side tokens — try cookie-based check
+      try {
+        const user = await authService.getMe();
+        set({ user, isAuthenticated: true, isLoading: false });
+      } catch {
+        set({ isLoading: false, isAuthenticated: false });
+      }
       return;
     }
 
@@ -138,7 +151,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
 
     try {
-      const user = await authService.getMe(tokens.accessToken);
+      const user = await authService.getMe();
       set({ user, isAuthenticated: true, isLoading: false });
     } catch {
       await get().refreshSession();
@@ -148,6 +161,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   hydrate: () => {
     const tokens = loadTokens();
-    set({ tokens, isHydrated: true, isLoading: !!tokens });
+    set({ tokens, isHydrated: true, isLoading: true });
   },
 }));

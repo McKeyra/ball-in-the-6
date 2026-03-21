@@ -185,7 +185,7 @@ export async function POST(request: Request): Promise<Response> {
   try {
     // ── Check for existing profile on this user ──
     const existing = await prisma.profile.findUnique({
-      where: { userId: user.sub },
+      where: { userId: user.userId },
     });
 
     if (existing) {
@@ -208,7 +208,7 @@ export async function POST(request: Request): Promise<Response> {
     // ── Create profile ──
     const profile = await prisma.profile.create({
       data: {
-        userId: user.sub,
+        userId: user.userId,
         type: type as ProfileType,
         displayName: displayName.trim(),
         handle: handle.trim(),
@@ -223,7 +223,7 @@ export async function POST(request: Request): Promise<Response> {
     // ── Fire n8n webhook (non-blocking) ──
     void sendWebhookSafe('user.profile_created', {
       profileId: profile.id,
-      userId: user.sub,
+      userId: user.userId,
       type: profile.type,
       handle: profile.handle,
       displayName: profile.displayName,

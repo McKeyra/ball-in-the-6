@@ -165,7 +165,7 @@ export const MessagesPage: React.FC = () => {
             </div>
           </div>
           <Link
-            href="/messages/new"
+            href="/messages"
             className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-lime-dim"
             aria-label="New message"
           >
