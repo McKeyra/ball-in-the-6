@@ -4,6 +4,8 @@ import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 
+/* ---------- Types ---------- */
+
 interface TeamInfo {
   name: string;
   abbr: string;
@@ -35,47 +37,89 @@ interface UpcomingGame {
 interface ApiGame {
   id: string;
   status?: string;
+  homeScore?: number;
+  awayScore?: number;
+  home_score?: number;
+  away_score?: number;
+  quarter?: number;
+  gameClock?: number;
+  game_clock?: number;
+  time_remaining?: string;
+  home_win_prob?: number;
+  homeWinProb?: number;
+  venue?: string;
+  time?: string;
+  game_date?: string;
+  tipoff?: string;
+  sport?: string;
+  homeTeam?: { id: string; name: string; abbreviation?: string; abbr?: string; primaryColor?: string; color?: string };
+  awayTeam?: { id: string; name: string; abbreviation?: string; abbr?: string; primaryColor?: string; color?: string };
   home_team_name?: string;
   away_team_name?: string;
   home_team_abbr?: string;
   away_team_abbr?: string;
   home_team_color?: string;
   away_team_color?: string;
-  home_score?: number;
-  away_score?: number;
-  quarter?: number;
-  time_remaining?: string;
-  home_win_prob?: number;
-  venue?: string;
-  game_date?: string;
-  tipoff?: string;
+}
+
+/* ---------- Helpers ---------- */
+
+function formatGameClock(seconds: number | undefined): string {
+  if (seconds === undefined || seconds === null) return '12:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${String(secs).padStart(2, '0')}`;
+}
+
+function extractTeamInfo(game: ApiGame, side: 'home' | 'away'): TeamInfo {
+  const teamObj = side === 'home' ? game.homeTeam : game.awayTeam;
+  if (teamObj) {
+    return {
+      name: teamObj.name || (side === 'home' ? 'Home' : 'Away'),
+      abbr: teamObj.abbreviation || teamObj.abbr || teamObj.name?.slice(0, 3).toUpperCase() || '???',
+      color: teamObj.primaryColor || teamObj.color || '#666',
+    };
+  }
+  const prefix = side === 'home' ? 'home' : 'away';
+  return {
+    name: game[`${prefix}_team_name` as keyof ApiGame] as string || (side === 'home' ? 'Home' : 'Away'),
+    abbr: game[`${prefix}_team_abbr` as keyof ApiGame] as string || '???',
+    color: game[`${prefix}_team_color` as keyof ApiGame] as string || '#666',
+  };
 }
 
 function mapToLiveGame(g: ApiGame): LiveGame {
+  const clockSeconds = g.gameClock ?? g.game_clock;
   return {
     id: g.id,
-    homeTeam: { name: g.home_team_name || 'Home', abbr: g.home_team_abbr || '???', color: g.home_team_color || '#666' },
-    awayTeam: { name: g.away_team_name || 'Away', abbr: g.away_team_abbr || '???', color: g.away_team_color || '#666' },
-    homeScore: g.home_score || 0,
-    awayScore: g.away_score || 0,
-    quarter: g.quarter || 1,
-    timeRemaining: g.time_remaining || '12:00',
-    homeWinProb: g.home_win_prob || 50,
-    status: g.status || 'live',
-    arena: g.venue || 'TBD',
+    homeTeam: extractTeamInfo(g, 'home'),
+    awayTeam: extractTeamInfo(g, 'away'),
+    homeScore: g.homeScore ?? g.home_score ?? 0,
+    awayScore: g.awayScore ?? g.away_score ?? 0,
+    quarter: g.quarter ?? 1,
+    timeRemaining: g.time_remaining ?? formatGameClock(clockSeconds),
+    homeWinProb: g.homeWinProb ?? g.home_win_prob ?? 50,
+    status: g.status ?? 'live',
+    arena: g.venue ?? 'TBD',
   };
 }
 
 function mapToUpcomingGame(g: ApiGame): UpcomingGame {
+  const tipoff = g.tipoff ??
+    (g.time ? new Date(g.time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : null) ??
+    (g.game_date ? new Date(g.game_date).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'TBD');
+
   return {
     id: g.id,
-    homeTeam: { name: g.home_team_name || 'Home', abbr: g.home_team_abbr || '???', color: g.home_team_color || '#666' },
-    awayTeam: { name: g.away_team_name || 'Away', abbr: g.away_team_abbr || '???', color: g.away_team_color || '#666' },
-    tipoff: g.tipoff || (g.game_date ? new Date(g.game_date).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'TBD'),
+    homeTeam: extractTeamInfo(g, 'home'),
+    awayTeam: extractTeamInfo(g, 'away'),
+    tipoff,
     status: 'upcoming',
-    arena: g.venue || 'TBD',
+    arena: g.venue ?? 'TBD',
   };
 }
+
+/* ---------- Live Game Card ---------- */
 
 function LiveGameCard({ game }: { game: LiveGame }): React.ReactElement {
   const prob = game.homeWinProb;
@@ -173,6 +217,8 @@ function LiveGameCard({ game }: { game: LiveGame }): React.ReactElement {
   );
 }
 
+/* ---------- Upcoming Game Card ---------- */
+
 function UpcomingGameCard({ game }: { game: UpcomingGame }): React.ReactElement {
   return (
     <div className="bg-neutral-900/60 border border-neutral-800/50 rounded-xl p-3">
@@ -193,18 +239,26 @@ function UpcomingGameCard({ game }: { game: UpcomingGame }): React.ReactElement 
   );
 }
 
+/* ================================================================
+   MAIN VIEW
+   ================================================================ */
+
 export function LiveScoresView(): React.ReactElement {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data: allGames = [], isLoading } = useQuery<ApiGame[]>({
+  const { data: rawGames, isLoading, isError } = useQuery<ApiGame[]>({
     queryKey: ['live-scores-games'],
     queryFn: async () => {
-      const res = await fetch('/api/games?sport=basketball');
+      const res = await fetch('/api/games?status=live');
       if (!res.ok) throw new Error('Failed to fetch games');
-      return res.json();
+      const json = await res.json();
+      // Handle both { data: [...] } wrapper and raw array responses
+      return Array.isArray(json) ? json : (json.data ?? []);
     },
     refetchInterval: 30000,
   });
+
+  const allGames = rawGames ?? [];
 
   const liveGames: LiveGame[] = allGames
     .filter((g) => g.status === 'live' || g.status === 'in_progress')
@@ -215,7 +269,7 @@ export function LiveScoresView(): React.ReactElement {
     .map(mapToUpcomingGame);
 
   return (
-    <div className="max-w-lg mx-auto space-y-6 p-6">
+    <div className="max-w-lg mx-auto space-y-6 p-6 bg-[#0f0f0f] min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">Live Scores</h1>
         <div className="flex items-center gap-1.5">
@@ -245,9 +299,15 @@ export function LiveScoresView(): React.ReactElement {
             </div>
           ))}
         </div>
+      ) : isError ? (
+        <div className="bg-neutral-900/80 border border-red-900/30 rounded-xl p-8 text-center">
+          <p className="text-red-400 text-sm font-medium">Failed to load live scores</p>
+          <p className="text-neutral-600 text-xs mt-1">Check your connection and try again</p>
+        </div>
       ) : liveGames.length === 0 ? (
         <div className="bg-neutral-900/80 border border-neutral-800 rounded-xl p-8 text-center">
           <p className="text-neutral-500 text-sm">No live games right now</p>
+          <p className="text-neutral-600 text-[10px] mt-1">Check back during game time</p>
         </div>
       ) : (
         <>
@@ -269,20 +329,23 @@ export function LiveScoresView(): React.ReactElement {
           </div>
 
           {/* Scroll indicator (mobile) */}
-          <div className="flex justify-center gap-1.5 md:hidden">
-            {liveGames.map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  'w-1.5 h-1.5 rounded-full transition-colors',
-                  i === 0 ? 'bg-red-500' : 'bg-neutral-700',
-                )}
-              />
-            ))}
-          </div>
+          {liveGames.length > 1 && (
+            <div className="flex justify-center gap-1.5 md:hidden">
+              {liveGames.map((_, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    'w-1.5 h-1.5 rounded-full transition-colors',
+                    i === 0 ? 'bg-red-500' : 'bg-neutral-700',
+                  )}
+                />
+              ))}
+            </div>
+          )}
         </>
       )}
 
+      {/* Upcoming Games */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-neutral-300">Upcoming</h2>
@@ -291,11 +354,17 @@ export function LiveScoresView(): React.ReactElement {
           </span>
         </div>
 
-        <div className="space-y-2">
-          {upcomingGames.map((game) => (
-            <UpcomingGameCard key={game.id} game={game} />
-          ))}
-        </div>
+        {upcomingGames.length === 0 ? (
+          <div className="bg-neutral-900/60 border border-neutral-800/50 rounded-xl p-4 text-center">
+            <p className="text-neutral-600 text-xs">No upcoming games scheduled</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {upcomingGames.map((game) => (
+              <UpcomingGameCard key={game.id} game={game} />
+            ))}
+          </div>
+        )}
       </div>
 
       <p className="text-[9px] text-neutral-700 text-center">

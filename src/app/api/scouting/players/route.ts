@@ -1,27 +1,28 @@
 import { prisma } from '@/infrastructure/database';
-import { requireAuth } from '@/lib/auth/api-auth';
-import { success, error, badRequest, paginated, parsePageParams } from '@/lib/api-response';
+import { error, paginated, parsePageParams } from '@/lib/api-response';
 
 export async function GET(request: Request): Promise<Response> {
-  const auth = await requireAuth(request);
-  if ('error' in auth) return auth.error;
-
   const { searchParams } = new URL(request.url);
   const { page, limit } = parsePageParams(searchParams);
   const leagueCode = searchParams.get('leagueCode');
   const season = searchParams.get('season');
+  const sport = searchParams.get('sport');
   const search = searchParams.get('search');
   const team = searchParams.get('team');
 
   try {
     const where: Record<string, unknown> = {};
 
-    if (leagueCode || season) {
+    if (leagueCode || season || sport) {
       const seasonWhere: Record<string, unknown> = {};
 
       if (leagueCode) {
         seasonWhere.league = {
           code: { equals: leagueCode, mode: 'insensitive' },
+        };
+      } else if (sport) {
+        seasonWhere.league = {
+          sport: { equals: sport, mode: 'insensitive' },
         };
       }
       if (season) {

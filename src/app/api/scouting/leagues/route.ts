@@ -1,11 +1,7 @@
 import { prisma } from '@/infrastructure/database';
-import { requireAuth } from '@/lib/auth/api-auth';
 import { success, error, paginated, parsePageParams } from '@/lib/api-response';
 
 export async function GET(request: Request): Promise<Response> {
-  const auth = await requireAuth(request);
-  if ('error' in auth) return auth.error;
-
   const { searchParams } = new URL(request.url);
   const { page, limit } = parsePageParams(searchParams);
   const sport = searchParams.get('sport');
@@ -13,8 +9,24 @@ export async function GET(request: Request): Promise<Response> {
   const level = searchParams.get('level');
   const province = searchParams.get('province');
   const search = searchParams.get('search');
+  const summary = searchParams.get('summary');
 
   try {
+    // Summary mode: return sport counts for the sports index page
+    if (summary === 'sports') {
+      const sportCounts = await prisma.scoutingLeague.groupBy({
+        by: ['sport'],
+        _count: { id: true },
+      });
+
+      const data = sportCounts.map((sc) => ({
+        sport: sc.sport,
+        leagueCount: sc._count.id,
+      }));
+
+      return success(data);
+    }
+
     const where: Record<string, unknown> = {};
 
     if (sport) {
@@ -41,6 +53,10 @@ export async function GET(request: Request): Promise<Response> {
         where,
         include: {
           _count: { select: { seasons: true } },
+          seasons: {
+            select: { id: true, season: true },
+            orderBy: { season: 'desc' },
+          },
         },
         orderBy: [{ sport: 'asc' }, { name: 'asc' }],
         skip: (page - 1) * limit,
@@ -50,9 +66,16 @@ export async function GET(request: Request): Promise<Response> {
     ]);
 
     const data = leagues.map((l) => ({
-      ...l,
+      id: l.id,
+      sport: l.sport,
+      code: l.code,
+      name: l.name,
+      country: l.country,
+      province: l.province,
+      level: l.level,
+      source: l.source,
       seasonCount: l._count.seasons,
-      _count: undefined,
+      seasons: l.seasons.map((s) => s.season),
     }));
 
     return paginated(data, { page, limit, total });

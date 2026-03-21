@@ -1,453 +1,496 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import {
   ChevronLeft,
-  ChevronDown,
-  ChevronUp,
+  ChevronRight,
+  Search,
   Trophy,
-  ArrowUpDown,
+  Users,
+  Database,
   Filter,
 } from 'lucide-react';
 import Link from 'next/link';
-import { SPORT_CONFIGS } from '@/types/sports';
-import type { SportConfig, SportStanding } from '@/types/sports';
-import { getSportData } from '@/lib/sports-data';
 
-/* ---------- Sort Types ---------- */
+/* ---------- Types ---------- */
 
-type SortKey =
-  | 'rank'
-  | 'wins'
-  | 'losses'
-  | 'ties'
-  | 'points'
-  | 'winPct'
-  | 'pointsFor'
-  | 'pointsAgainst'
-  | 'diff'
-  | 'streak'
-  | 'gamesBack';
+interface ScoutingLeague {
+  id: string;
+  sport: string;
+  code: string;
+  name: string;
+  country: string;
+  province: string | null;
+  level: string | null;
+  source: string;
+  seasonCount: number;
+  seasons: string[];
+}
 
-type SortDirection = 'asc' | 'desc';
+interface LeagueResponse {
+  data: ScoutingLeague[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
+}
 
-const parseStreak = (streak: string): number => {
-  const char = streak.charAt(0);
-  const num = parseInt(streak.slice(1), 10);
-  if (char === 'W') return num;
-  if (char === 'L') return -num;
-  return 0;
+interface ScoutingPlayer {
+  id: string;
+  rank: number;
+  name: string;
+  team: string;
+  stats: Record<string, string | number | undefined>;
+  season: string;
+  league: {
+    id: string;
+    code: string;
+    name: string;
+    sport: string;
+    country: string;
+    level: string | null;
+  };
+}
+
+interface PlayerResponse {
+  data: ScoutingPlayer[];
+  meta: { page: number; limit: number; total: number; totalPages: number; hasNext: boolean };
+}
+
+/* ---------- Constants ---------- */
+
+const SPORT_COLORS: Record<string, string> = {
+  hockey: '#3B82F6',
+  basketball: '#F97316',
+  soccer: '#10B981',
+  football: '#92400E',
+  baseball: '#EF4444',
+  volleyball: '#8B5CF6',
+  cricket: '#06B6D4',
+  rugby: '#059669',
+  lacrosse: '#D97706',
 };
 
-/* ---------- Column Header ---------- */
+const STAT_COLUMNS: Record<string, { keys: string[]; labels: string[] }> = {
+  hockey: { keys: ['gp', 'g', 'a', 'tp', 'pim'], labels: ['GP', 'G', 'A', 'TP', 'PIM'] },
+  basketball: { keys: ['gp', 'ppg', 'pts'], labels: ['GP', 'PPG', 'PTS'] },
+  soccer: { keys: ['gp', 'goals'], labels: ['GP', 'Goals'] },
+  baseball: { keys: ['avg', 'hr', 'rbi', 'gp'], labels: ['AVG', 'HR', 'RBI', 'GP'] },
+  football: { keys: ['gp', 'td', 'yds'], labels: ['GP', 'TD', 'YDS'] },
+};
 
-const SortableHeader: React.FC<{
-  label: string;
-  sortKey: SortKey;
-  currentSort: SortKey;
-  direction: SortDirection;
-  onSort: (key: SortKey) => void;
-  className?: string;
-  color: string;
-}> = ({ label, sortKey, currentSort, direction, onSort, className, color }) => {
-  const isActive = currentSort === sortKey;
+function getSportColor(sport: string): string {
+  return SPORT_COLORS[sport.toLowerCase()] ?? '#c8ff00';
+}
+
+function capitalize(s: string): string {
+  return s.split(/[\s-]+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function formatStat(value: string | number | undefined): string {
+  if (value === undefined || value === null) return '-';
+  if (typeof value === 'number') return Number.isInteger(value) ? String(value) : value.toFixed(1);
+  return String(value);
+}
+
+/* ---------- Skeletons ---------- */
+
+function TableSkeleton(): React.ReactElement {
   return (
-    <th className={cn('pb-3 pt-2 cursor-pointer select-none group', className)}>
-      <button
-        type="button"
-        onClick={() => onSort(sortKey)}
-        className="flex items-center gap-0.5 mx-auto"
-      >
-        <span
-          className={cn(
-            'text-[9px] font-mono uppercase tracking-wider transition-colors',
-            isActive ? 'font-black' : 'text-neutral-300 group-hover:text-neutral-500',
-          )}
-          style={isActive ? { color } : undefined}
-        >
-          {label}
-        </span>
-        {isActive && (
-          direction === 'desc'
-            ? <ChevronDown className="h-2.5 w-2.5" style={{ color }} />
-            : <ChevronUp className="h-2.5 w-2.5" style={{ color }} />
-        )}
-      </button>
-    </th>
+    <div className="space-y-1">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i} className="bg-neutral-900/60 rounded-xl p-3 animate-pulse flex items-center gap-3">
+          <div className="h-5 w-5 bg-neutral-800 rounded" />
+          <div className="h-4 w-32 bg-neutral-800 rounded" />
+          <div className="flex-1" />
+          <div className="h-4 w-12 bg-neutral-800 rounded" />
+          <div className="h-4 w-12 bg-neutral-800 rounded" />
+          <div className="h-4 w-12 bg-neutral-800 rounded" />
+        </div>
+      ))}
+    </div>
   );
-};
+}
 
-/* ---------- Conference Filter ---------- */
+/* ---------- League Player Group ---------- */
 
-const ConferenceFilter: React.FC<{
-  config: SportConfig;
-  active: string;
-  onChange: (v: string) => void;
-}> = ({ config, active, onChange }) => {
-  if (!config.conferenceNames) return null;
-
-  const options = ['All', ...config.conferenceNames];
-
+function LeaguePlayerGroup({
+  leagueName,
+  leagueCode,
+  players,
+  sportColor,
+  statKeys,
+  statLabels,
+}: {
+  leagueName: string;
+  leagueCode: string;
+  players: ScoutingPlayer[];
+  sportColor: string;
+  statKeys: string[];
+  statLabels: string[];
+}): React.ReactElement {
   return (
-    <div className="flex items-center gap-2">
-      <Filter className="h-3.5 w-3.5 text-neutral-300" />
-      <div className="flex gap-1.5">
-        {options.map((opt) => (
-          <button
-            key={opt}
-            type="button"
-            onClick={() => onChange(opt)}
-            className={cn(
-              'rounded-xl px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition-all',
-              active === opt
-                ? 'text-white shadow-sm'
-                : 'bg-neutral-100/60 text-neutral-400 hover:text-neutral-600',
-            )}
-            style={active === opt ? { backgroundColor: config.color } : undefined}
-          >
-            {opt}
-          </button>
-        ))}
+    <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 overflow-hidden">
+      {/* League Header */}
+      <div
+        className="flex items-center justify-between px-4 py-3 border-b border-neutral-800/50"
+        style={{ backgroundColor: `${sportColor}06` }}
+      >
+        <div className="flex items-center gap-2">
+          <Trophy className="h-3.5 w-3.5" style={{ color: sportColor }} />
+          <h3 className="text-xs font-black text-white uppercase tracking-wider">{leagueName}</h3>
+        </div>
+        <span className="text-[9px] font-mono text-neutral-600 uppercase">{leagueCode}</span>
+      </div>
+
+      {/* Player Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[450px]">
+          <thead>
+            <tr className="border-b border-neutral-800/30">
+              <th className="text-left text-[9px] font-mono text-neutral-600 uppercase pl-4 pr-2 py-2 w-6">#</th>
+              <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-2">Player</th>
+              <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-2">Team</th>
+              <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-2 w-20">Season</th>
+              {statLabels.map((label) => (
+                <th key={label} className="text-center text-[9px] font-mono text-neutral-600 uppercase px-2 py-2 w-12">
+                  {label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {players.map((player, i) => (
+              <tr
+                key={player.id}
+                className={cn(
+                  'transition-colors hover:bg-neutral-800/30',
+                  i === 0 && 'bg-[var(--c)]/[0.03]',
+                )}
+                style={{ '--c': sportColor } as React.CSSProperties}
+              >
+                <td className="pl-4 pr-2 py-2.5">
+                  <span
+                    className={cn('text-xs font-black', i === 0 ? '' : 'text-neutral-500')}
+                    style={i === 0 ? { color: sportColor } : undefined}
+                  >
+                    {player.rank}
+                  </span>
+                </td>
+                <td className="px-2 py-2.5">
+                  <span className={cn('text-xs font-bold', i === 0 ? 'text-white' : 'text-neutral-300')}>
+                    {player.name}
+                  </span>
+                </td>
+                <td className="px-2 py-2.5">
+                  <span className="text-[11px] font-mono text-neutral-500">{player.team}</span>
+                </td>
+                <td className="px-2 py-2.5">
+                  <span className="text-[10px] font-mono text-neutral-600">{player.season}</span>
+                </td>
+                {statKeys.map((key) => (
+                  <td key={key} className="text-center px-2 py-2.5">
+                    <span className={cn('text-xs font-mono', i === 0 ? 'font-bold text-white' : 'text-neutral-400')}>
+                      {formatStat(player.stats[key])}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
-};
+}
 
 /* ================================================================
-   STANDINGS PAGE
+   MAIN STANDINGS PAGE
    ================================================================ */
 
 export const StandingsPage: React.FC<{ sportId: string }> = ({ sportId }) => {
-  const config = SPORT_CONFIGS[sportId];
-  const sportData = getSportData(sportId);
+  const [selectedLeague, setSelectedLeague] = useState<string>('');
+  const [playerSearch, setPlayerSearch] = useState('');
+  const [playerPage, setPlayerPage] = useState(1);
 
-  const [conference, setConference] = useState('All');
-  const [sortKey, setSortKey] = useState<SortKey>('rank');
-  const [sortDir, setSortDir] = useState<SortDirection>('asc');
+  const sportColor = getSportColor(sportId);
+  const sportName = capitalize(sportId);
 
-  const handleSort = (key: SortKey): void => {
-    if (sortKey === key) {
-      setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortKey(key);
-      // Default sort directions
-      setSortDir(
-        key === 'wins' || key === 'points' || key === 'winPct' || key === 'pointsFor' || key === 'diff'
-          ? 'desc'
-          : 'asc',
-      );
-    }
-  };
+  // Get league param from URL search params (if linked from sport detail)
+  const urlLeague = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('league')
+    : null;
 
-  const sorted = useMemo(() => {
-    if (!sportData) return [];
+  const activeLeagueCode = selectedLeague || urlLeague || '';
 
-    let list = [...sportData.standings];
+  // Fetch leagues for this sport
+  const { data: leaguesResponse, isLoading: leaguesLoading } = useQuery<LeagueResponse>({
+    queryKey: ['standings-leagues', sportId],
+    queryFn: async () => {
+      const params = new URLSearchParams({ sport: sportId, limit: '50' });
+      const res = await fetch(`/api/scouting/leagues?${params}`);
+      if (!res.ok) throw new Error('Failed to fetch leagues');
+      return res.json();
+    },
+    staleTime: 5 * 60 * 1000,
+  });
 
-    // Filter by conference
-    if (conference !== 'All') {
-      list = list.filter((t) => t.conference === conference);
-    }
+  const leagues = leaguesResponse?.data ?? [];
 
-    // Sort
-    list.sort((a, b) => {
-      let cmp = 0;
-      switch (sortKey) {
-        case 'rank':
-          cmp = a.gamesBack - b.gamesBack;
-          break;
-        case 'wins':
-          cmp = a.wins - b.wins;
-          break;
-        case 'losses':
-          cmp = a.losses - b.losses;
-          break;
-        case 'ties':
-          cmp = (a.ties ?? 0) - (b.ties ?? 0);
-          break;
-        case 'points':
-          cmp = (a.points ?? 0) - (b.points ?? 0);
-          break;
-        case 'winPct':
-          cmp = (a.winPct ?? 0) - (b.winPct ?? 0);
-          break;
-        case 'pointsFor':
-          cmp = a.pointsFor - b.pointsFor;
-          break;
-        case 'pointsAgainst':
-          cmp = a.pointsAgainst - b.pointsAgainst;
-          break;
-        case 'diff':
-          cmp = (a.pointsFor - a.pointsAgainst) - (b.pointsFor - b.pointsAgainst);
-          break;
-        case 'streak':
-          cmp = parseStreak(a.streak) - parseStreak(b.streak);
-          break;
-        case 'gamesBack':
-          cmp = a.gamesBack - b.gamesBack;
-          break;
+  // Fetch players (filtered by league if selected, otherwise all for sport)
+  const { data: playersResponse, isLoading: playersLoading } = useQuery<PlayerResponse>({
+    queryKey: ['standings-players', sportId, activeLeagueCode, playerSearch, playerPage],
+    queryFn: async () => {
+      const params = new URLSearchParams({ limit: '50', page: String(playerPage) });
+      if (activeLeagueCode) {
+        params.set('leagueCode', activeLeagueCode);
+      } else {
+        params.set('sport', sportId);
       }
-      return sortDir === 'asc' ? cmp : -cmp;
-    });
+      if (playerSearch) params.set('search', playerSearch);
+      const res = await fetch(`/api/scouting/players?${params}`);
+      if (!res.ok) throw new Error('Failed to fetch players');
+      return res.json();
+    },
+  });
 
-    return list;
-  }, [sportData, conference, sortKey, sortDir]);
+  const players = playersResponse?.data ?? [];
+  const totalPlayers = playersResponse?.meta?.total ?? 0;
 
-  if (!config || !sportData) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center pb-24">
-        <div className="text-center">
-          <h1 className="text-2xl font-black text-neutral-900 mb-2">Sport Not Found</h1>
-          <Link
-            href="/sports"
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#c8ff00] px-5 py-2.5 text-xs font-black text-neutral-900 uppercase tracking-wider"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            All Sports
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // Determine stat columns
+  const statConfig = STAT_COLUMNS[sportId.toLowerCase()];
+  const firstStats = players[0]?.stats ?? {};
+  const statKeys = statConfig?.keys ?? Object.keys(firstStats);
+  const statLabels = statConfig?.labels ?? statKeys.map((k) => k.toUpperCase());
 
-  const showTiesCol = config.hasTies || config.id === 'hockey';
-  const showPointsCol = config.id === 'soccer' || config.id === 'hockey' || config.id === 'football';
-  const pfLabel = config.scoringSystem === 'goals' ? 'GF' : 'PF';
-  const paLabel = config.scoringSystem === 'goals' ? 'GA' : 'PA';
-  const tieLabel = config.hasTies ? 'T' : 'OTL';
-  const playoffLine = config.id === 'football' ? 3 : 6;
+  // Group players by league for display
+  const groupedByLeague = useMemo(() => {
+    if (activeLeagueCode) return null; // Don't group when filtering by single league
+
+    const groups: Record<string, { name: string; code: string; players: ScoutingPlayer[] }> = {};
+    for (const player of players) {
+      const key = player.league.code;
+      if (!groups[key]) {
+        groups[key] = { name: player.league.name, code: player.league.code, players: [] };
+      }
+      groups[key].players.push(player);
+    }
+    return Object.values(groups);
+  }, [players, activeLeagueCode]);
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <div className="min-h-screen bg-[#0a0a0a] pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-2xl border-b border-neutral-200/60">
-        <div className="px-4 pt-4 pb-3">
+      <div className="sticky top-0 z-40 bg-[#0a0a0a]/90 backdrop-blur-2xl border-b border-neutral-800/60">
+        <div className="px-4 pt-14 pb-4">
           <div className="flex items-center gap-3 mb-3">
             <Link
-              href={`/sports/${config.id}`}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-100/80 text-neutral-500 transition-colors hover:bg-neutral-200/60 hover:text-neutral-700"
+              href={`/sports/${sportId}`}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-800/80 text-neutral-400 transition-colors hover:bg-neutral-700 hover:text-white"
             >
               <ChevronLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="text-lg font-black text-neutral-900 tracking-tight">
-                {config.name} Standings
+              <h1 className="text-lg font-black text-white tracking-tight">
+                {sportName} Standings
               </h1>
-              <p className="text-[10px] font-mono text-neutral-400">
-                {sorted.length} teams &middot; {conference === 'All' ? 'All conferences' : conference}
+              <p className="text-[10px] font-mono text-neutral-500">
+                {totalPlayers} players
+                {activeLeagueCode ? ` in ${activeLeagueCode.toUpperCase()}` : ` across ${leagues.length} leagues`}
               </p>
             </div>
           </div>
 
-          <ConferenceFilter
-            config={config}
-            active={conference}
-            onChange={setConference}
-          />
+          {/* League Filter */}
+          <div className="flex items-center gap-2 mb-3">
+            <Filter className="h-3.5 w-3.5 text-neutral-500 shrink-0" />
+            <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedLeague('');
+                  setPlayerPage(1);
+                }}
+                className={cn(
+                  'shrink-0 rounded-xl px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all',
+                  !activeLeagueCode
+                    ? 'text-white shadow-sm'
+                    : 'bg-neutral-800/60 text-neutral-500 hover:text-neutral-300',
+                )}
+                style={!activeLeagueCode ? { backgroundColor: sportColor } : undefined}
+              >
+                All
+              </button>
+              {leaguesLoading
+                ? Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-7 w-14 bg-neutral-800 rounded-xl animate-pulse shrink-0" />
+                  ))
+                : leagues.map((league) => (
+                    <button
+                      key={league.code}
+                      type="button"
+                      onClick={() => {
+                        setSelectedLeague(league.code);
+                        setPlayerPage(1);
+                      }}
+                      className={cn(
+                        'shrink-0 rounded-xl px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all',
+                        activeLeagueCode === league.code
+                          ? 'text-white shadow-sm'
+                          : 'bg-neutral-800/60 text-neutral-500 hover:text-neutral-300',
+                      )}
+                      style={activeLeagueCode === league.code ? { backgroundColor: sportColor } : undefined}
+                    >
+                      {league.code}
+                    </button>
+                  ))}
+            </div>
+          </div>
+
+          {/* Player Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-600" />
+            <input
+              type="text"
+              value={playerSearch}
+              onChange={(e) => {
+                setPlayerSearch(e.target.value);
+                setPlayerPage(1);
+              }}
+              placeholder="Search players..."
+              className="w-full bg-neutral-900/60 border border-neutral-800 text-white placeholder:text-neutral-600 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-neutral-600 transition-colors"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Standings Table */}
-      <div className="px-4 pt-5">
-        <div className="rounded-[20px] border border-neutral-200/60 bg-white overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[780px]">
-              <thead>
-                <tr className="border-b border-neutral-100">
-                  <SortableHeader label="#" sortKey="rank" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-left pl-5 w-8" color={config.color} />
-                  <th className="text-left text-[9px] font-mono text-neutral-300 uppercase pb-3 pt-2">Team</th>
-                  <SortableHeader label="W" sortKey="wins" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-12" color={config.color} />
-                  <SortableHeader label="L" sortKey="losses" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-12" color={config.color} />
-                  {showTiesCol && (
-                    <SortableHeader label={tieLabel} sortKey="ties" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-12" color={config.color} />
-                  )}
-                  {showPointsCol && (
-                    <SortableHeader label="PTS" sortKey="points" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-12" color={config.color} />
-                  )}
-                  {!showPointsCol && (
-                    <SortableHeader label="PCT" sortKey="winPct" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-14" color={config.color} />
-                  )}
-                  <SortableHeader label={pfLabel} sortKey="pointsFor" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-14" color={config.color} />
-                  <SortableHeader label={paLabel} sortKey="pointsAgainst" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-14" color={config.color} />
-                  <SortableHeader label="DIFF" sortKey="diff" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-14" color={config.color} />
-                  <SortableHeader label="STRK" sortKey="streak" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-center w-14" color={config.color} />
-                  <th className="text-center text-[9px] font-mono text-neutral-300 uppercase pb-3 pt-2 w-16">L10</th>
-                  <SortableHeader label="GB" sortKey="gamesBack" currentSort={sortKey} direction={sortDir} onSort={handleSort} className="text-right pr-5 w-12" color={config.color} />
-                </tr>
-              </thead>
-              <tbody>
-                <AnimatePresence>
-                  {sorted.map((team, i) => {
-                    const diff = team.pointsFor - team.pointsAgainst;
-                    const diffStr = diff > 0 ? `+${typeof diff === 'number' && diff % 1 !== 0 ? diff.toFixed(1) : diff}` : `${typeof diff === 'number' && diff % 1 !== 0 ? diff.toFixed(1) : diff}`;
-
-                    return (
-                      <motion.tr
-                        key={team.teamId}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: i * 0.03 }}
-                        className={cn(
-                          'transition-colors hover:bg-neutral-50/80 group',
-                          i === playoffLine - 1 && 'border-b-2 border-dashed',
-                        )}
-                        style={
-                          i === playoffLine - 1
-                            ? { borderBottomColor: `${config.color}30` }
-                            : undefined
-                        }
-                      >
-                        <td className="py-3 pl-5">
-                          <span className="text-xs font-black text-neutral-300">{i + 1}</span>
-                        </td>
-                        <td className="py-3">
-                          <Link
-                            href={`/sports/${config.id}`}
-                            className="flex items-center gap-2.5 group/team"
-                          >
-                            <div
-                              className="h-8 w-8 rounded-lg shrink-0 flex items-center justify-center transition-transform group-hover/team:scale-110"
-                              style={{ backgroundColor: `${team.teamColor}15` }}
-                            >
-                              <span className="text-[8px] font-black" style={{ color: team.teamColor }}>
-                                {team.teamAbbr}
-                              </span>
-                            </div>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-neutral-900 truncate group-hover/team:underline">{team.teamName}</p>
-                              {team.conference && (
-                                <p className="text-[9px] font-mono text-neutral-300">
-                                  {team.conference}{team.division ? ` · ${team.division}` : ''}
-                                </p>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span className="text-xs font-mono font-bold text-neutral-700">{team.wins}</span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span className="text-xs font-mono text-neutral-700">{team.losses}</span>
-                        </td>
-                        {showTiesCol && (
-                          <td className="py-3 text-center">
-                            <span className="text-xs font-mono text-neutral-400">
-                              {config.hasTies ? (team.ties ?? 0) : (team.overtimeLosses ?? 0)}
-                            </span>
-                          </td>
-                        )}
-                        {showPointsCol && (
-                          <td className="py-3 text-center">
-                            <span
-                              className="text-xs font-black font-mono"
-                              style={{ color: config.color }}
-                            >
-                              {team.points}
-                            </span>
-                          </td>
-                        )}
-                        {!showPointsCol && (
-                          <td className="py-3 text-center">
-                            <span className="text-xs font-mono text-neutral-600">
-                              .{((team.winPct ?? 0) * 1000).toFixed(0).padStart(3, '0')}
-                            </span>
-                          </td>
-                        )}
-                        <td className="py-3 text-center">
-                          <span className="text-xs font-mono text-neutral-500">
-                            {typeof team.pointsFor === 'number' && team.pointsFor % 1 !== 0
-                              ? team.pointsFor.toFixed(1)
-                              : team.pointsFor}
-                          </span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span className="text-xs font-mono text-neutral-500">
-                            {typeof team.pointsAgainst === 'number' && team.pointsAgainst % 1 !== 0
-                              ? team.pointsAgainst.toFixed(1)
-                              : team.pointsAgainst}
-                          </span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span
-                            className={cn(
-                              'text-xs font-mono font-bold',
-                              diff > 0 ? 'text-emerald-500' : diff < 0 ? 'text-red-400' : 'text-neutral-400',
-                            )}
-                          >
-                            {diffStr}
-                          </span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span
-                            className={cn(
-                              'text-[10px] font-black font-mono px-2 py-0.5 rounded-md',
-                              team.streak.startsWith('W')
-                                ? 'text-emerald-600 bg-emerald-50'
-                                : team.streak.startsWith('L')
-                                  ? 'text-red-500 bg-red-50'
-                                  : 'text-neutral-400 bg-neutral-50',
-                            )}
-                          >
-                            {team.streak}
-                          </span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span className="text-[10px] font-mono text-neutral-400">{team.lastTen}</span>
-                        </td>
-                        <td className="py-3 text-right pr-5">
-                          <span className="text-xs font-mono text-neutral-400">
-                            {team.gamesBack === 0 ? '—' : team.gamesBack.toFixed(0)}
-                          </span>
-                        </td>
-                      </motion.tr>
-                    );
-                  })}
-                </AnimatePresence>
-              </tbody>
-            </table>
+      {/* Content */}
+      <div className="px-4 pt-5 space-y-4">
+        {playersLoading ? (
+          <TableSkeleton />
+        ) : players.length === 0 ? (
+          <div className="bg-neutral-900/40 border border-dashed border-neutral-800 rounded-2xl p-10 text-center">
+            <Database className="h-10 w-10 text-neutral-700 mx-auto mb-3" />
+            <p className="text-neutral-500 text-sm">No player data found</p>
+            <p className="text-neutral-600 text-[11px] mt-1">Try a different league or search term</p>
           </div>
-
-          {/* Playoff indicator legend */}
-          <div className="flex items-center gap-3 px-5 py-4 border-t border-neutral-100">
-            <div className="flex items-center gap-2">
-              <div
-                className="h-0.5 w-6 rounded-full border-b-2 border-dashed"
-                style={{ borderColor: `${config.color}40` }}
+        ) : groupedByLeague ? (
+          // Grouped view (all leagues)
+          <div className="space-y-4">
+            {groupedByLeague.map((group) => (
+              <LeaguePlayerGroup
+                key={group.code}
+                leagueName={group.name}
+                leagueCode={group.code}
+                players={group.players}
+                sportColor={sportColor}
+                statKeys={statKeys}
+                statLabels={statLabels}
               />
-              <span className="text-[9px] font-mono text-neutral-300">Playoff cutoff</span>
-            </div>
-            <span className="text-[9px] text-neutral-200">|</span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-mono text-emerald-500">W</span>
-              <span className="text-[9px] text-neutral-200">=</span>
-              <span className="text-[9px] font-mono text-neutral-300">Win streak</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-mono text-red-400">L</span>
-              <span className="text-[9px] text-neutral-200">=</span>
-              <span className="text-[9px] font-mono text-neutral-300">Loss streak</span>
+            ))}
+          </div>
+        ) : (
+          // Single league table
+          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[500px]">
+                <thead>
+                  <tr className="border-b border-neutral-800">
+                    <th className="text-left text-[9px] font-mono text-neutral-600 uppercase pl-4 pr-2 py-3 w-6">#</th>
+                    <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-3">Player</th>
+                    <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-3">Team</th>
+                    <th className="text-left text-[9px] font-mono text-neutral-600 uppercase px-2 py-3 w-20">Season</th>
+                    {statLabels.map((label) => (
+                      <th key={label} className="text-center text-[9px] font-mono text-neutral-600 uppercase px-2 py-3 w-14">
+                        {label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {players.map((player, i) => (
+                    <tr
+                      key={player.id}
+                      className={cn(
+                        'transition-colors hover:bg-neutral-800/30',
+                        i === 0 && 'bg-[var(--c)]/[0.04]',
+                      )}
+                      style={{ '--c': sportColor } as React.CSSProperties}
+                    >
+                      <td className="pl-4 pr-2 py-2.5">
+                        <span
+                          className={cn('text-xs font-black', i === 0 ? '' : 'text-neutral-500')}
+                          style={i === 0 ? { color: sportColor } : undefined}
+                        >
+                          {player.rank}
+                        </span>
+                      </td>
+                      <td className="px-2 py-2.5">
+                        <span className={cn('text-xs font-bold', i === 0 ? 'text-white' : 'text-neutral-300')}>
+                          {player.name}
+                        </span>
+                      </td>
+                      <td className="px-2 py-2.5">
+                        <span className="text-[11px] font-mono text-neutral-500">{player.team}</span>
+                      </td>
+                      <td className="px-2 py-2.5">
+                        <span className="text-[10px] font-mono text-neutral-600">{player.season}</span>
+                      </td>
+                      {statKeys.map((key) => (
+                        <td key={key} className="text-center px-2 py-2.5">
+                          <span className={cn('text-xs font-mono', i === 0 ? 'font-bold text-white' : 'text-neutral-400')}>
+                            {formatStat(player.stats[key])}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-      </div>
+        )}
 
-      {/* Back Link */}
-      <div className="px-4 pt-6 flex justify-center gap-3">
-        <Link
-          href={`/sports/${config.id}`}
-          className="inline-flex items-center gap-2 rounded-2xl border border-neutral-200 px-5 py-2.5 text-xs font-bold text-neutral-500 transition-all hover:border-neutral-300 hover:text-neutral-700 hover:shadow-sm"
-        >
-          <ChevronLeft className="h-3.5 w-3.5" />
-          {config.name}
-        </Link>
-        <Link
-          href="/sports"
-          className="inline-flex items-center gap-2 rounded-2xl border border-neutral-200 px-5 py-2.5 text-xs font-bold text-neutral-500 transition-all hover:border-neutral-300 hover:text-neutral-700 hover:shadow-sm"
-        >
-          All Sports
-        </Link>
+        {/* Pagination */}
+        {(playersResponse?.meta?.totalPages ?? 0) > 1 && (
+          <div className="flex items-center justify-center gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setPlayerPage((p) => Math.max(1, p - 1))}
+              disabled={playerPage <= 1}
+              className="px-3 py-1.5 text-[10px] font-bold text-neutral-400 bg-neutral-800 rounded-lg disabled:opacity-30 hover:bg-neutral-700 transition-colors"
+            >
+              Prev
+            </button>
+            <span className="text-[10px] font-mono text-neutral-500">
+              {playerPage} / {playersResponse?.meta?.totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPlayerPage((p) => p + 1)}
+              disabled={!playersResponse?.meta?.hasNext}
+              className="px-3 py-1.5 text-[10px] font-bold text-neutral-400 bg-neutral-800 rounded-lg disabled:opacity-30 hover:bg-neutral-700 transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {/* Back Links */}
+        <div className="pt-4 pb-4 flex justify-center gap-3">
+          <Link
+            href={`/sports/${sportId}`}
+            className="inline-flex items-center gap-2 rounded-2xl border border-neutral-800 px-5 py-2.5 text-xs font-bold text-neutral-500 transition-all hover:border-neutral-600 hover:text-neutral-300"
+          >
+            <ChevronLeft className="h-3.5 w-3.5" />
+            {sportName}
+          </Link>
+          <Link
+            href="/sports"
+            className="inline-flex items-center gap-2 rounded-2xl border border-neutral-800 px-5 py-2.5 text-xs font-bold text-neutral-500 transition-all hover:border-neutral-600 hover:text-neutral-300"
+          >
+            All Sports
+          </Link>
+        </div>
       </div>
     </div>
   );
